@@ -10,13 +10,26 @@ public class SQLite implements Database {
 
     private final Connector connector;
 
-    /**
-     * Create table from values
-     * Usage: createTable("Table", "id integer", "name string");
-     *
-     * @param table {@link String}
-     * @param values {@link String}
-     */
+    @Override
+    public void insert(final String table, final String... values) {
+
+    }
+
+    @Override
+    public void update(final String table, final String row, final String operator, final String value, final String where) {
+
+    }
+
+    @Override
+    public void delete(final String table, final String where) {
+
+    }
+
+    @Override
+    public void get(final String table, final String rows, final String where, final GetCallback getCallback) {
+
+    }
+
     @Override
     public void createTable(final String table, final String... values) {
         connector.executeQuery(connection -> {
