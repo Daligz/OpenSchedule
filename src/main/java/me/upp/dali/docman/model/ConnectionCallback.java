@@ -1,8 +1,8 @@
-package me.upp.dali.docman.database;
+package me.upp.dali.docman.model;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public interface IConnectionCallback {
+public interface ConnectionCallback {
     void execute(final Connection connection) throws SQLException;
 }

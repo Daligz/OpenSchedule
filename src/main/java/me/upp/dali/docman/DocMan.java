@@ -1,6 +1,6 @@
 package me.upp.dali.docman;
 
-import me.upp.dali.docman.database.DatabaseConnector;
+import me.upp.dali.docman.model.database.DatabaseConnector;
 
 /**
  * @author Dali

@@ -1,10 +1,10 @@
-package me.upp.dali.docman.database;
+package me.upp.dali.docman.model;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public interface Database {
-    void executeQuery(final IConnectionCallback callback);
+public interface Connector {
+    void executeQuery(final ConnectionCallback callback);
     void createTable(final String table, final String... values);
     boolean tableExists(final String tableName, final Connection connection) throws SQLException;
 }
