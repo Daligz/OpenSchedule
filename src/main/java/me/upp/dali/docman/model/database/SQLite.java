@@ -11,9 +11,22 @@ public class SQLite implements Database {
 
     private final Connector connector;
 
-    @Override
-    public void insert(final String table, final String... values) {
+    private static final String INSERT_TEMPLATE = "INSERT INTO %s %s";
 
+    /**
+     * Insert values
+     *
+     * @param table {@link String}
+     * @param values {@link String} Example: (test1, test2) VALUES ('value1', 'value2')
+     */
+    @Override
+    public void insert(final String table, final String values) {
+        this.connector.executeQuery(connection -> {
+            final Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            final String query = String.format(INSERT_TEMPLATE, table, values);
+            statement.executeUpdate(query);
+        });
     }
 
     @Override

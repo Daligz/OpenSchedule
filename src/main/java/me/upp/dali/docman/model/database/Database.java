@@ -11,7 +11,7 @@ public interface Database {
      * @param table {@link String}
      * @param values {@link String}
      */
-    void insert(final String table, final String... values);
+    void insert(final String table, final String values);
 
     /**
      * Update values from the database
