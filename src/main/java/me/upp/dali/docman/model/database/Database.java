@@ -25,8 +25,8 @@ public interface Database {
     /**
      * Delete values from the database
      *
-     * @param table
-     * @param where
+     * @param table {@link String}
+     * @param where{@link String}
      */
     void delete(final String table, final String where);
 

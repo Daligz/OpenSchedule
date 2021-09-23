@@ -13,6 +13,7 @@ public class SQLite implements Database {
 
     private static final String DB_INSERT_TEMPLATE = "INSERT INTO %s %s";
     private static final String DB_UPDATE_TEMPLATE = "UPDATE %s SET %s WHERE %s";
+    private static final String DB_DELETE_TEMPLATE = "DELETE FROM %s WHERE %s";
 
     /**
      * Insert values
@@ -47,9 +48,20 @@ public class SQLite implements Database {
         });
     }
 
+    /**
+     * Delete values
+     *
+     * @param table {@link String}
+     * @param where{@link String}
+     */
     @Override
     public void delete(final String table, final String where) {
-
+        this.connector.executeQuery(connection -> {
+            final Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            final String query = String.format(DB_DELETE_TEMPLATE, table, where);
+            statement.executeUpdate(query);
+        });
     }
 
     @Override
