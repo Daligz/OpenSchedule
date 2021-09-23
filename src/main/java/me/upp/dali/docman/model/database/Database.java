@@ -2,6 +2,7 @@ package me.upp.dali.docman.model.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
 
 public interface Database {
 
@@ -10,8 +11,9 @@ public interface Database {
      *
      * @param table {@link String}
      * @param values {@link String}
+     * return {@link CompletableFuture<Boolean>}
      */
-    void insert(final String table, final String values);
+    CompletableFuture<Boolean> insert(final String table, final String values);
 
     /**
      * Update values from the database
@@ -19,26 +21,28 @@ public interface Database {
      * @param table {@link String}
      * @param value {@link String}
      * @param where {@link String}
+     * return {@link CompletableFuture<Boolean>}
      */
-    void update(final String table, final String value, final String where);
+    CompletableFuture<Boolean> update(final String table, final String value, final String where);
 
     /**
      * Delete values from the database
      *
      * @param table {@link String}
      * @param where{@link String}
+     * return {@link CompletableFuture<Boolean>}
      */
-    void delete(final String table, final String where);
+    CompletableFuture<Boolean> delete(final String table, final String where);
+
 
     /**
      * Get values from the database
      *
      * @param table {@link String}
-     * @param rows {@link String}
      * @param where {@link String}
-     * @param getCallback {@link GetCallback}
+     * return {@link CompletableFuture<Object>}
      */
-    void get(final String table, final String rows, final String where, final GetCallback getCallback);
+    CompletableFuture<Object> get(final String table, final String where);
 
     /**
      * Create table from values
@@ -46,8 +50,9 @@ public interface Database {
      *
      * @param table {@link String}
      * @param values {@link String}
+     * return {@link CompletableFuture<Boolean>}
      */
-    void createTable(final String table, final String... values);
+    CompletableFuture<Boolean> createTable(final String table, final String... values);
 
     /**
      * Check if table exists in the database

@@ -5,6 +5,7 @@ import me.upp.dali.docman.model.Connector;
 import me.upp.dali.docman.model.database.recods.FileDataObject;
 
 import java.sql.*;
+import java.util.concurrent.CompletableFuture;
 
 @AllArgsConstructor
 public class SQLite implements Database {
@@ -14,6 +15,7 @@ public class SQLite implements Database {
     private static final String DB_INSERT_TEMPLATE = "INSERT INTO %s %s";
     private static final String DB_UPDATE_TEMPLATE = "UPDATE %s SET %s WHERE %s";
     private static final String DB_DELETE_TEMPLATE = "DELETE FROM %s WHERE %s";
+    private static final String DB_SELECT_TEMPLATE = "SELECT * FROM %s WHERE %s";
 
     /**
      * Insert values
@@ -22,13 +24,17 @@ public class SQLite implements Database {
      * @param values {@link String} Example: (test1, test2) VALUES ('value1', 'value2')
      */
     @Override
-    public void insert(final String table, final String values) {
+    public CompletableFuture<Boolean> insert(final String table, final String values) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
         this.connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             final String query = String.format(DB_INSERT_TEMPLATE, table, values);
+            System.out.println(query);
             statement.executeUpdate(query);
+            future.complete(true);
         });
+        return future;
     }
 
     /**
@@ -39,13 +45,22 @@ public class SQLite implements Database {
      * @param where {@link String}
      */
     @Override
-    public void update(final String table, final String value, final String where) {
+    public CompletableFuture<Boolean> update(final String table, final String value, final String where) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
         this.connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             final String query = String.format(DB_UPDATE_TEMPLATE, table, value, where);
-            statement.executeUpdate(query);
+            System.out.println(query);
+            try {
+                statement.executeUpdate(query);
+            } catch (final SQLException sqlException) {
+                future.complete(false);
+            } finally {
+                future.complete(true);
+            }
         });
+        return future;
     }
 
     /**
@@ -55,22 +70,54 @@ public class SQLite implements Database {
      * @param where{@link String}
      */
     @Override
-    public void delete(final String table, final String where) {
+    public CompletableFuture<Boolean> delete(final String table, final String where) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
         this.connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             final String query = String.format(DB_DELETE_TEMPLATE, table, where);
-            statement.executeUpdate(query);
+            System.out.println(query);
+            try {
+                statement.executeUpdate(query);
+            } catch (final SQLException sqlException) {
+                future.complete(false);
+            } finally {
+                future.complete(true);
+            }
         });
+        return future;
+    }
+
+    /**
+     * Get values
+     *
+     * @param table {@link String}
+     * @param where {@link String}
+     */
+    @Override
+    public CompletableFuture<Object> get(final String table, final String where) {
+        final CompletableFuture<Object> future = new CompletableFuture<>();
+        this.connector.executeQuery(connection -> {
+            final Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            final String query = String.format(DB_SELECT_TEMPLATE, table, where);
+            System.out.println(query);
+            final ResultSet resultSet = statement.executeQuery(query);
+            FileDataObject fileDataObject = null;
+            if (resultSet.next()) {
+                fileDataObject= new FileDataObject(
+                        resultSet.getString(1),
+                        resultSet.getString(2)
+                );
+            }
+            future.complete(fileDataObject);
+        });
+        return future;
     }
 
     @Override
-    public void get(final String table, final String rows, final String where, final GetCallback getCallback) {
-        getCallback.execute(new FileDataObject(1, "title", "Description"));
-    }
-
-    @Override
-    public void createTable(final String table, final String... values) {
+    public CompletableFuture<Boolean> createTable(final String table, final String... values) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
         connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
@@ -85,8 +132,15 @@ public class SQLite implements Database {
                 }
             }
             System.out.println(queryBuilder);
-            statement.executeUpdate(queryBuilder.toString());
+            try {
+                statement.executeUpdate(queryBuilder.toString());
+            } catch (final SQLException sqlException) {
+                future.complete(false);
+            } finally {
+                future.complete(true);
+            }
         });
+        return future;
     }
 
     @Override

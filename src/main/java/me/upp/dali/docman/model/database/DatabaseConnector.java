@@ -4,9 +4,7 @@ import lombok.Getter;
 import me.upp.dali.docman.model.ConnectionCallback;
 import me.upp.dali.docman.model.Connector;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Getter
 public class DatabaseConnector implements Connector {
@@ -17,7 +15,7 @@ public class DatabaseConnector implements Connector {
     public DatabaseConnector() { }
 
     /**
-     * Execute queries to database asynchronously
+     * Execute queries to database
      *
      * @param callback {@link ConnectionCallback}
      */

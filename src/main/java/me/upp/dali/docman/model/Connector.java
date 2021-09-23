@@ -1,5 +1,5 @@
 package me.upp.dali.docman.model;
 
 public interface Connector {
-    void executeQuery(final ConnectionCallback callback);
+    void executeQuery(final ConnectionCallback connectionCallback);
 }
