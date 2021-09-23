@@ -2,6 +2,7 @@ package me.upp.dali.docman.model.database;
 
 import lombok.AllArgsConstructor;
 import me.upp.dali.docman.model.Connector;
+import me.upp.dali.docman.model.database.recods.FileDataObject;
 
 import java.sql.*;
 
@@ -27,7 +28,7 @@ public class SQLite implements Database {
 
     @Override
     public void get(final String table, final String rows, final String where, final GetCallback getCallback) {
-
+        getCallback.execute(new FileDataObject(1, "title", "Description"));
     }
 
     @Override
