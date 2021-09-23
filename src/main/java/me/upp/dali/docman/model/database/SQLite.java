@@ -11,7 +11,8 @@ public class SQLite implements Database {
 
     private final Connector connector;
 
-    private static final String INSERT_TEMPLATE = "INSERT INTO %s %s";
+    private static final String DB_INSERT_TEMPLATE = "INSERT INTO %s %s";
+    private static final String DB_UPDATE_TEMPLATE = "UPDATE %s SET %s WHERE %s";
 
     /**
      * Insert values
@@ -24,14 +25,26 @@ public class SQLite implements Database {
         this.connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            final String query = String.format(INSERT_TEMPLATE, table, values);
+            final String query = String.format(DB_INSERT_TEMPLATE, table, values);
             statement.executeUpdate(query);
         });
     }
 
+    /**
+     * Update values
+     *
+     * @param table {@link String}
+     * @param value {@link String}
+     * @param where {@link String}
+     */
     @Override
-    public void update(final String table, final String row, final String operator, final String value, final String where) {
-
+    public void update(final String table, final String value, final String where) {
+        this.connector.executeQuery(connection -> {
+            final Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            final String query = String.format(DB_UPDATE_TEMPLATE, table, value, where);
+            statement.executeUpdate(query);
+        });
     }
 
     @Override

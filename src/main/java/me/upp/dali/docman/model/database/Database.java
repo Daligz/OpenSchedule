@@ -17,12 +17,10 @@ public interface Database {
      * Update values from the database
      *
      * @param table {@link String}
-     * @param row {@link String}
-     * @param operator {@link String}
      * @param value {@link String}
      * @param where {@link String}
      */
-    void update(final String table, final String row, final String operator, final String value, final String where);
+    void update(final String table, final String value, final String where);
 
     /**
      * Delete values from the database
