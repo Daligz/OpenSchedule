@@ -1,8 +1,8 @@
-package me.upp.dali.docman.model.database;
+package me.upp.dali.openschedule.model.database;
 
 import lombok.AllArgsConstructor;
-import me.upp.dali.docman.model.Connector;
-import me.upp.dali.docman.model.database.recods.FileDataObject;
+import me.upp.dali.openschedule.model.Connector;
+import me.upp.dali.openschedule.model.database.recods.FileDataObject;
 
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
@@ -67,7 +67,7 @@ public class SQLite implements Database {
      * Delete values
      *
      * @param table {@link String}
-     * @param where{@link String}
+     * @param where {@link String}
      */
     @Override
     public CompletableFuture<Boolean> delete(final String table, final String where) {

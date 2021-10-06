@@ -1,4 +1,4 @@
-package me.upp.dali.docman.view;
+package me.upp.dali.openschedule.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

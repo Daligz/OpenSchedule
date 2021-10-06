@@ -1,4 +1,4 @@
-package me.upp.dali.docman.view.controllers;
+package me.upp.dali.openschedule.view.controllers;
 
 import javafx.fxml.Initializable;
 

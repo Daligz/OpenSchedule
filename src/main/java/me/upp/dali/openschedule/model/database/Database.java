@@ -1,4 +1,4 @@
-package me.upp.dali.docman.model.database;
+package me.upp.dali.openschedule.model.database;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,17 +1,17 @@
-package me.upp.dali.docman;
+package me.upp.dali.openschedule;
 
-import me.upp.dali.docman.model.Connector;
-import me.upp.dali.docman.model.database.Database;
-import me.upp.dali.docman.model.database.DatabaseConnector;
-import me.upp.dali.docman.model.database.SQLite;
-import me.upp.dali.docman.view.ViewLoader;
+import me.upp.dali.openschedule.model.Connector;
+import me.upp.dali.openschedule.model.database.Database;
+import me.upp.dali.openschedule.model.database.DatabaseConnector;
+import me.upp.dali.openschedule.model.database.SQLite;
+import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
  * @author Dali
  *
  * Document Management main class
  */
-public class DocMan {
+public class OpenSchedule {
 
     public static void main(final String[] args) {
         ViewLoader.main(args);
