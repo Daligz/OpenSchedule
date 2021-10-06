@@ -9,7 +9,7 @@ import me.upp.dali.openschedule.view.ViewLoader;
 /**
  * @author Dali
  *
- * Document Management main class
+ * Open Schedule main class
  */
 public class OpenSchedule {
 
