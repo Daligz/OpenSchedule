@@ -9,7 +9,7 @@ import java.sql.*;
 @Getter
 public class DatabaseConnector implements Connector {
 
-    private static final String DATABASE_NAME = "docman_storage.db";
+    private static final String DATABASE_NAME = "openschedule_storage.db";
     private static final String DATABASE_URL_CONNECTION = "jdbc:sqlite:";
 
     public DatabaseConnector() { }

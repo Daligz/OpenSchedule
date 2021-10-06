@@ -25,7 +25,7 @@ public class ViewLoader extends Application {
     }
 
     private void configureStage(final Stage stage) {
-        stage.setTitle("DocMan | Gestión de documentos");
+        stage.setTitle("OpenSchedule | Appointment calendar for gyms");
         stage.setResizable(false);
         stage.show();
     }

@@ -1,2 +1,2 @@
-# DocMan
-Document management
+# Open Schedule
+Appointment calendar for gyms
