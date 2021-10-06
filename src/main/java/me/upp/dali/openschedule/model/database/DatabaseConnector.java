@@ -1,15 +1,15 @@
-package me.upp.dali.docman.model.database;
+package me.upp.dali.openschedule.model.database;
 
 import lombok.Getter;
-import me.upp.dali.docman.model.ConnectionCallback;
-import me.upp.dali.docman.model.Connector;
+import me.upp.dali.openschedule.model.ConnectionCallback;
+import me.upp.dali.openschedule.model.Connector;
 
 import java.sql.*;
 
 @Getter
 public class DatabaseConnector implements Connector {
 
-    private static final String DATABASE_NAME = "docman_storage.db";
+    private static final String DATABASE_NAME = "openschedule_storage.db";
     private static final String DATABASE_URL_CONNECTION = "jdbc:sqlite:";
 
     public DatabaseConnector() { }

@@ -1,18 +1,23 @@
-package me.upp.dali.docman;
+package me.upp.dali.openschedule;
 
-import me.upp.dali.docman.model.Connector;
-import me.upp.dali.docman.model.database.Database;
-import me.upp.dali.docman.model.database.DatabaseConnector;
-import me.upp.dali.docman.model.database.SQLite;
+import me.upp.dali.openschedule.model.Connector;
+import me.upp.dali.openschedule.model.database.Database;
+import me.upp.dali.openschedule.model.database.DatabaseConnector;
+import me.upp.dali.openschedule.model.database.SQLite;
+import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
  * @author Dali
  *
- * Document Management main class
+ * Open Schedule main class
  */
-public class DocMan {
+public class OpenSchedule {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
+        ViewLoader.main(args);
+    }
+
+    private void testDatabase() {
         final Connector connector = new DatabaseConnector();
         final Database database = new SQLite(connector);
         database.createTable("MyTable", "id INTEGER NOT NULL", "name TEXT NOT NULL", "PRIMARY KEY(\"id\" AUTOINCREMENT)").whenComplete((aBoolean, throwable) -> {
@@ -45,6 +50,5 @@ public class DocMan {
                 });
             }
         });
-
     }
 }
