@@ -14,11 +14,6 @@ public class DatabaseConnector implements Connector {
 
     public DatabaseConnector() { }
 
-    /**
-     * Execute queries to database
-     *
-     * @param callback {@link ConnectionCallback}
-     */
     @Override
     public void executeQuery(final ConnectionCallback callback) {
         new Thread(() -> {
