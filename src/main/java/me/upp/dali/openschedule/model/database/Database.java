@@ -1,6 +1,7 @@
 package me.upp.dali.openschedule.model.database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,9 +41,9 @@ public interface Database {
      *
      * @param table {@link String}
      * @param where {@link String}
-     * return {@link CompletableFuture<Object>}
+     * return {@link CompletableFuture<ResultSet>}
      */
-    CompletableFuture<Object> get(final String table, final String where);
+    CompletableFuture<ResultSet> get(final String table, final String where);
 
     /**
      * Create table from values
