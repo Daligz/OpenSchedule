@@ -4,7 +4,6 @@ import me.upp.dali.openschedule.model.Connector;
 import me.upp.dali.openschedule.model.database.Database;
 import me.upp.dali.openschedule.model.database.DatabaseConnector;
 import me.upp.dali.openschedule.model.database.SQLite;
-import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
  * @author Dali
@@ -14,7 +13,7 @@ import me.upp.dali.openschedule.view.ViewLoader;
 public class OpenSchedule {
 
     public static void main(final String[] args) {
-        ViewLoader.main(args);
+
     }
 
     private void testDatabase() {
