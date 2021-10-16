@@ -2,7 +2,6 @@ package me.upp.dali.openschedule.model.database;
 
 import lombok.AllArgsConstructor;
 import me.upp.dali.openschedule.model.Connector;
-import me.upp.dali.openschedule.model.database.recods.FileDataObject;
 
 import java.sql.*;
 import java.util.concurrent.CompletableFuture;
@@ -95,22 +94,19 @@ public class SQLite implements Database {
      * @param where {@link String}
      */
     @Override
-    public CompletableFuture<Object> get(final String table, final String where) {
-        final CompletableFuture<Object> future = new CompletableFuture<>();
+    public CompletableFuture<ResultSet> get(final String table, final String where) {
+        final CompletableFuture<ResultSet> future = new CompletableFuture<>();
         this.connector.executeQuery(connection -> {
             final Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             final String query = String.format(DB_SELECT_TEMPLATE, table, where);
             System.out.println(query);
             final ResultSet resultSet = statement.executeQuery(query);
-            FileDataObject fileDataObject = null;
             if (resultSet.next()) {
-                fileDataObject= new FileDataObject(
-                        resultSet.getString(1),
-                        resultSet.getString(2)
-                );
+                future.complete(resultSet);
+            } else {
+                future.complete(null);
             }
-            future.complete(fileDataObject);
         });
         return future;
     }
