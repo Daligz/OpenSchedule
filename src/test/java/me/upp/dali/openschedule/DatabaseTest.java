@@ -56,7 +56,7 @@ public class DatabaseTest {
                         return;
                     }
                     if (resultSet != null) {
-                        System.out.println("\nValues:\n");
+                        System.out.println("Values:");
                         try {
                             final int id = resultSet.getInt("id");
                             final String name = resultSet.getString("name");
