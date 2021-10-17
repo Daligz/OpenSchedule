@@ -1,9 +1,5 @@
 package me.upp.dali.openschedule;
 
-import me.upp.dali.openschedule.model.Connector;
-import me.upp.dali.openschedule.model.database.Database;
-import me.upp.dali.openschedule.model.database.DatabaseConnector;
-import me.upp.dali.openschedule.model.database.SQLite;
 import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
@@ -17,38 +13,10 @@ public class OpenSchedule {
         ViewLoader.main(args);
     }
 
-    private void testDatabase() {
-        final Connector connector = new DatabaseConnector();
-        final Database database = new SQLite(connector);
-        database.createTable("MyTable", "id INTEGER NOT NULL", "name TEXT NOT NULL", "PRIMARY KEY(\"id\" AUTOINCREMENT)").whenComplete((aBoolean, throwable) -> {
-            if (throwable == null && aBoolean) {
-                System.out.println("Iniciando insert...");
-                database.insert("MyTable", "(name) VALUES (\"Daligz\")").whenComplete((aBoolean1, throwable1) -> {
-                    if (throwable1 == null && aBoolean1) {
-                        System.out.println("Iniciando get..");
-                        database.get("MyTable", "name = \"Daligz\"").whenComplete((o, throwable2) -> {
-                            if (throwable2 == null && o != null) {
-                                System.out.println(o.toString());
-                                System.out.println("Iniciando update..");
-                                database.update("MyTable", "name = \"Garcia\"", "name = \"Daligz\"").whenComplete((aBoolean2, throwable3) -> {
-                                    System.out.println("Iniciando get..");
-                                    database.get("MyTable", "name = \"Garcia\"").whenComplete((o1, throwable4) -> {
-                                        if (throwable4 == null && o1 != null) {
-                                            System.out.println(o1.toString());
-                                            System.out.println("Iniciando delete...");
-                                            database.delete("MyTable", "name = \"Garcia\"").whenComplete((aBoolean3, throwable5) -> {
-                                                if (aBoolean3 && throwable5 == null) {
-                                                    System.out.println("LISTO!");
-                                                }
-                                            });
-                                        }
-                                    });
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
+    private void createTables() {
+//        this.sqLite.createTable("tbl_user", "UserId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"UserId\" AUTOINCREMENT)");
+//        this.sqLite.createTable("tbl_user_time", "userTimeId INTEGER NOT NULL", "UserId INTEGER NOT NULL", "tiempoInicio DATE DEFAULT CURRENT_TIMESTAMP",
+//                "tiempoFin DATE", "PRIMARY KEY(\"userTimeId\" AUTOINCREMENT)", "FOREIGN KEY(\"UserId\") REFERENCES tbl_user(\"UserId\")");
+//        this.sqLite.createTable("tbl_config", "ConfigId INTEGER NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"ConfigId\" AUTOINCREMENT)");
     }
 }
