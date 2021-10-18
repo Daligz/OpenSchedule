@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -11,5 +12,6 @@
             <Font name="Arial Bold Italic" size="20.0" />
          </font>
       </Label>
+      <ImageView fx:id="bootMainImage" fitHeight="275.0" fitWidth="427.0" layoutX="46.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>
