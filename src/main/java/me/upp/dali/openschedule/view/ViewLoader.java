@@ -20,9 +20,9 @@ public class ViewLoader extends Application {
     private final URL VIEW_MAIN_PATH = this.getClass().getResource("/views/MainView.fxml");
     private final URL VIEW_BOOTER_PATH = this.getClass().getResource("/views/BooterView.fxml");
 
-    public static void main(final String[] args) {
-        launch(args);
-    }
+//    public static void main(final String[] args) {
+//        launch(args);
+//    }
 
     @Override
     public void start(final Stage stage) throws Exception {

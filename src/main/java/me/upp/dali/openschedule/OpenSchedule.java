@@ -1,5 +1,10 @@
 package me.upp.dali.openschedule;
 
+import it.auties.whatsapp4j.manager.WhatsappDataManager;
+import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
+import javafx.application.Application;
+import me.upp.dali.openschedule.controller.MessagesAPI;
+import me.upp.dali.openschedule.controller.handlers.MessagesHandler;
 import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
@@ -9,8 +14,15 @@ import me.upp.dali.openschedule.view.ViewLoader;
  */
 public class OpenSchedule {
 
-    public static void main(final String[] args) {
-        ViewLoader.main(args);
+    public static void main(final String[] args) throws Exception {
+        new Thread(() ->
+            Application.launch(ViewLoader.class, args)
+        ).start();
+        final MessagesAPI messagesAPI = new MessagesAPI();
+        final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
+        final WhatsappDataManager manager = whatsappAPI.manager();
+        whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+        whatsappAPI.connect();
     }
 
     private void createTables() {
