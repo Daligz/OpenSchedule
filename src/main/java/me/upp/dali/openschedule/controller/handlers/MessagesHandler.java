@@ -26,11 +26,11 @@ public class MessagesHandler implements WhatsappListener {
     public void onLoggedIn(@NonNull final UserInformationResponse info) {
         Platform.runLater(() -> {
             Booter.getInstance().bootStatusText.setText("Conectado a WhatsApp!");
-            System.out.println("HOLAA");
-//            final Optional<Contact> contactByName = manager.findContactByName("Nenis! UwU");
-//            contactByName.ifPresent(contact ->
-//                    whatsappAPI.createGroup("Test Whatsapp tester", contact)
-//            );
+            System.out.println("Test");
+            final Optional<Contact> contactByName = manager.findContactByName("Test");
+            contactByName.ifPresent(contact ->
+                    whatsappAPI.createGroup("Test Whatsapp message", contact)
+            );
         });
     }
 

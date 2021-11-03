@@ -26,6 +26,4 @@ public class Booter implements Initializable {
         if (INSTANCE == null) INSTANCE = new Booter();
         return INSTANCE;
     }
-
-
 }

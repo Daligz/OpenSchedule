@@ -14,7 +14,7 @@ import me.upp.dali.openschedule.view.ViewLoader;
  */
 public class OpenSchedule {
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
         new Thread(() ->
             Application.launch(ViewLoader.class, args)
         ).start();
