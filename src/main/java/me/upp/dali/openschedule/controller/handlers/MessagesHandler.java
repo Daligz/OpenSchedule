@@ -3,7 +3,9 @@ package me.upp.dali.openschedule.controller.handlers;
 import com.google.zxing.common.BitMatrix;
 import it.auties.whatsapp4j.listener.WhatsappListener;
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
+import it.auties.whatsapp4j.protobuf.chat.Chat;
 import it.auties.whatsapp4j.protobuf.contact.Contact;
+import it.auties.whatsapp4j.protobuf.info.MessageInfo;
 import it.auties.whatsapp4j.response.impl.json.UserInformationResponse;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import javafx.application.Platform;
@@ -11,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import me.upp.dali.openschedule.controller.Booter;
+import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -39,6 +42,14 @@ public class MessagesHandler implements WhatsappListener {
         Platform.runLater(() ->
             Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!")
         );
+    }
+
+    @Override
+    public void onNewMessage(@NonNull final Chat chat, @NonNull final MessageInfo message) {
+        final String displayName = chat.displayName();
+        final String text = message.container().textMessage().text();
+        final ResponsesTypes answer = ResponsesTypes.getByAnswer(text);
+        this.whatsappAPI.sendMessage(chat, answer.getAnswer());
     }
 
     @Override
