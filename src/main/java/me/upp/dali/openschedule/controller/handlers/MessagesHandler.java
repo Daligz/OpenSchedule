@@ -4,7 +4,6 @@ import com.google.zxing.common.BitMatrix;
 import it.auties.whatsapp4j.listener.WhatsappListener;
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
 import it.auties.whatsapp4j.protobuf.chat.Chat;
-import it.auties.whatsapp4j.protobuf.contact.Contact;
 import it.auties.whatsapp4j.protobuf.info.MessageInfo;
 import it.auties.whatsapp4j.response.impl.json.UserInformationResponse;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
@@ -17,7 +16,6 @@ import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Optional;
 
 @AllArgsConstructor
 public class MessagesHandler implements WhatsappListener {
@@ -29,11 +27,6 @@ public class MessagesHandler implements WhatsappListener {
     public void onLoggedIn(@NonNull final UserInformationResponse info) {
         Platform.runLater(() -> {
             Booter.getInstance().bootStatusText.setText("Conectado a WhatsApp!");
-            System.out.println("Test");
-            final Optional<Contact> contactByName = manager.findContactByName("Test");
-            contactByName.ifPresent(contact ->
-                    whatsappAPI.createGroup("Test Whatsapp message", contact)
-            );
         });
     }
 
@@ -46,10 +39,10 @@ public class MessagesHandler implements WhatsappListener {
 
     @Override
     public void onNewMessage(@NonNull final Chat chat, @NonNull final MessageInfo message) {
-        final String displayName = chat.displayName();
         final String text = message.container().textMessage().text();
         final ResponsesTypes answer = ResponsesTypes.getByAnswer(text);
         this.whatsappAPI.sendMessage(chat, answer.getAnswer());
+        answer.getResponseCallback().execute(chat, message, this.whatsappAPI);
     }
 
     @Override
