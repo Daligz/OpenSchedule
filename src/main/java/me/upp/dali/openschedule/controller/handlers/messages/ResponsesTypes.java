@@ -48,4 +48,8 @@ public enum ResponsesTypes {
         }
         return INFORMATION;
     }
+
+    public String getAnswer() {
+        return answer;
+    }
 }

@@ -18,11 +18,13 @@ public class OpenSchedule {
         new Thread(() ->
             Application.launch(ViewLoader.class, args)
         ).start();
+        System.out.println("Loading...");
         final MessagesAPI messagesAPI = new MessagesAPI();
         final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
         final WhatsappDataManager manager = whatsappAPI.manager();
         whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
         whatsappAPI.connect();
+        System.out.println("Loading...");
     }
 
     private void createTables() {

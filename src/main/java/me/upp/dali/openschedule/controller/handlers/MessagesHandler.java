@@ -1,5 +1,6 @@
 package me.upp.dali.openschedule.controller.handlers;
 
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import it.auties.whatsapp4j.listener.WhatsappListener;
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
@@ -14,7 +15,6 @@ import lombok.NonNull;
 import me.upp.dali.openschedule.controller.Booter;
 import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 @AllArgsConstructor
@@ -27,14 +27,16 @@ public class MessagesHandler implements WhatsappListener {
     public void onLoggedIn(@NonNull final UserInformationResponse info) {
         Platform.runLater(() -> {
             Booter.getInstance().bootStatusText.setText("Conectado a WhatsApp!");
+            System.out.println("Logged in");
         });
     }
 
     @Override
     public void onDisconnected() {
-        Platform.runLater(() ->
-            Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!")
-        );
+        Platform.runLater(() -> {
+            Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!");
+            System.out.println("Disconected!");
+        });
     }
 
     @Override
@@ -43,6 +45,7 @@ public class MessagesHandler implements WhatsappListener {
         final ResponsesTypes answer = ResponsesTypes.getByAnswer(text);
         this.whatsappAPI.sendMessage(chat, answer.getAnswer());
         answer.getResponseCallback().execute(chat, message, this.whatsappAPI);
+        System.out.println(chat.displayName() + " mensaje recibido!");
     }
 
     @Override
@@ -52,11 +55,12 @@ public class MessagesHandler implements WhatsappListener {
             Booter.getInstance().bootMainImage.setImage(
                     SwingFXUtils.toFXImage(this.convertToImage(bitMatrix), null)
             );
+            System.out.println("Mostrando qr!");
         });
     }
 
     private BufferedImage convertToImage(@NonNull final BitMatrix bitMatrix) {
-        final int height = bitMatrix.getHeight();
+        /* final int height = bitMatrix.getHeight();
         final int width = bitMatrix.getWidth();
         final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         bufferedImage.createGraphics();
@@ -72,7 +76,11 @@ public class MessagesHandler implements WhatsappListener {
                     graphics.fillRect(i, j, 1, 1);
                 }
             }
-        }
-        return bufferedImage;
+        }*/
+
+        //final Image scaledInstance = MatrixToImageWriter.toBufferedImage(bitMatrix).getScaledInstance(256, 256, Image.SCALE_SMOOTH););
+
+        //return bufferedImage;
+        return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 }
