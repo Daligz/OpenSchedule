@@ -13,14 +13,14 @@ import lombok.Setter;
 public enum ResponsesTypes {
     INFORMATION(
             "$!#!$",
-            new Response(),
+            new Response("Ejecucion general"),
             (chat, message, whatsappAPI) -> {
                 whatsappAPI.sendMessage(chat, "Ejecucion general");
             }
     ),
     CLIENTS_AMOUNT(
             "clientes",
-            new Response(),
+            new Response("Ejecucion de cantidad de clientes"),
             (chat, message, whatsappAPI) -> {
                 whatsappAPI.sendMessage(chat, "Ejecucion de cantidad de clientes");
             }
@@ -31,6 +31,7 @@ public enum ResponsesTypes {
     private final ResponseCallback responseCallback;
 
     @Getter @Setter
+    @AllArgsConstructor
     public static class Response {
         private String response;
         public Response() { }
