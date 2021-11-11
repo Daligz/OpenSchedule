@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import me.upp.dali.openschedule.controller.Booter;
 import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
+import me.upp.dali.openschedule.view.ViewLoader;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 @AllArgsConstructor
 public class MessagesHandler implements WhatsappListener {
@@ -27,7 +29,12 @@ public class MessagesHandler implements WhatsappListener {
     public void onLoggedIn(@NonNull final UserInformationResponse info) {
         Platform.runLater(() -> {
             Booter.getInstance().bootStatusText.setText("Conectado a WhatsApp!");
-            System.out.println("Logged in");
+            System.out.println("Logged in!, loading main view...");
+            try {
+                ViewLoader.getInstance().updateView(ViewLoader.ViewType.MAIN);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -43,9 +50,7 @@ public class MessagesHandler implements WhatsappListener {
     public void onNewMessage(@NonNull final Chat chat, @NonNull final MessageInfo message) {
         final String text = message.container().textMessage().text();
         final ResponsesTypes answer = ResponsesTypes.getByAnswer(text);
-        this.whatsappAPI.sendMessage(chat, answer.getAnswer());
         answer.getResponseCallback().execute(chat, message, this.whatsappAPI);
-        System.out.println(chat.displayName() + " mensaje recibido!");
     }
 
     @Override
