@@ -15,20 +15,13 @@ import me.upp.dali.openschedule.view.ViewLoader;
 public class OpenSchedule {
 
     public static void main(final String[] args) {
-        //new Thread(() -> Application.launch(ViewLoader.class, args)).start();
-        new Thread(() ->
-                Application.launch(ViewLoader.class, args)
-        ).start();
+        new Thread(() -> Application.launch(ViewLoader.class, args)).start();
         System.out.println("Loading...");
         final MessagesAPI messagesAPI = new MessagesAPI();
         final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
         final WhatsappDataManager manager = whatsappAPI.manager();
         whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
         whatsappAPI.connect();
-    }
-
-    private void oldMain(final String[] args) {
-
     }
 
     private void createTables() {

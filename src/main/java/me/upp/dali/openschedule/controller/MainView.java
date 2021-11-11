@@ -68,10 +68,5 @@ public class MainView implements Initializable {
 
 
     @Override
-    public void initialize(final URL url, final ResourceBundle resourceBundle) {
-        System.out.println("Loading...");
-//        System.out.println(this.msg_information.getText());
-    }
-
-
+    public void initialize(final URL url, final ResourceBundle resourceBundle) { }
 }
