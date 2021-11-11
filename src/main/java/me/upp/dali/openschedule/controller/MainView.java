@@ -68,5 +68,15 @@ public class MainView implements Initializable {
 
 
     @Override
-    public void initialize(final URL url, final ResourceBundle resourceBundle) { }
+    public void initialize(final URL url, final ResourceBundle resourceBundle) {
+        this.registerButtonEvents();
+    }
+
+    private void registerButtonEvents() {
+
+        // On enable/disable clients limit enable/disable spinner to select amount
+        this.check_clients_limit.setOnMouseClicked(mouseEvent -> this.spn_clients_limit.setDisable(
+                !(this.check_clients_limit.isSelected())
+        ));
+    }
 }
