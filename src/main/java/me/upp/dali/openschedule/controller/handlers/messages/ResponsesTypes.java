@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import me.upp.dali.openschedule.controller.MainView;
 
 @Getter
 @AllArgsConstructor
@@ -14,16 +15,22 @@ public enum ResponsesTypes {
     INFORMATION(
             "$!#!$",
             new Response("Ejecucion general"),
-            (chat, message, whatsappAPI) -> {
-                whatsappAPI.sendMessage(chat, "Ejecucion general");
-            }
+            // El valor de los mensajes se debe de obtener de la db por que
+            // se deben de guardar en caso de querer modificarlos y cargarse al iniciar
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_information.getText()
+                )
     ),
     CLIENTS_AMOUNT(
             "clientes",
             new Response("Ejecucion de cantidad de clientes"),
-            (chat, message, whatsappAPI) -> {
-                whatsappAPI.sendMessage(chat, "Ejecucion de cantidad de clientes");
-            }
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
     );
 
     private final String answer;
