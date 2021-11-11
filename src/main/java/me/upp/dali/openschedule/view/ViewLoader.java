@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.AllArgsConstructor;
 
 import java.io.IOException;
@@ -25,11 +26,11 @@ public class ViewLoader extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
-        /*loadView(stage, VIEW_BOOTER_PATH, callbackStage -> {
+        loadView(stage, VIEW_BOOTER_PATH, callbackStage -> {
             callbackStage.setAlwaysOnTop(true);
             callbackStage.initStyle(StageStyle.UNDECORATED);
-        });*/
-        loadView(stage, VIEW_MAIN_PATH);
+        });
+//        loadView(stage, VIEW_MAIN_PATH);
     }
 
     public void loadView(final Stage stage, final URL url) throws IOException {
