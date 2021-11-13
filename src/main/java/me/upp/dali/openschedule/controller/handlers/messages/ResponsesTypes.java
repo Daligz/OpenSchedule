@@ -14,9 +14,8 @@ import me.upp.dali.openschedule.controller.MainView;
 public enum ResponsesTypes {
     INFORMATION(
             "$!#!$",
-            new Response("Ejecucion general"),
-            // El valor de los mensajes se debe de obtener de la db por que
-            // se deben de guardar en caso de querer modificarlos y cargarse al iniciar
+            new Response(DefaultMessages.INFORMATION.getMessage()),
+            // Verificar si no esta en algun estado el que envio el mensaje
             (chat, message, whatsappAPI) ->
                 whatsappAPI.sendMessage(
                         chat,
@@ -24,8 +23,63 @@ public enum ResponsesTypes {
                 )
     ),
     CLIENTS_AMOUNT(
-            "clientes",
-            new Response("Ejecucion de cantidad de clientes"),
+            "1",
+            new Response(DefaultMessages.CLIENTS_AMOUNT.getMessage()),
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    CLIENTS_REGISTER(
+            "2",
+            new Response("CLIENTS_REGISTER"),
+            // Aqui se envian dos mensajes se debe de verificar cual es el correcto
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    CLIENTS_TIME(
+            "3",
+            new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    CLIENT_CANCEL_PROCESS(
+            "cancelar",
+            new Response("CLIENT_CANCEL_PROCESS"),
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    CLIENT_REGISTER_CANCEL(
+            "cancelar%contains%",
+            new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    RESPONSE_YES(
+            "si",
+            new Response("RESPONSE_YES"),
+            (chat, message, whatsappAPI) ->
+                whatsappAPI.sendMessage(
+                        chat,
+                        MainView.getInstance().msg_clients_amount.getText()
+                )
+    ),
+    RESPONSE_NO(
+            "no",
+            new Response("RESPONSE_NO"),
             (chat, message, whatsappAPI) ->
                 whatsappAPI.sendMessage(
                         chat,
@@ -50,7 +104,11 @@ public enum ResponsesTypes {
 
     public static ResponsesTypes getByAnswer(final String answer) {
         for (final ResponsesTypes value : values()) {
-            if (value.getAnswer().equalsIgnoreCase(answer)) {
+            final String valueAnswer = value.getAnswer();
+            if (valueAnswer.contains("%contains%") &&
+                    valueAnswer.replace("%contains%", "").toLowerCase().contains(answer.toLowerCase())) {
+                return value;
+            } else if (valueAnswer.equalsIgnoreCase(answer)) {
                 return value;
             }
         }

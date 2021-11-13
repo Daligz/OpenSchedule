@@ -6,8 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
+import me.upp.dali.openschedule.OpenSchedule;
+import me.upp.dali.openschedule.model.database.tables.TableConfig;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainView implements Initializable {
@@ -71,11 +76,34 @@ public class MainView implements Initializable {
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) {
         INSTANCE = this;
+        this.loadMessages();
         this.registerButtonEvents();
     }
 
     private void loadMessages() {
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
 
+        final List<TextArea> textAreas = Arrays.asList(
+                this.msg_information,
+                this.msg_clients_amount,
+                this.msg_clients_register_name,
+                this.msg_clients_register_known_client,
+                this.msg_clients_code,
+                this.msg_clients_code_expired,
+                this.msg_clients_time_finished,
+                this.msg_clients_time
+        );
+        textAreas.forEach(textArea -> openSchedule.getDatabase().get(
+                TableConfig.TABLE_NAME.getValue(),
+                TableConfig.ID.getValue() + " = " + textArea.getId()
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null || throwable != null) return;
+            try {
+                textArea.setText(resultSet.getString(TableConfig.VALUE.getValue()));
+            } catch (final SQLException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     private void registerButtonEvents() {
