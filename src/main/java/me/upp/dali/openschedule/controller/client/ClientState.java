@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.upp.dali.openschedule.controller.others.AbstractDataMap;
 
-public class ClientState extends AbstractDataMap<ClientState, Integer> {
+public class ClientState extends AbstractDataMap<String, ClientState.Client> {
 
     private static ClientState INSTANCE;
 
@@ -12,12 +12,14 @@ public class ClientState extends AbstractDataMap<ClientState, Integer> {
         INSTANCE = this;
     }
 
+    // database.createTable("tbl_user", "userId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"userId\" AUTOINCREMENT)");
+
     @Getter
     @AllArgsConstructor
     public static class Client {
-        private final int id;
         private final String name, phone;
         private final Status status;
+        private final Code code;
     }
 
     public static ClientState getInstance() {

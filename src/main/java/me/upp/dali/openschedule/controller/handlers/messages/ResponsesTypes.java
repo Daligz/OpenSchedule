@@ -2,12 +2,15 @@ package me.upp.dali.openschedule.controller.handlers.messages;
 
 import it.auties.whatsapp4j.protobuf.chat.Chat;
 import it.auties.whatsapp4j.protobuf.info.MessageInfo;
+import it.auties.whatsapp4j.utils.WhatsappUtils;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import me.upp.dali.openschedule.controller.MainView;
+import me.upp.dali.openschedule.controller.client.ClientState;
+import me.upp.dali.openschedule.controller.client.Code;
 
 @Getter
 @AllArgsConstructor
@@ -39,7 +42,20 @@ public enum ResponsesTypes {
             "2",
             new Response("CLIENTS_REGISTER"),
             (chat, message, whatsappAPI) -> {
-
+                final ClientState clientState = ClientState.getInstance();
+                message.sender().ifPresent(contact -> {
+                    final String name = chat.displayName();
+                    final String phone = WhatsappUtils.phoneNumberFromJid(contact.jid());
+                    if (!(clientState.contains(phone))) {
+                        clientState.set(phone, new ClientState.Client(
+                                name, phone, ClientState.Status.NONE, new Code("Random Code")
+                        ));
+                    }
+                    final ClientState.Client client = clientState.get(phone);
+                    if (client.getStatus() == ClientState.Status.REGISTER_CLIENT) {
+                        // Enviar el mensaje que le corresponde
+                    }
+                });
             }),
     CLIENTS_TIME(
             "3",
