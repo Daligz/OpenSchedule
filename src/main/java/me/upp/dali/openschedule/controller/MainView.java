@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
 import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
 
@@ -82,24 +85,13 @@ public class MainView implements Initializable {
 
     private void loadMessages() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
-
-        final List<TextArea> textAreas = Arrays.asList(
-                this.msg_information,
-                this.msg_clients_amount,
-                this.msg_clients_register_name,
-                this.msg_clients_register_known_client,
-                this.msg_clients_code,
-                this.msg_clients_code_expired,
-                this.msg_clients_time_finished,
-                this.msg_clients_time
-        );
-        textAreas.forEach(textArea -> openSchedule.getDatabase().get(
+        this.getMessagesObjects().forEach(messagesObjects -> openSchedule.getDatabase().get(
                 TableConfig.TABLE_NAME.getValue(),
-                TableConfig.ID.getValue() + " = " + String.format("\"%s\"", textArea.getId())
+                TableConfig.ID.getValue() + " = " + String.format("\"%s\"", messagesObjects.getTextArea().getId())
         ).whenComplete((resultSet, throwable) -> {
             if (resultSet == null || throwable != null) return;
             try {
-                textArea.setText(resultSet.getString(TableConfig.VALUE.getValue()));
+                messagesObjects.getTextArea().setText(resultSet.getString(TableConfig.VALUE.getValue()));
             } catch (final SQLException e) {
                 e.printStackTrace();
             }
@@ -111,6 +103,52 @@ public class MainView implements Initializable {
         this.check_clients_limit.setOnMouseClicked(mouseEvent -> this.spn_clients_limit.setDisable(
                 !(this.check_clients_limit.isSelected())
         ));
+
+        // Register multiple buttons for message update
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+        this.getMessagesObjects().forEach(messagesObjects -> messagesObjects.getButton().setOnMouseClicked(mouseEvent -> openSchedule.getDatabase().get(
+                TableConfig.TABLE_NAME.getValue(),
+                TableConfig.ID.getValue() + " = " + String.format("\"%s\"", messagesObjects.getTextArea().getId())
+        ).whenComplete((resultSet, throwable) -> {
+            final String textId = messagesObjects.getTextArea().getId();
+            final String text = messagesObjects.getTextArea().getText();
+            if (resultSet == null || throwable != null) {
+                openSchedule.getDatabase().insert(
+                        TableConfig.TABLE_NAME.getValue(),
+                        String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableConfig.ID.getValue(), TableConfig.VALUE.getValue(), textId, text)
+                );
+            } else {
+                openSchedule.getDatabase().update(
+                        TableConfig.TABLE_NAME.getValue(),
+                        String.format("%s = \"%s\"", TableConfig.VALUE.getValue(), text),
+                        String.format("%s = \"%s\"", TableConfig.ID.getValue(), textId)
+                );
+            }
+        })));
+    }
+
+    private List<MessagesObjects> getMessagesObjects() {
+        return Arrays.asList(
+                new MessagesObjects(this.msg_information, this.msg_information_button),
+                new MessagesObjects(this.msg_clients_amount, this.msg_clients_amount_button),
+                new MessagesObjects(this.msg_clients_register_name, this.msg_clients_register_name_button),
+                new MessagesObjects(this.msg_clients_register_known_client, this.msg_clients_register_known_client_button),
+                new MessagesObjects(this.msg_clients_code, this.msg_clients_code_button),
+                new MessagesObjects(this.msg_clients_code_expired, this.msg_clients_code_expired_button),
+                new MessagesObjects(this.msg_clients_time_finished, this.msg_clients_time_finished_button),
+                new MessagesObjects(this.msg_clients_time, this.msg_clients_time_button)
+        );
+    }
+
+    private record MessagesObjects(@NonNull TextArea textArea, @NonNull Button button) {
+
+        public TextArea getTextArea() {
+            return this.textArea;
+        }
+
+        public Button getButton() {
+            return this.button;
+        }
     }
 
     public static MainView getInstance() {
