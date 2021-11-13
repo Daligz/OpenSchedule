@@ -48,6 +48,10 @@ public class MessagesHandler implements WhatsappListener {
 
     @Override
     public void onNewMessage(@NonNull final Chat chat, @NonNull final MessageInfo message) {
+        if (chat.isGroup()) {
+            this.whatsappAPI.sendMessage(chat, "No se aceptan mensajes en grupo.");
+            return;
+        }
         final String text = message.container().textMessage().text();
         final ResponsesTypes answer = ResponsesTypes.getByAnswer(text);
         answer.getResponseCallback().execute(chat, message, this.whatsappAPI);
