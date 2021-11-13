@@ -74,6 +74,10 @@ public class MainView implements Initializable {
         this.registerButtonEvents();
     }
 
+    private void loadMessages() {
+
+    }
+
     private void registerButtonEvents() {
         // On enable/disable clients limit enable/disable spinner to select amount
         this.check_clients_limit.setOnMouseClicked(mouseEvent -> this.spn_clients_limit.setDisable(
