@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TableConfig {
     TABLE_NAME("tbl_config"),
-    ID("configId"),
+    TABLE_ID("configId"),
+    ID("id"),
     VALUE("value");
 
     private final String value;

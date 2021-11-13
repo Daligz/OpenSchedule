@@ -59,6 +59,6 @@ public class OpenSchedule {
         database.createTable("tbl_user_time", "userTimeId INTEGER NOT NULL", "userId INTEGER NOT NULL", "userCode INTEGER NOT NULL",
                 "tiempoInicio DATE DEFAULT CURRENT_TIMESTAMP", "tiempoFin DATE", "PRIMARY KEY(\"userTimeId\" AUTOINCREMENT)",
                 "FOREIGN KEY(\"userId\") REFERENCES tbl_user(\"userId\")");
-        database.createTable("tbl_config", "configId INTEGER NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
+        database.createTable("tbl_config", "configId INTEGER NOT NULL", "id TEXT NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
     }
 }

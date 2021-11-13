@@ -95,7 +95,7 @@ public class MainView implements Initializable {
         );
         textAreas.forEach(textArea -> openSchedule.getDatabase().get(
                 TableConfig.TABLE_NAME.getValue(),
-                TableConfig.ID.getValue() + " = " + textArea.getId()
+                TableConfig.ID.getValue() + " = " + String.format("\"%s\"", textArea.getId())
         ).whenComplete((resultSet, throwable) -> {
             if (resultSet == null || throwable != null) return;
             try {
