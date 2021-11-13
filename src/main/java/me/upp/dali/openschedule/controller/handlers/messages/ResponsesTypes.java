@@ -31,16 +31,16 @@ public enum ResponsesTypes {
                         MainView.getInstance().msg_clients_amount.getText()
                 )
     ),
+    /**
+     * Aqui se envian dos mensajes se debe de verificar cual es el correcto
+     * Esto se hace con @{@link me.upp.dali.openschedule.controller.client.ClientState}
+     */
     CLIENTS_REGISTER(
             "2",
             new Response("CLIENTS_REGISTER"),
-            // Aqui se envian dos mensajes se debe de verificar cual es el correcto
-            (chat, message, whatsappAPI) ->
-                whatsappAPI.sendMessage(
-                        chat,
-                        MainView.getInstance().msg_clients_amount.getText()
-                )
-    ),
+            (chat, message, whatsappAPI) -> {
+
+            }),
     CLIENTS_TIME(
             "3",
             new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
