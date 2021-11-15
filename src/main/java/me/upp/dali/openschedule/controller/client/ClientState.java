@@ -2,7 +2,10 @@ package me.upp.dali.openschedule.controller.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import me.upp.dali.openschedule.controller.others.AbstractDataMap;
+
+import java.sql.Date;
 
 public class ClientState extends AbstractDataMap<String, ClientState.Client> {
 
@@ -12,14 +15,13 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
         INSTANCE = this;
     }
 
-    // database.createTable("tbl_user", "userId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"userId\" AUTOINCREMENT)");
-
-    @Getter
+    @Getter @Setter
     @AllArgsConstructor
     public static class Client {
-        private final String name, phone;
-        private final Status status;
+        private String name, phone;
+        private Status status;
         private final Code code;
+        private final Date date;
     }
 
     public static ClientState getInstance() {
@@ -28,6 +30,6 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
     }
 
     public enum Status {
-        NONE, REGISTER_CLIENT, REGISTER_KNOWN_CLIENT, REGISTER_CODE_EXPIRE, REGISTER_FINISHED_TIME
+        NONE, REGISTER_CLIENT, REGISTER_KNOWN_CLIENT, REGISTER_CODE_EXPIRE, REGISTER_FINISHED_TIME, REGISTER_NAME_REQUEST, YES_NO_REQUEST
     }
 }

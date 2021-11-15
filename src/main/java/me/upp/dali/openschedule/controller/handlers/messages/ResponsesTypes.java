@@ -8,9 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.controller.MainView;
 import me.upp.dali.openschedule.controller.client.ClientState;
 import me.upp.dali.openschedule.controller.client.Code;
+import me.upp.dali.openschedule.model.database.tables.TableUser;
+
+import java.sql.Date;
+import java.sql.SQLException;
 
 @Getter
 @AllArgsConstructor
@@ -19,11 +24,46 @@ public enum ResponsesTypes {
             "$!#!$",
             new Response(DefaultMessages.INFORMATION.getMessage()),
             // Verificar si no esta en algun estado el que envio el mensaje
-            (chat, message, whatsappAPI) ->
+            (chat, message, whatsappAPI) -> {
+                final ClientState clientState = ClientState.getInstance();
+                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                final MainView mainView = MainView.getInstance();
+                if (clientState.contains(phone)) {
+                    final ClientState.Client client = clientState.get(phone);
+                    final ClientState.Status status = client.getStatus();
+                    final String text = message.container().textMessage().text();
+                    final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+                    if (status == ClientState.Status.REGISTER_NAME_REQUEST) {
+                        whatsappAPI.sendMessage(chat, "Registrando como " + text + ", espera un momento...");
+                        openSchedule.getDatabase().insert(
+                                TableUser.TABLE_NAME.getValue(),
+                                String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableUser.NAME.getValue(), TableUser.PHONE.getValue(), text, client.getPhone())
+                        ).whenComplete((aBoolean, throwable) -> {
+                            if (throwable != null) return;
+                            System.out.println("1");
+                            client.setName(text);
+                            System.out.println("1.5");
+                            client.getCode().generateCode(client);
+                            System.out.println("2");
+                            final String codeText = mainView.msg_clients_code.getText()
+                                    .replace("%cliente%", client.getName())
+                                    .replace("%codigo%", client.getCode().getCode())
+                                    .replace("%tiempo%", "2 horas");
+                            whatsappAPI.sendMessage(chat, codeText);
+                            System.out.println("3");
+                            client.setStatus(ClientState.Status.NONE);
+                            System.out.println("4");
+                        });
+                        return;
+                    } else if (status == ClientState.Status.YES_NO_REQUEST) {
+                        return;
+                    }
+                }
                 whatsappAPI.sendMessage(
                         chat,
-                        MainView.getInstance().msg_information.getText()
-                )
+                        mainView.msg_information.getText()
+                );
+            }
     ),
     CLIENTS_AMOUNT(
             "1",
@@ -42,18 +82,48 @@ public enum ResponsesTypes {
             "2",
             new Response("CLIENTS_REGISTER"),
             (chat, message, whatsappAPI) -> {
-                final ClientState clientState = ClientState.getInstance();
-                message.sender().ifPresent(contact -> {
-                    final String name = chat.displayName();
-                    final String phone = WhatsappUtils.phoneNumberFromJid(contact.jid());
-                    if (!(clientState.contains(phone))) {
-                        clientState.set(phone, new ClientState.Client(
-                                name, phone, ClientState.Status.NONE, new Code("Random Code")
-                        ));
+            final ClientState clientState = ClientState.getInstance();
+                final String name = chat.displayName();
+                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+                openSchedule.getDatabase().get(
+                        TableUser.TABLE_NAME.getValue(),
+                        String.format("%s = \"%s\"", TableUser.PHONE.getValue(), phone)
+                ).whenComplete((resultSet, throwable) -> {
+                    if (resultSet == null || throwable != null && !(clientState.contains(phone))) {
+                        clientState.set(
+                                phone,
+                                new ClientState.Client(
+                                        name, phone, ClientState.Status.REGISTER_CLIENT, new Code(), new Date(System.currentTimeMillis())
+                                )
+                        );
+                    } else {
+                        try {
+                            clientState.set(
+                                    phone,
+                                    new ClientState.Client(
+                                            resultSet.getString(TableUser.NAME.getValue()),
+                                            resultSet.getString(TableUser.PHONE.getValue()),
+                                            ClientState.Status.REGISTER_KNOWN_CLIENT,
+                                            new Code(),
+                                            new Date(System.currentTimeMillis())
+                                    )
+                            );
+                        } catch (final SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                     final ClientState.Client client = clientState.get(phone);
+                    final MainView mainView = MainView.getInstance();
                     if (client.getStatus() == ClientState.Status.REGISTER_CLIENT) {
-                        // Enviar el mensaje que le corresponde
+                        final String text = mainView.msg_clients_register_name.getText();
+                        client.setStatus(ClientState.Status.REGISTER_NAME_REQUEST);
+                        whatsappAPI.sendMessage(chat, text);
+                    } else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
+                        final String text = mainView.msg_clients_register_known_client.getText()
+                                .replace("%cliente%", client.getName());
+                        client.setStatus(ClientState.Status.YES_NO_REQUEST);
+                        whatsappAPI.sendMessage(chat, text);
                     }
                 });
             }),
@@ -69,11 +139,15 @@ public enum ResponsesTypes {
     CLIENT_CANCEL_PROCESS(
             "cancelar",
             new Response("CLIENT_CANCEL_PROCESS"),
-            (chat, message, whatsappAPI) ->
-                whatsappAPI.sendMessage(
-                        chat,
-                        MainView.getInstance().msg_clients_amount.getText()
-                )
+            (chat, message, whatsappAPI) -> {
+                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                final ClientState clientState = ClientState.getInstance();
+                if (clientState.contains(phone)) {
+                    whatsappAPI.sendMessage(chat, phone + " | Encontrado!" + clientState.get(phone).toString());
+                } else {
+                    whatsappAPI.sendMessage(chat, phone + " | No encontrado :c");
+                }
+            }
     ),
     CLIENT_REGISTER_CANCEL(
             "cancelar%contains%",
