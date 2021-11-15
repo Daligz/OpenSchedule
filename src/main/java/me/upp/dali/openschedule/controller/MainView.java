@@ -2,10 +2,7 @@ package me.upp.dali.openschedule.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import lombok.NonNull;
 import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
@@ -93,13 +90,81 @@ public class MainView implements Initializable {
     }
 
     private void registerButtonEvents() {
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+
+        // Spinners
+        this.spn_clients_amount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50));
+        this.spn_clients_limit.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 15));
+
+        final String spinnerId = this.spn_clients_limit.getId();
+        openSchedule.getDatabase().get(
+                TableConfig.TABLE_NAME.getValue(),
+                String.format("%s = \"%s\"", TableConfig.ID.getValue(), spinnerId)
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null) {
+                openSchedule.getDatabase().insert(
+                        TableConfig.TABLE_NAME.getValue(),
+                        String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableConfig.ID.getValue(), TableConfig.VALUE.getValue(),
+                                spinnerId, this.spn_clients_limit.getValue().toString())
+                );
+            } else {
+                try {
+                    final int i = Integer.parseInt(resultSet.getString(TableConfig.VALUE.getValue()));
+                    this.spn_clients_limit.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, i));
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        this.clients_amount_save_button.setOnMouseClicked(mouseEvent -> {
+            openSchedule.getDatabase().get(
+                    TableConfig.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableConfig.ID.getValue(), spinnerId)
+            ).whenComplete((resultSet, throwable) -> {
+                if (resultSet != null) {
+                    openSchedule.getDatabase().update(
+                            TableConfig.TABLE_NAME.getValue(),
+                            String.format("%s = \"%s\"", TableConfig.VALUE.getValue(), this.spn_clients_limit.getValue().toString()),
+                            String.format("%s = \"%s\"", TableConfig.ID.getValue(), spinnerId)
+                    );
+                }
+            });
+        });
+
         // On enable/disable clients limit enable/disable spinner to select amount
-        this.check_clients_limit.setOnMouseClicked(mouseEvent -> this.spn_clients_limit.setDisable(
-                !(this.check_clients_limit.isSelected())
-        ));
+        final String checkId = this.check_clients_limit.getId();
+        openSchedule.getDatabase().get(
+                TableConfig.TABLE_NAME.getValue(),
+                String.format("%s = \"%s\"", TableConfig.ID.getValue(), checkId)
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null) {
+                openSchedule.getDatabase().insert(
+                        TableConfig.TABLE_NAME.getValue(),
+                        String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableConfig.ID.getValue(), TableConfig.VALUE.getValue(),
+                                checkId, this.check_clients_limit.isSelected())
+                );
+            } else {
+                try {
+                    final boolean aBoolean = Boolean.parseBoolean(resultSet.getString(TableConfig.VALUE.getValue()));
+                    this.check_clients_limit.setSelected(aBoolean);
+                    this.spn_clients_limit.setDisable(!(aBoolean));
+                } catch (final SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        this.check_clients_limit.setOnMouseClicked(mouseEvent -> {
+            final boolean value = !(this.check_clients_limit.isSelected());
+            this.spn_clients_limit.setDisable(value);
+            openSchedule.getDatabase().update(
+                    TableConfig.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableConfig.VALUE.getValue(), !(value)),
+                    String.format("%s = \"%s\"", TableConfig.ID.getValue(), checkId)
+            );
+        });
 
         // Register multiple buttons for message update
-        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
         this.getMessagesObjects().forEach(messagesObjects -> messagesObjects.getButton().setOnMouseClicked(mouseEvent -> openSchedule.getDatabase().get(
                 TableConfig.TABLE_NAME.getValue(),
                 TableConfig.ID.getValue() + " = " + String.format("\"%s\"", messagesObjects.getTextArea().getId())

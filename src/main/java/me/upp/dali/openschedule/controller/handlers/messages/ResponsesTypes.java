@@ -77,7 +77,7 @@ public enum ResponsesTypes {
             (chat, message, whatsappAPI) -> {
                 final MainView mainView = MainView.getInstance();
                 final String text = mainView.msg_clients_amount.getText()
-                        .replace("%clientes%", mainView.spn_clients_amount.getPromptText());
+                        .replace("%clientes%", mainView.spn_clients_amount.getValue().toString());
                 whatsappAPI.sendMessage(chat, text);
             }
     ),
