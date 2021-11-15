@@ -13,6 +13,7 @@ import me.upp.dali.openschedule.controller.MainView;
 import me.upp.dali.openschedule.controller.client.ClientState;
 import me.upp.dali.openschedule.controller.client.Code;
 import me.upp.dali.openschedule.model.database.tables.TableUser;
+import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 
 import javax.swing.*;
 import java.sql.Date;
@@ -62,8 +63,6 @@ public enum ResponsesTypes {
                             client.setStatus(ClientState.Status.NONE);
                         });
                         return;
-                    } else if (status == ClientState.Status.YES_NO_REQUEST) {
-                        return;
                     }
                 }
                 whatsappAPI.sendMessage(
@@ -75,11 +74,12 @@ public enum ResponsesTypes {
     CLIENTS_AMOUNT(
             "1",
             new Response(DefaultMessages.CLIENTS_AMOUNT.getMessage()),
-            (chat, message, whatsappAPI) ->
-                whatsappAPI.sendMessage(
-                        chat,
-                        MainView.getInstance().msg_clients_amount.getText()
-                )
+            (chat, message, whatsappAPI) -> {
+                final MainView mainView = MainView.getInstance();
+                final String text = mainView.msg_clients_amount.getText()
+                        .replace("%clientes%", mainView.spn_clients_amount.getPromptText());
+                whatsappAPI.sendMessage(chat, text);
+            }
     ),
     CLIENTS_REGISTER(
             "2",
@@ -123,21 +123,69 @@ public enum ResponsesTypes {
                         client.setStatus(ClientState.Status.REGISTER_NAME_REQUEST);
                         whatsappAPI.sendMessage(chat, text);
                     } else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
+                        final Timer timer = new Timer(1800000, event -> { // 1800000 milisengundos = 30 minutos
+                            if (clientState.contains(phone)) {
+                                clientState.remove(phone);
+                                final String codeText = mainView.msg_clients_code_expired.getText()
+                                        .replace("%cliente%", client.getName())
+                                        .replace("%codigo%", client.getCode().getCode());
+                                whatsappAPI.sendMessage(chat, codeText);
+                            }
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                        client.getCode().generateCode(client);
+                        final String codeText = mainView.msg_clients_code.getText()
+                                .replace("%cliente%", client.getName())
+                                .replace("%codigo%", client.getCode().getCode())
+                                .replace("%tiempo%", "30 minutos");
+                        whatsappAPI.sendMessage(chat, codeText);
+                        client.setStatus(ClientState.Status.NONE);
+                    }
+                    /*else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
                         final String text = mainView.msg_clients_register_known_client.getText()
                                 .replace("%cliente%", client.getName());
                         client.setStatus(ClientState.Status.YES_NO_REQUEST);
                         whatsappAPI.sendMessage(chat, text);
-                    }
+                    }*/
                 });
             }),
     CLIENTS_TIME(
             "3",
             new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
-            (chat, message, whatsappAPI) ->
-                whatsappAPI.sendMessage(
-                        chat,
-                        MainView.getInstance().msg_clients_amount.getText()
-                )
+            (chat, message, whatsappAPI) -> {
+                final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                openSchedule.getDatabase().get(
+                        TableUserTime.TABLE_NAME.getValue(),
+                        String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                ).whenComplete((resultSet, throwable) -> {
+                    /* INSERTAR EN PRIMERA VISTA | ES PARA REGISTRAR NUEVOS USUARIOS
+
+                                            openSchedule.getDatabase().insert(
+                                TableUserTime.TABLE_NAME.getValue(),
+                                String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
+                                        TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
+                                        phone, )
+                        )
+                     */
+                    if (resultSet == null || throwable != null) {
+                        whatsappAPI.sendMessage(chat, "Debes de ingresar al gimnasio!");
+                        return;
+                    }
+                    String timeText = "";
+                    try {
+                        final Date startTime = resultSet.getDate(TableUserTime.TIME_START.getValue());
+                        final Date finishTime = resultSet.getDate(TableUserTime.TIME_FINISH.getValue());
+                        timeText = MainView.getInstance().msg_clients_time.getText()
+                                .replace("%tiempo-inicio%", startTime.toString())
+                                .replace("%tiempo-fin%", finishTime.toString());
+                    } catch (final SQLException e) {
+                        e.printStackTrace();
+                    }
+                    whatsappAPI.sendMessage(chat, timeText);
+                });
+            }
     ),
     CLIENT_CANCEL_PROCESS(
             "cancelar",
@@ -145,21 +193,36 @@ public enum ResponsesTypes {
             (chat, message, whatsappAPI) -> {
                 final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
                 final ClientState clientState = ClientState.getInstance();
-                if (clientState.contains(phone)) {
-                    whatsappAPI.sendMessage(chat, phone + " | Encontrado!" + clientState.get(phone).toString());
-                } else {
-                    whatsappAPI.sendMessage(chat, phone + " | No encontrado :c");
+                if (!(clientState.contains(phone))) {
+                    whatsappAPI.sendMessage(chat, "No hay algo para cancelar!");
+                    return;
                 }
+                final ClientState.Client client = clientState.get(phone);
+                client.setStatus(ClientState.Status.NONE);
+                whatsappAPI.sendMessage(chat, "Cancelado correctamente!");
             }
     ),
     CLIENT_REGISTER_CANCEL(
-            "cancelar%contains%",
+            "cancelar código",
             new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
-            (chat, message, whatsappAPI) ->
-                whatsappAPI.sendMessage(
-                        chat,
-                        MainView.getInstance().msg_clients_amount.getText()
-                )
+            (chat, message, whatsappAPI) -> {
+                final ClientState clientState = ClientState.getInstance();
+                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                if (!(clientState.contains(phone))) {
+                    whatsappAPI.sendMessage(chat, "No tienes ningun código!");
+                    return;
+                }
+                final ClientState.Client client = clientState.get(phone);
+                if (client.getStatus() == ClientState.Status.NONE && !(client.getCode().getCode().isEmpty())) {
+                    final String codeText = MainView.getInstance().msg_clients_code_expired.getText()
+                            .replace("%cliente%", client.getName())
+                            .replace("%codigo%", client.getCode().getCode());
+                    whatsappAPI.sendMessage(chat, codeText);
+                    clientState.remove(phone);
+                } else {
+                    whatsappAPI.sendMessage(chat, "El código no existe!");
+                }
+            }
     ),
     RESPONSE_YES(
             "si",
@@ -198,10 +261,7 @@ public enum ResponsesTypes {
     public static ResponsesTypes getByAnswer(final String answer) {
         for (final ResponsesTypes value : values()) {
             final String valueAnswer = value.getAnswer();
-            if (valueAnswer.contains("%contains%") &&
-                    valueAnswer.replace("%contains%", "").toLowerCase().contains(answer.toLowerCase())) {
-                return value;
-            } else if (valueAnswer.equalsIgnoreCase(answer)) {
+            if (valueAnswer.equalsIgnoreCase(answer)) {
                 return value;
             }
         }

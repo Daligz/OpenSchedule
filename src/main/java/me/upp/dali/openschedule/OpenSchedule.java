@@ -59,9 +59,8 @@ public class OpenSchedule {
 
     public void createTables(final Database database) {
         database.createTable("tbl_user", "userId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"userId\" AUTOINCREMENT)");
-        database.createTable("tbl_user_time", "userTimeId INTEGER NOT NULL", "userId INTEGER NOT NULL", "userCode INTEGER NOT NULL",
-                "tiempoInicio DATE DEFAULT CURRENT_TIMESTAMP", "tiempoFin DATE", "PRIMARY KEY(\"userTimeId\" AUTOINCREMENT)",
-                "FOREIGN KEY(\"userId\") REFERENCES tbl_user(\"userId\")");
+        database.createTable("tbl_user_time", "userTimeId INTEGER NOT NULL", "phone TEXT NOT NULL", "userCode INTEGER NOT NULL",
+                "tiempoInicio DATE DEFAULT CURRENT_TIMESTAMP","tiempoFin DATE", "PRIMARY KEY(\"userTimeId\" AUTOINCREMENT)");
         database.createTable("tbl_config", "configId INTEGER NOT NULL", "id TEXT NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
     }
 }

@@ -91,16 +91,13 @@
                      </font>
                   </Label>
                   <Label layoutX="289.0" layoutY="251.0" prefHeight="17.0" prefWidth="132.0" text="Recibir código" />
-                  <TextArea fx:id="msg_clients_code" layoutX="281.0" layoutY="271.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar %codigo%*" />
+                  <TextArea fx:id="msg_clients_code" layoutX="281.0" layoutY="271.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar código*" />
                   <Button fx:id="msg_clients_code_button" layoutX="282.0" layoutY="412.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Guardar" />
                   <Label layoutX="856.0" layoutY="49.0" prefHeight="17.0" prefWidth="132.0" text="Usuario reconocido" />
                   <TextArea fx:id="msg_clients_register_known_client" layoutX="848.0" layoutY="69.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👋 Hola, eres *%cliente%*.&#10;&#10;_Por favor responde con *SI* o *NO*_&#10;&#10;🚫 Para cancelar escribe: *cancelar*" />
                   <Button fx:id="msg_clients_register_known_client_button" layoutX="849.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Guardar" />
-                  <Label layoutX="67.0" layoutY="282.0" text="Duración de código" />
-                  <Spinner fx:id="spn_code_duration" editable="true" layoutX="67.0" layoutY="311.0" />
-                  <Button fx:id="spn_code_duration_button" layoutX="68.0" layoutY="348.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Guardar" />
                   <Label layoutX="854.0" layoutY="255.0" prefHeight="17.0" prefWidth="132.0" text="Tiempo en el gimnasio" />
-                  <TextArea fx:id="msg_clients_time" layoutX="848.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤%cliente% iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
+                  <TextArea fx:id="msg_clients_time" layoutX="848.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤Iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
                   <Button fx:id="msg_clients_time_button" layoutX="849.0" layoutY="416.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
                   <Label layoutX="469.0" layoutY="255.0" prefHeight="17.0" prefWidth="132.0" text="Código caducado" />
                   <TextArea fx:id="msg_clients_code_expired" layoutX="463.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código *%codigo%* caducó.&#10;&#10;*Si aun quieres ingresar al gimnasio por favor solicita uno nuevo.*" />

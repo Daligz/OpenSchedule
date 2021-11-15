@@ -6,8 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NonNull;
 import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
@@ -29,10 +27,6 @@ public class MainView implements Initializable {
     public Spinner<Integer> spn_clients_limit;
     @FXML
     public Button clients_amount_save_button;
-    @FXML
-    public Spinner<Integer> spn_code_duration;
-    @FXML
-    public Button spn_code_duration_button;
 
     // Information : Messages section
     @FXML

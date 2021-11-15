@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum TableUserTime {
     TABLE_NAME("tbl_user_time"),
     ID("userTimeId"),
-    USER_ID("userId"),
+    PHONE("phone"),
     CODE("userCode"),
     TIME_START("tiempoInicio"),
     TIME_FINISH("tiempoFin");
