@@ -40,19 +40,14 @@ public enum ResponsesTypes {
                                 String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableUser.NAME.getValue(), TableUser.PHONE.getValue(), text, client.getPhone())
                         ).whenComplete((aBoolean, throwable) -> {
                             if (throwable != null) return;
-                            System.out.println("1");
                             client.setName(text);
-                            System.out.println("1.5");
                             client.getCode().generateCode(client);
-                            System.out.println("2");
                             final String codeText = mainView.msg_clients_code.getText()
                                     .replace("%cliente%", client.getName())
                                     .replace("%codigo%", client.getCode().getCode())
                                     .replace("%tiempo%", "2 horas");
                             whatsappAPI.sendMessage(chat, codeText);
-                            System.out.println("3");
                             client.setStatus(ClientState.Status.NONE);
-                            System.out.println("4");
                         });
                         return;
                     } else if (status == ClientState.Status.YES_NO_REQUEST) {

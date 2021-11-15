@@ -25,12 +25,9 @@ public class Code {
 
     private String getLetters() {
         final StringBuilder letters = new StringBuilder();
-        System.out.println("sub 1");
         for (int i = 0; i < 3; i++) {
-            System.out.println("a");
             letters.append(AVAILABLE_LETTERS[random.nextInt(AVAILABLE_LETTERS.length)]);
         }
-        System.out.println("Fin");
         return letters.toString();
     }
 }
