@@ -14,6 +14,7 @@ import me.upp.dali.openschedule.controller.client.ClientState;
 import me.upp.dali.openschedule.controller.client.Code;
 import me.upp.dali.openschedule.model.database.tables.TableUser;
 
+import javax.swing.*;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -40,12 +41,23 @@ public enum ResponsesTypes {
                                 String.format("(%s, %s) VALUES (\"%s\", \"%s\")", TableUser.NAME.getValue(), TableUser.PHONE.getValue(), text, client.getPhone())
                         ).whenComplete((aBoolean, throwable) -> {
                             if (throwable != null) return;
+                            final Timer timer = new Timer(1800000, event -> { // 1800000 milisengundos = 30 minutos
+                                if (clientState.contains(phone)) {
+                                    clientState.remove(phone);
+                                    final String codeText = mainView.msg_clients_code_expired.getText()
+                                            .replace("%cliente%", client.getName())
+                                            .replace("%codigo%", client.getCode().getCode());
+                                    whatsappAPI.sendMessage(chat, codeText);
+                                }
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
                             client.setName(text);
                             client.getCode().generateCode(client);
                             final String codeText = mainView.msg_clients_code.getText()
                                     .replace("%cliente%", client.getName())
                                     .replace("%codigo%", client.getCode().getCode())
-                                    .replace("%tiempo%", "2 horas");
+                                    .replace("%tiempo%", "30 minutos");
                             whatsappAPI.sendMessage(chat, codeText);
                             client.setStatus(ClientState.Status.NONE);
                         });
@@ -69,10 +81,6 @@ public enum ResponsesTypes {
                         MainView.getInstance().msg_clients_amount.getText()
                 )
     ),
-    /**
-     * Aqui se envian dos mensajes se debe de verificar cual es el correcto
-     * Esto se hace con @{@link me.upp.dali.openschedule.controller.client.ClientState}
-     */
     CLIENTS_REGISTER(
             "2",
             new Response("CLIENTS_REGISTER"),
