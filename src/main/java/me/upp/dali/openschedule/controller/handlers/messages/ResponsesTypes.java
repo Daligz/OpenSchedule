@@ -25,7 +25,6 @@ public enum ResponsesTypes {
     INFORMATION(
             "$!#!$",
             new Response(DefaultMessages.INFORMATION.getMessage()),
-            // Verificar si no esta en algun estado el que envio el mensaje
             (chat, message, whatsappAPI) -> {
                 final ClientState clientState = ClientState.getInstance();
                 final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
@@ -198,8 +197,12 @@ public enum ResponsesTypes {
                     return;
                 }
                 final ClientState.Client client = clientState.get(phone);
-                client.setStatus(ClientState.Status.NONE);
+                if (client.getStatus() != ClientState.Status.NONE) {
+                    whatsappAPI.sendMessage(chat, "No hay algo para cancelar!");
+                    return;
+                }
                 whatsappAPI.sendMessage(chat, "Cancelado correctamente!");
+                client.setStatus(ClientState.Status.NONE);
             }
     ),
     CLIENT_REGISTER_CANCEL(
