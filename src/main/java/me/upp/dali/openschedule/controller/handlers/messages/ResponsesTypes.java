@@ -19,6 +19,7 @@ import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 import javax.swing.*;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @Getter
 @AllArgsConstructor
@@ -172,8 +173,8 @@ public enum ResponsesTypes {
                     }
                     String timeText = "";
                     try {
-                        final Date startTime = resultSet.getDate(TableUserTime.TIME_START.getValue());
-                        final Date finishTime = resultSet.getDate(TableUserTime.TIME_FINISH.getValue());
+                        final Timestamp startTime = resultSet.getTimestamp(TableUserTime.TIME_START.getValue());
+                        final Timestamp finishTime = resultSet.getTimestamp(TableUserTime.TIME_FINISH.getValue());
                         timeText = MainView.getInstance().msg_clients_time.getText()
                                 .replace("%tiempo-inicio%", startTime.toString())
                                 .replace("%tiempo-fin%", finishTime.toString());
