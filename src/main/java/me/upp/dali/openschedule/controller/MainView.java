@@ -337,7 +337,13 @@ public class MainView implements Initializable {
                     final Timer timer = new Timer(DataTime.timeToMilliseconds(
                             (timeNow.getHours() - DataTime.getTimeNow().getHours()),
                             (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
-                    ), event -> Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION)));
+                    ), event -> {
+                        openSchedule.getDatabase().delete(
+                                TableUserTime.TABLE_NAME.getValue(),
+                                String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                        );
+                        Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                    });
                     timer.setRepeats(false);
                     timer.start();
                 }

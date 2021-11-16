@@ -181,6 +181,7 @@ public enum ResponsesTypes {
                     } catch (final SQLException e) {
                         e.printStackTrace();
                     }
+                    if (timeText.isEmpty()) return;
                     whatsappAPI.sendMessage(chat, timeText);
                 });
             }
