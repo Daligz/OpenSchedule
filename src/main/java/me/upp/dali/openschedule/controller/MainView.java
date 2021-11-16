@@ -1,15 +1,21 @@
 package me.upp.dali.openschedule.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import lombok.NonNull;
 import me.upp.dali.openschedule.OpenSchedule;
+import me.upp.dali.openschedule.controller.client.ClientState;
+import me.upp.dali.openschedule.controller.client.ClientStorage;
+import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
+import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -119,6 +125,8 @@ public class MainView implements Initializable {
 
         // Spinners
         this.spn_clients_amount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50));
+        this.spn_clients_amount.valueProperty().addListener((observableValue, oldValue, newValue) -> ClientStorage.getInstance().setClients(newValue));
+
         this.spn_clients_limit.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, 15));
 
         final String spinnerId = this.spn_clients_limit.getId();
@@ -135,7 +143,7 @@ public class MainView implements Initializable {
             } else {
                 try {
                     final int i = Integer.parseInt(resultSet.getString(TableConfig.VALUE.getValue()));
-                    this.spn_clients_limit.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 50, i));
+                    this.spn_clients_limit.getValueFactory().setValue(i);
                 } catch (final SQLException e) {
                     e.printStackTrace();
                 }
@@ -221,25 +229,52 @@ public class MainView implements Initializable {
 
         // Register buttons
         this.button_client_register.setOnMouseClicked(mouseEvent -> {
-            this.text_client_name.setText("");
-            this.text_client_code.setText("");
-            this.check_register_manual.setSelected(false);
-            this.text_client_name.setDisable(true);
-            this.button_plus_hour.setDisable(true);
-            this.button_less_hour.setDisable(true);
-            this.button_plus_minutes.setDisable(true);
-            this.button_less_minutes.setDisable(true);
+            final String clientName = this.text_client_name.getText();
+            final String clientCode = this.text_client_code.getText();
+
+            if (clientCode.isEmpty()) return;
+
+            final ClientState clientState = ClientState.getInstance();
+            ClientState.Client client = null;
+            for (final ClientState.Client value : clientState.getValues()) {
+                if (value.getCode().getCode().equalsIgnoreCase(clientCode)) {
+                    client = value;
+                }
+            }
+            if (client == null) {
+                Alert.send("Codigo no encontrado", "El código no es valido!", javafx.scene.control.Alert.AlertType.ERROR);
+                this.setDefaultButtonStates();
+                return;
+            }
+            final ClientState.Client finalClient = client;
+            if (ClientStorage.getInstance().checkLimit()) {
+                Alert.send("Limite de clientes", "Se alcanzo el limite de clientes!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().insert(
+                TableUserTime.TABLE_NAME.getValue(),
+                String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
+                TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
+                        client.getPhone(), client.getCode().getCode(), new Timestamp(System.currentTimeMillis()))
+            ).whenComplete((aBoolean, throwable) -> {
+                clientState.remove(finalClient.getPhone());
+                this.setDefaultButtonStates();
+                ClientStorage.getInstance().add();
+                Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
+            });
         });
-        this.button_client_cancel.setOnMouseClicked(mouseEvent -> {
-            this.text_client_name.setText("");
-            this.text_client_code.setText("");
-            this.check_register_manual.setSelected(false);
-            this.text_client_name.setDisable(true);
-            this.button_plus_hour.setDisable(true);
-            this.button_less_hour.setDisable(true);
-            this.button_plus_minutes.setDisable(true);
-            this.button_less_minutes.setDisable(true);
-        });
+        this.button_client_cancel.setOnMouseClicked(mouseEvent -> this.setDefaultButtonStates());
+    }
+
+    private void setDefaultButtonStates() {
+        this.text_client_name.setText("");
+        this.text_client_code.setText("");
+        this.check_register_manual.setSelected(false);
+        this.text_client_name.setDisable(true);
+        this.button_plus_hour.setDisable(true);
+        this.button_less_hour.setDisable(true);
+        this.button_plus_minutes.setDisable(true);
+        this.button_less_minutes.setDisable(true);
     }
 
     private List<MessagesObjects> getMessagesObjects() {

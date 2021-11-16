@@ -14,10 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import me.upp.dali.openschedule.controller.Booter;
 import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
+import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.view.ViewLoader;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -45,7 +45,7 @@ public class MessagesHandler implements WhatsappListener {
         Platform.runLater(() -> {
             Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!");
             System.out.println("Disconected!");
-            JOptionPane.showMessageDialog(null, "Se desconecto de WhatsApp!, vuelve a ejecutar la aplicion y no cierres la sesion de WhatsApp", "WhatsApp desconectado!", JOptionPane.ERROR_MESSAGE);
+            Alert.send("Desconectado...", "Se desconecto de WhatsApp!, vuelve a ejecutar la aplicion y no cierres la sesion de WhatsApp", javafx.scene.control.Alert.AlertType.ERROR);
             System.exit(0);
         });
     }

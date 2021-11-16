@@ -11,6 +11,7 @@ import lombok.Setter;
 import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.controller.MainView;
 import me.upp.dali.openschedule.controller.client.ClientState;
+import me.upp.dali.openschedule.controller.client.ClientStorage;
 import me.upp.dali.openschedule.controller.client.Code;
 import me.upp.dali.openschedule.model.database.tables.TableUser;
 import me.upp.dali.openschedule.model.database.tables.TableUserTime;
@@ -88,6 +89,10 @@ public enum ResponsesTypes {
                 final String name = chat.displayName();
                 final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
                 final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+                if (ClientStorage.getInstance().checkLimit()) {
+                    whatsappAPI.sendMessage(chat, "Actualmente alcanzamos nuestro limite de clientes!, por favor espera para entrar.");
+                    return;
+                }
                 openSchedule.getDatabase().get(
                         TableUser.TABLE_NAME.getValue(),
                         String.format("%s = \"%s\"", TableUser.PHONE.getValue(), phone)
@@ -159,15 +164,6 @@ public enum ResponsesTypes {
                         TableUserTime.TABLE_NAME.getValue(),
                         String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
                 ).whenComplete((resultSet, throwable) -> {
-                    /* INSERTAR EN PRIMERA VISTA | ES PARA REGISTRAR NUEVOS USUARIOS
-
-                                            openSchedule.getDatabase().insert(
-                                TableUserTime.TABLE_NAME.getValue(),
-                                String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
-                                        TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
-                                        phone, )
-                        )
-                     */
                     if (resultSet == null || throwable != null) {
                         whatsappAPI.sendMessage(chat, "Debes de ingresar al gimnasio!");
                         return;
