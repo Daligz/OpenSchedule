@@ -87,7 +87,8 @@ public enum ResponsesTypes {
             (chat, message, whatsappAPI) -> {
             final ClientState clientState = ClientState.getInstance();
                 final String name = chat.displayName();
-                final String phone = WhatsappUtils.phoneNumberFromJid(chat.jid());
+                final String jid = chat.jid();
+                final String phone = WhatsappUtils.phoneNumberFromJid(jid);
                 final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
                 if (ClientStorage.getInstance().checkLimit()) {
                     whatsappAPI.sendMessage(chat, "Actualmente alcanzamos nuestro limite de clientes!, por favor espera para entrar.");
@@ -101,7 +102,7 @@ public enum ResponsesTypes {
                         clientState.set(
                                 phone,
                                 new ClientState.Client(
-                                        name, phone, ClientState.Status.REGISTER_CLIENT, new Code(), new Date(System.currentTimeMillis())
+                                        name, phone, ClientState.Status.REGISTER_CLIENT, new Code(), new Date(System.currentTimeMillis()), jid
                                 )
                         );
                     } else {
@@ -113,7 +114,8 @@ public enum ResponsesTypes {
                                             resultSet.getString(TableUser.PHONE.getValue()),
                                             ClientState.Status.REGISTER_KNOWN_CLIENT,
                                             new Code(),
-                                            new Date(System.currentTimeMillis())
+                                            new Date(System.currentTimeMillis()),
+                                            jid
                                     )
                             );
                         } catch (final SQLException e) {

@@ -22,6 +22,7 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
         private Status status;
         private final Code code;
         private final Date date;
+        private final String jid;
     }
 
     public static ClientState getInstance() {

@@ -15,7 +15,6 @@ public class DataTime {
     }
 
     public int timeToMilliseconds(final int hours, final int minutes) {
-        System.out.println((hours * 3600000) + (minutes * 60000));
         return (hours * 3600000) + (minutes * 60000);
     }
 }

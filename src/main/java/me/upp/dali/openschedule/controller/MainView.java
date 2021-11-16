@@ -1,8 +1,6 @@
 package me.upp.dali.openschedule.controller;
 
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
-import it.auties.whatsapp4j.protobuf.contact.Contact;
-import it.auties.whatsapp4j.utils.WhatsappUtils;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -138,19 +136,19 @@ public class MainView implements Initializable {
             }
 
             private LocalTime defaultValue() {
-                return LocalTime.now().truncatedTo(ChronoUnit.HOURS);
+                return LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
             }
 
             @Override
             public void decrement(int steps) {
                 final LocalTime value = getValue();
-                setValue(value == null ? defaultValue() : value.minusHours(steps));
+                setValue(value == null ? defaultValue() : value.minusMinutes(steps));
             }
 
             @Override
             public void increment(int steps) {
                 final LocalTime value = getValue();
-                setValue(value == null ? defaultValue() : value.plusHours(steps));
+                setValue(value == null ? defaultValue() : value.plusMinutes(steps));
             }
         };
         this.spn_client_hour_leave.setValueFactory(timeFactory);
@@ -301,13 +299,16 @@ public class MainView implements Initializable {
             }
 
             Timestamp timeNow = DataTime.getTimeNow();
+            boolean timeToLeave = false;
             if (this.check_client_leave.isSelected()) {
                 final LocalTime localTime = this.spn_client_hour_leave.getValue();
                 timeNow.setHours(localTime.getHour());
                 timeNow.setMinutes(localTime.getMinute());
-                System.out.println(timeNow);
+                timeToLeave = true;
             }
 
+            final ClientState.Client finalClient = client;
+            final boolean finalTimeToLeave = timeToLeave;
             openSchedule.getDatabase().insert(
                 TableUserTime.TABLE_NAME.getValue(),
                 String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
@@ -317,25 +318,26 @@ public class MainView implements Initializable {
                 clientState.remove(clientCode);
                 this.setDefaultButtonStates();
                 ClientStorage.getInstance().add();
-                if (this.check_client_leave.isSelected()) {
+                if (finalClient != null && finalTimeToLeave) {
+                    final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
+                    final WhatsappDataManager manager = whatsappAPI.manager();
+                    manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, finalClient.getName() + " disfruta tu estancia!"));
                     final Timer timer = new Timer(DataTime.timeToMilliseconds(
                             (timeNow.getHours() - DataTime.getTimeNow().getHours()),
                             (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
                     ), event -> {
-                        for (final ClientState.Client value : clientState.getValues()) {
-                            if (value.getCode().getCode().equalsIgnoreCase(clientCode)) {
-                                final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
-                                final WhatsappDataManager manager = whatsappAPI.manager();
-                                for (final Contact contact : manager.contacts()) {
-                                    final String contactPhone = WhatsappUtils.phoneNumberFromJid(contact.jid());
-                                    if (phone.equalsIgnoreCase(contactPhone)) {
-                                        manager.findChatByJid(contact.jid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, this.msg_clients_time_finished.getText()));
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        final String text = this.msg_clients_time_finished.getText()
+                                .replace("%cliente%", finalClient.getName());
+                        manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
+                        Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + finalClient.getName() + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
                     });
+                    timer.setRepeats(false);
+                    timer.start();
+                } else if (finalTimeToLeave) {
+                    final Timer timer = new Timer(DataTime.timeToMilliseconds(
+                            (timeNow.getHours() - DataTime.getTimeNow().getHours()),
+                            (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
+                    ), event -> Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION)));
                     timer.setRepeats(false);
                     timer.start();
                 }
@@ -350,8 +352,8 @@ public class MainView implements Initializable {
         this.text_client_code.setText("");
         this.text_client_code.setDisable(false);
         this.check_register_manual.setSelected(false);
-        //this.check_client_leave.setSelected(false);
         this.text_client_name.setDisable(true);
+        this.check_client_leave.setSelected(false);
         this.button_plus_hour.setDisable(true);
         this.button_less_hour.setDisable(true);
         this.button_plus_minutes.setDisable(true);
