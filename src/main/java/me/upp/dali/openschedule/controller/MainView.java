@@ -8,6 +8,7 @@ import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -64,6 +65,30 @@ public class MainView implements Initializable {
     // Register : Search section
 
     // Register : Register section
+    @FXML
+    public CheckBox check_register_manual;
+    @FXML
+    public TextField text_client_code;
+    @FXML
+    public TextField text_client_name;
+    @FXML
+    public CheckBox check_client_leave;
+    @FXML
+    public Spinner<Date> spn_client_hour_leave;
+    @FXML
+    public Button button_plus_hour;
+    @FXML
+    public Button button_less_hour;
+    @FXML
+    public Button button_plus_minutes;
+    @FXML
+    public Button button_less_minutes;
+    @FXML
+    public Button button_client_register;
+    @FXML
+    public Button button_client_leave;
+    @FXML
+    public Button button_client_cancel;
 
     private static MainView INSTANCE;
 
@@ -164,6 +189,15 @@ public class MainView implements Initializable {
             );
         });
 
+        this.check_register_manual.setOnMouseClicked(mouseEvent -> {
+            final boolean isSelected = !(this.check_register_manual.isSelected());
+            this.text_client_name.setDisable(isSelected);
+            this.button_plus_hour.setDisable(isSelected);
+            this.button_less_hour.setDisable(isSelected);
+            this.button_plus_minutes.setDisable(isSelected);
+            this.button_less_minutes.setDisable(isSelected);
+        });
+
         // Register multiple buttons for message update
         this.getMessagesObjects().forEach(messagesObjects -> messagesObjects.getButton().setOnMouseClicked(mouseEvent -> openSchedule.getDatabase().get(
                 TableConfig.TABLE_NAME.getValue(),
@@ -184,6 +218,12 @@ public class MainView implements Initializable {
                 );
             }
         })));
+
+        // Register buttons
+        this.button_client_cancel.setOnMouseClicked(mouseEvent -> {
+            this.text_client_name.setText("");
+            this.text_client_code.setText("");
+        });
     }
 
     private List<MessagesObjects> getMessagesObjects() {
