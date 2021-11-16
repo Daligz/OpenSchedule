@@ -1,5 +1,9 @@
 package me.upp.dali.openschedule.controller;
 
+import it.auties.whatsapp4j.manager.WhatsappDataManager;
+import it.auties.whatsapp4j.protobuf.contact.Contact;
+import it.auties.whatsapp4j.utils.WhatsappUtils;
+import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,11 +15,14 @@ import me.upp.dali.openschedule.controller.client.ClientStorage;
 import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
 import me.upp.dali.openschedule.model.database.tables.TableUserTime;
+import me.upp.dali.openschedule.model.database.utils.DataTime;
 
+import javax.swing.*;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -80,7 +87,7 @@ public class MainView implements Initializable {
     @FXML
     public CheckBox check_client_leave;
     @FXML
-    public Spinner<Date> spn_client_hour_leave;
+    public Spinner<LocalTime> spn_client_hour_leave;
     @FXML
     public Button button_plus_hour;
     @FXML
@@ -122,6 +129,35 @@ public class MainView implements Initializable {
 
     private void registerButtonEvents() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+
+        // Client time
+        final SpinnerValueFactory<LocalTime> timeFactory = new SpinnerValueFactory<>() {
+
+            {
+                setValue(defaultValue());
+            }
+
+            private LocalTime defaultValue() {
+                return LocalTime.now().truncatedTo(ChronoUnit.HOURS);
+            }
+
+            @Override
+            public void decrement(int steps) {
+                final LocalTime value = getValue();
+                setValue(value == null ? defaultValue() : value.minusHours(steps));
+            }
+
+            @Override
+            public void increment(int steps) {
+                final LocalTime value = getValue();
+                setValue(value == null ? defaultValue() : value.plusHours(steps));
+            }
+        };
+        this.spn_client_hour_leave.setValueFactory(timeFactory);
+        this.button_plus_minutes.setOnMouseClicked(mouseEvent -> this.spn_client_hour_leave.getValueFactory().setValue(this.spn_client_hour_leave.getValue().plusMinutes(10)));
+        this.button_less_minutes.setOnMouseClicked(mouseEvent -> this.spn_client_hour_leave.getValueFactory().setValue(this.spn_client_hour_leave.getValue().minusMinutes(10)));
+        this.button_plus_hour.setOnMouseClicked(mouseEvent -> this.spn_client_hour_leave.getValueFactory().setValue(this.spn_client_hour_leave.getValue().plusHours(1)));
+        this.button_less_hour.setOnMouseClicked(mouseEvent -> this.spn_client_hour_leave.getValueFactory().setValue(this.spn_client_hour_leave.getValue().minusHours(1)));
 
         // Spinners
         this.spn_clients_amount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50));
@@ -263,15 +299,46 @@ public class MainView implements Initializable {
                 Alert.send("Limite de clientes", "Se alcanzo el limite de clientes!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
             }
+
+            Timestamp timeNow = DataTime.getTimeNow();
+            if (this.check_client_leave.isSelected()) {
+                final LocalTime localTime = this.spn_client_hour_leave.getValue();
+                timeNow.setHours(localTime.getHour());
+                timeNow.setMinutes(localTime.getMinute());
+                System.out.println(timeNow);
+            }
+
             openSchedule.getDatabase().insert(
                 TableUserTime.TABLE_NAME.getValue(),
                 String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
                 TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
-                        phone, clientCode, new Timestamp(System.currentTimeMillis()))
+                        phone, clientCode, timeNow)
             ).whenComplete((aBoolean, throwable) -> {
                 clientState.remove(clientCode);
                 this.setDefaultButtonStates();
                 ClientStorage.getInstance().add();
+                if (this.check_client_leave.isSelected()) {
+                    final Timer timer = new Timer(DataTime.timeToMilliseconds(
+                            (timeNow.getHours() - DataTime.getTimeNow().getHours()),
+                            (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
+                    ), event -> {
+                        for (final ClientState.Client value : clientState.getValues()) {
+                            if (value.getCode().getCode().equalsIgnoreCase(clientCode)) {
+                                final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
+                                final WhatsappDataManager manager = whatsappAPI.manager();
+                                for (final Contact contact : manager.contacts()) {
+                                    final String contactPhone = WhatsappUtils.phoneNumberFromJid(contact.jid());
+                                    if (phone.equalsIgnoreCase(contactPhone)) {
+                                        manager.findChatByJid(contact.jid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, this.msg_clients_time_finished.getText()));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    timer.setRepeats(false);
+                    timer.start();
+                }
                 Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
             });
         });
@@ -283,7 +350,7 @@ public class MainView implements Initializable {
         this.text_client_code.setText("");
         this.text_client_code.setDisable(false);
         this.check_register_manual.setSelected(false);
-        this.check_client_leave.setSelected(false);
+        //this.check_client_leave.setSelected(false);
         this.text_client_name.setDisable(true);
         this.button_plus_hour.setDisable(true);
         this.button_less_hour.setDisable(true);
