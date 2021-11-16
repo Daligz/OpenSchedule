@@ -200,6 +200,10 @@ public class MainView implements Initializable {
         this.check_register_manual.setOnMouseClicked(mouseEvent -> {
             final boolean isSelected = !(this.check_register_manual.isSelected());
             this.text_client_name.setDisable(isSelected);
+        });
+
+        this.check_client_leave.setOnMouseClicked(mouseEvent -> {
+            final boolean isSelected = !(this.check_client_leave.isSelected());
             this.button_plus_hour.setDisable(isSelected);
             this.button_less_hour.setDisable(isSelected);
             this.button_plus_minutes.setDisable(isSelected);
@@ -270,6 +274,7 @@ public class MainView implements Initializable {
         this.text_client_name.setText("");
         this.text_client_code.setText("");
         this.check_register_manual.setSelected(false);
+        this.check_client_leave.setSelected(false);
         this.text_client_name.setDisable(true);
         this.button_plus_hour.setDisable(true);
         this.button_less_hour.setDisable(true);
