@@ -220,9 +220,25 @@ public class MainView implements Initializable {
         })));
 
         // Register buttons
+        this.button_client_register.setOnMouseClicked(mouseEvent -> {
+            this.text_client_name.setText("");
+            this.text_client_code.setText("");
+            this.check_register_manual.setSelected(false);
+            this.text_client_name.setDisable(true);
+            this.button_plus_hour.setDisable(true);
+            this.button_less_hour.setDisable(true);
+            this.button_plus_minutes.setDisable(true);
+            this.button_less_minutes.setDisable(true);
+        });
         this.button_client_cancel.setOnMouseClicked(mouseEvent -> {
             this.text_client_name.setText("");
             this.text_client_code.setText("");
+            this.check_register_manual.setSelected(false);
+            this.text_client_name.setDisable(true);
+            this.button_plus_hour.setDisable(true);
+            this.button_less_hour.setDisable(true);
+            this.button_plus_minutes.setDisable(true);
+            this.button_less_minutes.setDisable(true);
         });
     }
 
