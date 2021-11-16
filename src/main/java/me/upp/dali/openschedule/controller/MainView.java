@@ -200,6 +200,7 @@ public class MainView implements Initializable {
         this.check_register_manual.setOnMouseClicked(mouseEvent -> {
             final boolean isSelected = !(this.check_register_manual.isSelected());
             this.text_client_name.setDisable(isSelected);
+            this.text_client_code.setDisable(!(isSelected));
         });
 
         this.check_client_leave.setOnMouseClicked(mouseEvent -> {
@@ -236,7 +237,14 @@ public class MainView implements Initializable {
             final String clientName = this.text_client_name.getText();
             final String clientCode = this.text_client_code.getText();
 
-            if (clientCode.isEmpty()) return;
+            if (this.check_register_manual.isSelected()) {
+                if (clientName.isEmpty()) {
+                    this.setDefaultButtonStates();
+                    return;
+                }
+            } else {
+                if (clientCode.isEmpty()) return;
+            }
 
             final ClientState clientState = ClientState.getInstance();
             ClientState.Client client = null;
@@ -245,12 +253,12 @@ public class MainView implements Initializable {
                     client = value;
                 }
             }
-            if (client == null) {
+            if (client == null && !(this.check_register_manual.isSelected())) {
                 Alert.send("Codigo no encontrado", "El código no es valido!", javafx.scene.control.Alert.AlertType.ERROR);
                 this.setDefaultButtonStates();
                 return;
             }
-            final ClientState.Client finalClient = client;
+            final String phone = (client == null) ? clientName : client.getPhone();
             if (ClientStorage.getInstance().checkLimit()) {
                 Alert.send("Limite de clientes", "Se alcanzo el limite de clientes!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
@@ -259,9 +267,9 @@ public class MainView implements Initializable {
                 TableUserTime.TABLE_NAME.getValue(),
                 String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
                 TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
-                        client.getPhone(), client.getCode().getCode(), new Timestamp(System.currentTimeMillis()))
+                        phone, clientCode, new Timestamp(System.currentTimeMillis()))
             ).whenComplete((aBoolean, throwable) -> {
-                clientState.remove(finalClient.getPhone());
+                clientState.remove(clientCode);
                 this.setDefaultButtonStates();
                 ClientStorage.getInstance().add();
                 Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
@@ -273,6 +281,7 @@ public class MainView implements Initializable {
     private void setDefaultButtonStates() {
         this.text_client_name.setText("");
         this.text_client_code.setText("");
+        this.text_client_code.setDisable(false);
         this.check_register_manual.setSelected(false);
         this.check_client_leave.setSelected(false);
         this.text_client_name.setDisable(true);
