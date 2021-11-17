@@ -76,8 +76,6 @@ public class MainView implements Initializable {
 
     // Register : Search section
     @FXML
-    public TextField text_search_code;
-    @FXML
     public TextField text_search_name;
     @FXML
     public Button button_search;
@@ -152,11 +150,12 @@ public class MainView implements Initializable {
         this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
     }
 
-    private void updateTable() {
+    private void updateTable(final String where) {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+        final String finalWhere = (where.isEmpty()) ? "1 = 1" : where;
         openSchedule.getDatabase().get(
                 TableUserTime.TABLE_NAME.getValue(),
-                "1 = 1"
+                finalWhere
         ).whenComplete((resultSet, throwable) -> {
             if (resultSet == null) return;
             try {
@@ -182,7 +181,13 @@ public class MainView implements Initializable {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
 
         // Search section
-        this.button_update.setOnMouseClicked(mouseEvent -> this.updateTable());
+        this.button_search.setOnMouseClicked(mouseEvent -> {
+            final String text = this.text_search_name.getText();
+            final String where = (text.isEmpty() ? "" : String.format("%s = \"%s\" COLLATE NOCASE", TableUserTime.PHONE.getValue(), this.text_search_name.getText()));
+            this.updateTable(where);
+            this.text_search_name.setText("");
+        });
+        this.button_update.setOnMouseClicked(mouseEvent -> this.updateTable(""));
 
         // Client time
         final SpinnerValueFactory<LocalTime> timeFactory = new SpinnerValueFactory<>() {
@@ -385,7 +390,7 @@ public class MainView implements Initializable {
                         openSchedule.getDatabase().delete(
                                 TableUserTime.TABLE_NAME.getValue(),
                                 String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable());
+                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
                         final String text = this.msg_clients_time_finished.getText()
                                 .replace("%cliente%", finalClient.getName());
                         manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
@@ -401,13 +406,13 @@ public class MainView implements Initializable {
                         openSchedule.getDatabase().delete(
                                 TableUserTime.TABLE_NAME.getValue(),
                                 String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable());
+                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
                         Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
                     });
                     timer.setRepeats(false);
                     timer.start();
                 }
-                this.updateTable();
+                this.updateTable("");
                 Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
             });
         });

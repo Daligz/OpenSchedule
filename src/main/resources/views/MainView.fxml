@@ -21,7 +21,6 @@
          <content>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="text_search_code" layoutX="28.0" layoutY="53.0" prefHeight="25.0" prefWidth="145.0" promptText="Buscar por código" />
                   <AnchorPane layoutX="360.0" layoutY="65.0" />
                   <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Buscar" />
                   <TableView fx:id="table_client_info" layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
@@ -32,7 +31,7 @@
                         <TableColumn fx:id="column_code" prefWidth="130.0" text="Código" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="text_search_name" layoutX="178.0" layoutY="53.0" promptText="Buscar por nombre" />
+                  <TextField fx:id="text_search_name" layoutX="16.0" layoutY="53.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por nombre / teléfono" />
                   <Separator layoutX="632.0" layoutY="19.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="4.0" />
                   <Label layoutX="752.0" layoutY="39.0" prefHeight="23.0" prefWidth="205.0" text="REGISTRO DE ENTRADA">
                      <font>
@@ -59,7 +58,7 @@
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="button_update" layoutX="460.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Button" />
+                  <Button fx:id="button_update" layoutX="460.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Actualizar" />
                </children></Pane>
          </content></Tab>
       <Tab text="Información">
