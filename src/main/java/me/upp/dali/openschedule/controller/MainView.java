@@ -393,7 +393,7 @@ public class MainView implements Initializable {
             final boolean finalTimeToLeave = timeToLeave;
             openSchedule.getDatabase().get(
                     TableUserTime.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableUserTime.CODE.getValue(), code)
+                    String.format("%s = \"%s\" COLLATE NOCASE", TableUserTime.CODE.getValue(), code)
             ).whenComplete((resultSet, throwable) -> {
                 if (resultSet != null) {
                     this.setDefaultButtonStates();
