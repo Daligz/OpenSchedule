@@ -391,50 +391,63 @@ public class MainView implements Initializable {
 
             final ClientState.Client finalClient = client;
             final boolean finalTimeToLeave = timeToLeave;
-            openSchedule.getDatabase().insert(
-                TableUserTime.TABLE_NAME.getValue(),
-                String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
-                TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
-                        phone, code, timeNow)
-            ).whenComplete((aBoolean, throwable) -> {
-                clientState.remove(phone);
-                this.setDefaultButtonStates();
-                ClientStorage.getInstance().add();
-                if (finalClient != null && finalTimeToLeave) {
-                    final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
-                    final WhatsappDataManager manager = whatsappAPI.manager();
-                    manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, finalClient.getName() + " disfruta tu estancia!"));
-                    final Timer timer = new Timer(DataTime.timeToMilliseconds(
-                            (timeNow.getHours() - DataTime.getTimeNow().getHours()),
-                            (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
-                    ), event -> {
-                        openSchedule.getDatabase().delete(
-                                TableUserTime.TABLE_NAME.getValue(),
-                                String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
-                        final String text = this.msg_clients_time_finished.getText()
-                                .replace("%cliente%", finalClient.getName());
-                        manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
-                        Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + finalClient.getName() + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
-                } else if (finalTimeToLeave) {
-                    final Timer timer = new Timer(DataTime.timeToMilliseconds(
-                            (timeNow.getHours() - DataTime.getTimeNow().getHours()),
-                            (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
-                    ), event -> {
-                        openSchedule.getDatabase().delete(
-                                TableUserTime.TABLE_NAME.getValue(),
-                                String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
-                        Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
-                    });
-                    timer.setRepeats(false);
-                    timer.start();
+            openSchedule.getDatabase().get(
+                    TableUserTime.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableUserTime.CODE.getValue(), code)
+            ).whenComplete((resultSet, throwable) -> {
+                if (resultSet != null) {
+                    this.setDefaultButtonStates();
+                    Platform.runLater(() -> Alert.send("Usuario ya registrado!", "El usuario ya esta registrado", javafx.scene.control.Alert.AlertType.INFORMATION));
+                    if (finalClient != null) {
+                        clientState.remove(finalClient.getPhone());
+                    }
+                    return;
                 }
-                this.updateTable("");
-                Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                openSchedule.getDatabase().insert(
+                        TableUserTime.TABLE_NAME.getValue(),
+                        String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
+                                TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
+                                phone, code, timeNow)
+                ).whenComplete((aBoolean, throwable2) -> {
+                    clientState.remove(phone);
+                    this.setDefaultButtonStates();
+                    ClientStorage.getInstance().add();
+                    if (finalClient != null && finalTimeToLeave) {
+                        final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
+                        final WhatsappDataManager manager = whatsappAPI.manager();
+                        manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, finalClient.getName() + " disfruta tu estancia!"));
+                        final Timer timer = new Timer(DataTime.timeToMilliseconds(
+                                (timeNow.getHours() - DataTime.getTimeNow().getHours()),
+                                (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
+                        ), event -> {
+                            openSchedule.getDatabase().delete(
+                                    TableUserTime.TABLE_NAME.getValue(),
+                                    String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+                            final String text = this.msg_clients_time_finished.getText()
+                                    .replace("%cliente%", finalClient.getName());
+                            manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
+                            Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + finalClient.getName() + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                    } else if (finalTimeToLeave) {
+                        final Timer timer = new Timer(DataTime.timeToMilliseconds(
+                                (timeNow.getHours() - DataTime.getTimeNow().getHours()),
+                                (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
+                        ), event -> {
+                            openSchedule.getDatabase().delete(
+                                    TableUserTime.TABLE_NAME.getValue(),
+                                    String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+                            Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
+                    }
+                    this.updateTable("");
+                    Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                });
             });
         });
         this.button_client_cancel.setOnMouseClicked(mouseEvent -> this.setDefaultButtonStates());
