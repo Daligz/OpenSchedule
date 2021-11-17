@@ -174,7 +174,7 @@ public class MainView implements Initializable {
                             )
                     );
                 } while (resultSet.next());
-                this.table_client_info.setItems(FXCollections.observableArrayList(clientTables));
+                Platform.runLater(() -> this.table_client_info.setItems(FXCollections.observableArrayList(clientTables)));
             } catch (final SQLException ex) {
                 ex.printStackTrace();
             }
