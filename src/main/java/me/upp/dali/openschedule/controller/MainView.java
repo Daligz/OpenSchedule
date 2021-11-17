@@ -182,6 +182,7 @@ public class MainView implements Initializable {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
 
         // Search section
+        this.button_update.setOnMouseClicked(mouseEvent -> this.updateTable());
 
         // Client time
         final SpinnerValueFactory<LocalTime> timeFactory = new SpinnerValueFactory<>() {
