@@ -16,6 +16,7 @@ import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 import me.upp.dali.openschedule.model.database.utils.DataTime;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -70,10 +71,22 @@ public class MainView implements Initializable {
     public TextArea msg_clients_time;
     @FXML
     public Button msg_clients_time_button;
-
-    // P E N D I N G //
-
+    
     // Register : Search section
+    @FXML
+    public TextField text_search_code;
+    @FXML
+    public TextField text_search_name;
+    @FXML
+    public Button button_search;
+    @FXML
+    public TableColumn column_phone_name;
+    @FXML
+    public TableColumn column_time_start;
+    @FXML
+    public TableColumn column_time_finish;
+    @FXML
+    public TableColumn column_code;
 
     // Register : Register section
     @FXML

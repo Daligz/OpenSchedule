@@ -21,18 +21,18 @@
          <content>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField layoutX="28.0" layoutY="53.0" prefHeight="25.0" prefWidth="145.0" promptText="Buscar por código" />
-                  <AnchorPane layoutX="360.0" layoutY="65.0" />
-                  <Button layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="259.0" text="Buscar" />
+                  <TextField fx:id="text_search_code" layoutX="28.0" layoutY="53.0" prefHeight="25.0" prefWidth="145.0" promptText="Buscar por código" />
+                  <AnchorPane fx:id="text_search_code" layoutX="360.0" layoutY="65.0" />
+                  <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="259.0" text="Buscar" />
                   <TableView layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
                     <columns>
-                      <TableColumn prefWidth="139.0" text="Nombre" />
-                      <TableColumn prefWidth="160.0" text="Hora de inicio" />
-                        <TableColumn prefWidth="116.0" text="Hora de salida" />
-                        <TableColumn prefWidth="166.0" text="Archivo" />
+                      <TableColumn fx:id="column_phone_name" prefWidth="157.0" text="Teléfono / Nombre" />
+                      <TableColumn fx:id="column_time_start" prefWidth="169.0" text="Hora de inicio" />
+                        <TableColumn fx:id="column_time_finish" prefWidth="125.0" text="Hora de salida" />
+                        <TableColumn fx:id="column_code" prefWidth="130.0" text="Código" />
                     </columns>
                   </TableView>
-                  <TextField layoutX="178.0" layoutY="53.0" promptText="Buscar por nombre" />
+                  <TextField fx:id="text_search_name" layoutX="178.0" layoutY="53.0" promptText="Buscar por nombre" />
                   <Separator layoutX="632.0" layoutY="19.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="4.0" />
                   <Label layoutX="752.0" layoutY="39.0" prefHeight="23.0" prefWidth="205.0" text="REGISTRO DE ENTRADA">
                      <font>
