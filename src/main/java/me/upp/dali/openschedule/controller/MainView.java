@@ -126,6 +126,7 @@ public class MainView implements Initializable {
         this.initializeColumns();
         this.loadMessages();
         this.registerButtonEvents();
+        this.updateTable("");
     }
 
     private void loadMessages() {
@@ -187,7 +188,26 @@ public class MainView implements Initializable {
             this.updateTable(where);
             this.text_search_name.setText("");
         });
+
         this.button_update.setOnMouseClicked(mouseEvent -> this.updateTable(""));
+
+        this.table_client_info.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection == null) {
+                this.text_client_code.setText("");
+                return;
+            }
+            if (this.text_client_code.isDisable()) return;
+            this.text_client_code.setText(newSelection.getCode());
+        });
+
+        this.button_client_leave.setOnMouseClicked(mouseEvent -> {
+            final String codeText = this.text_client_code.getText();
+            if (codeText.isEmpty()) return;
+            openSchedule.getDatabase().delete(
+                    TableUserTime.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), codeText)
+            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+        });
 
         // Client time
         final SpinnerValueFactory<LocalTime> timeFactory = new SpinnerValueFactory<>() {
@@ -354,6 +374,7 @@ public class MainView implements Initializable {
                 return;
             }
             final String phone = (client == null) ? clientName : client.getPhone();
+            final String code = (client == null) ? phone : client.getCode().getCode();
             if (ClientStorage.getInstance().checkLimit()) {
                 Alert.send("Limite de clientes", "Se alcanzo el limite de clientes!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
@@ -374,7 +395,7 @@ public class MainView implements Initializable {
                 TableUserTime.TABLE_NAME.getValue(),
                 String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")",
                 TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
-                        phone, clientCode, timeNow)
+                        phone, code, timeNow)
             ).whenComplete((aBoolean, throwable) -> {
                 clientState.remove(phone);
                 this.setDefaultButtonStates();
