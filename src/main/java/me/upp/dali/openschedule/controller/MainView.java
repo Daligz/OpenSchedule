@@ -383,6 +383,7 @@ public class MainView implements Initializable {
             final String code = (client == null) ? phone : client.getCode().getCode();
             if (ClientStorage.getInstance().checkLimit()) {
                 Alert.send("Limite de clientes", "Se alcanzo el limite de clientes!", javafx.scene.control.Alert.AlertType.ERROR);
+                this.setDefaultButtonStates();
                 return;
             }
 
@@ -418,10 +419,12 @@ public class MainView implements Initializable {
                     clientState.remove(phone);
                     this.setDefaultButtonStates();
                     ClientStorage.getInstance().add();
-                    if (finalClient != null && finalTimeToLeave) {
-                        final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
-                        final WhatsappDataManager manager = whatsappAPI.manager();
+                    final WhatsappAPI whatsappAPI = openSchedule.getMessagesAPI().getWhatsappAPI();
+                    final WhatsappDataManager manager = whatsappAPI.manager();
+                    if (finalClient != null) {
                         manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, finalClient.getName() + " disfruta tu estancia!"));
+                    }
+                    if (finalClient != null && finalTimeToLeave) {
                         final Timer timer = new Timer(DataTime.timeToMilliseconds(
                                 (timeNow.getHours() - DataTime.getTimeNow().getHours()),
                                 (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())

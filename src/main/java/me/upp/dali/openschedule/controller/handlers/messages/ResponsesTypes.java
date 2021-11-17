@@ -96,67 +96,76 @@ public enum ResponsesTypes {
                     return;
                 }
                 openSchedule.getDatabase().get(
-                        TableUser.TABLE_NAME.getValue(),
-                        String.format("%s = \"%s\"", TableUser.PHONE.getValue(), phone)
-                ).whenComplete((resultSet, throwable) -> {
-                    if (resultSet == null || throwable != null) {
-                        clientState.set(
-                                phone,
-                                new ClientState.Client(
-                                        name, phone, ClientState.Status.REGISTER_CLIENT, new Code(), new Date(System.currentTimeMillis()), jid
-                                )
-                        );
-                    } else {
-                        try {
+                        TableUserTime.TABLE_NAME.getValue(),
+                        String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                ).whenComplete((result, throwable2) -> {
+                    if (result != null) {
+                        whatsappAPI.sendMessage(chat, "Ya te encuentras en el establecimiento!");
+                        return;
+                    }
+                    openSchedule.getDatabase().get(
+                            TableUser.TABLE_NAME.getValue(),
+                            String.format("%s = \"%s\"", TableUser.PHONE.getValue(), phone)
+                    ).whenComplete((resultSet, throwable) -> {
+                        if (resultSet == null || throwable != null) {
                             clientState.set(
                                     phone,
                                     new ClientState.Client(
-                                            resultSet.getString(TableUser.NAME.getValue()),
-                                            resultSet.getString(TableUser.PHONE.getValue()),
-                                            ClientState.Status.REGISTER_KNOWN_CLIENT,
-                                            new Code(),
-                                            new Date(System.currentTimeMillis()),
-                                            jid
+                                            name, phone, ClientState.Status.REGISTER_CLIENT, new Code(), new Date(System.currentTimeMillis()), jid
                                     )
                             );
-                        } catch (final SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    final ClientState.Client client = clientState.get(phone);
-                    final MainView mainView = MainView.getInstance();
-                    if (client.getStatus() == ClientState.Status.REGISTER_CLIENT) {
-                        final String text = mainView.msg_clients_register_name.getText();
-                        client.setStatus(ClientState.Status.REGISTER_NAME_REQUEST);
-                        whatsappAPI.sendMessage(chat, text);
-                    } else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
-                        final Timer timer = new Timer(1800000, event -> { // 1800000 milisengundos = 30 minutos
-                            if (clientState.contains(phone)) {
-                                clientState.remove(phone);
-                                final String codeText = mainView.msg_clients_code_expired.getText()
-                                        .replace("%cliente%", client.getName())
-                                        .replace("%codigo%", client.getCode().getCode());
-                                whatsappAPI.sendMessage(chat, codeText);
+                        } else {
+                            try {
+                                clientState.set(
+                                        phone,
+                                        new ClientState.Client(
+                                                resultSet.getString(TableUser.NAME.getValue()),
+                                                resultSet.getString(TableUser.PHONE.getValue()),
+                                                ClientState.Status.REGISTER_KNOWN_CLIENT,
+                                                new Code(),
+                                                new Date(System.currentTimeMillis()),
+                                                jid
+                                        )
+                                );
+                            } catch (final SQLException e) {
+                                e.printStackTrace();
                             }
-                        });
-                        timer.setRepeats(false);
-                        timer.start();
-                        client.getCode().generateCode(client);
-                        final String codeText = mainView.msg_clients_code.getText()
-                                .replace("%cliente%", client.getName())
-                                .replace("%codigo%", client.getCode().getCode())
-                                .replace("%tiempo%", "30 minutos");
-                        whatsappAPI.sendMessage(chat, codeText);
-                        client.setStatus(ClientState.Status.NONE);
-                    } else {
-                        whatsappAPI.sendMessage(chat, "Ya tienes un código, registralo en la entrada del establecimiento.");
-                    }
+                        }
+                        final ClientState.Client client = clientState.get(phone);
+                        final MainView mainView = MainView.getInstance();
+                        if (client.getStatus() == ClientState.Status.REGISTER_CLIENT) {
+                            final String text = mainView.msg_clients_register_name.getText();
+                            client.setStatus(ClientState.Status.REGISTER_NAME_REQUEST);
+                            whatsappAPI.sendMessage(chat, text);
+                        } else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
+                            final Timer timer = new Timer(1800000, event -> { // 1800000 milisengundos = 30 minutos
+                                if (clientState.contains(phone)) {
+                                    clientState.remove(phone);
+                                    final String codeText = mainView.msg_clients_code_expired.getText()
+                                            .replace("%cliente%", client.getName())
+                                            .replace("%codigo%", client.getCode().getCode());
+                                    whatsappAPI.sendMessage(chat, codeText);
+                                }
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
+                            client.getCode().generateCode(client);
+                            final String codeText = mainView.msg_clients_code.getText()
+                                    .replace("%cliente%", client.getName())
+                                    .replace("%codigo%", client.getCode().getCode())
+                                    .replace("%tiempo%", "30 minutos");
+                            whatsappAPI.sendMessage(chat, codeText);
+                            client.setStatus(ClientState.Status.NONE);
+                        } else {
+                            whatsappAPI.sendMessage(chat, "Ya tienes un código, registralo en la entrada del establecimiento.");
+                        }
                     /*else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
                         final String text = mainView.msg_clients_register_known_client.getText()
                                 .replace("%cliente%", client.getName());
                         client.setStatus(ClientState.Status.YES_NO_REQUEST);
                         whatsappAPI.sendMessage(chat, text);
                     }*/
+                    });
                 });
             }),
     CLIENTS_TIME(
@@ -170,7 +179,7 @@ public enum ResponsesTypes {
                         String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
                 ).whenComplete((resultSet, throwable) -> {
                     if (resultSet == null || throwable != null) {
-                        whatsappAPI.sendMessage(chat, "Debes de ingresar al gimnasio!");
+                        whatsappAPI.sendMessage(chat, "Debes de ingresar al establecimiento!");
                         return;
                     }
                     String timeText = "";
