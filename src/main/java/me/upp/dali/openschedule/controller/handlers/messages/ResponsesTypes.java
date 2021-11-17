@@ -149,7 +149,7 @@ public enum ResponsesTypes {
                         whatsappAPI.sendMessage(chat, codeText);
                         client.setStatus(ClientState.Status.NONE);
                     } else {
-                        System.out.println("AAAAAAAAAAA - " + client.getStatus().name());
+                        whatsappAPI.sendMessage(chat, "Ya tienes un código, registralo en la entrada del establecimiento.");
                     }
                     /*else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
                         final String text = mainView.msg_clients_register_known_client.getText()

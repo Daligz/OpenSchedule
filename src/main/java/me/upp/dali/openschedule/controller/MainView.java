@@ -158,7 +158,10 @@ public class MainView implements Initializable {
                 TableUserTime.TABLE_NAME.getValue(),
                 finalWhere
         ).whenComplete((resultSet, throwable) -> {
-            if (resultSet == null) return;
+            if (resultSet == null) {
+                this.table_client_info.setItems(FXCollections.observableArrayList());
+                return;
+            }
             try {
                 final ArrayList<ClientState.ClientTable> clientTables = new ArrayList<>();
                 do {
@@ -205,8 +208,11 @@ public class MainView implements Initializable {
             if (codeText.isEmpty()) return;
             openSchedule.getDatabase().delete(
                     TableUserTime.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), codeText)
-            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+                    String.format("%s = \"%s\"", TableUserTime.CODE.getValue(), codeText)
+            ).whenComplete((aBoolean1, throwable1) -> {
+                this.updateTable("");
+                ClientStorage.getInstance().remove();
+            });
         });
 
         // Client time
@@ -423,7 +429,10 @@ public class MainView implements Initializable {
                             openSchedule.getDatabase().delete(
                                     TableUserTime.TABLE_NAME.getValue(),
                                     String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+                            ).whenComplete((aBoolean1, throwable1) -> {
+                                this.updateTable("");
+                                ClientStorage.getInstance().remove();
+                            });
                             final String text = this.msg_clients_time_finished.getText()
                                     .replace("%cliente%", finalClient.getName());
                             manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
@@ -439,7 +448,10 @@ public class MainView implements Initializable {
                             openSchedule.getDatabase().delete(
                                     TableUserTime.TABLE_NAME.getValue(),
                                     String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                            ).whenComplete((aBoolean1, throwable1) -> this.updateTable(""));
+                            ).whenComplete((aBoolean1, throwable1) -> {
+                                this.updateTable("");
+                                ClientStorage.getInstance().remove();
+                            });
                             Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
                         });
                         timer.setRepeats(false);
