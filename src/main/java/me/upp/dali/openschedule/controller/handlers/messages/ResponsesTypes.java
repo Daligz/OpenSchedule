@@ -99,7 +99,7 @@ public enum ResponsesTypes {
                         TableUser.TABLE_NAME.getValue(),
                         String.format("%s = \"%s\"", TableUser.PHONE.getValue(), phone)
                 ).whenComplete((resultSet, throwable) -> {
-                    if (resultSet == null || throwable != null && !(clientState.contains(phone))) {
+                    if (resultSet == null || throwable != null) {
                         clientState.set(
                                 phone,
                                 new ClientState.Client(
@@ -148,6 +148,8 @@ public enum ResponsesTypes {
                                 .replace("%tiempo%", "30 minutos");
                         whatsappAPI.sendMessage(chat, codeText);
                         client.setStatus(ClientState.Status.NONE);
+                    } else {
+                        System.out.println("AAAAAAAAAAA - " + client.getStatus().name());
                     }
                     /*else if (client.getStatus() == ClientState.Status.REGISTER_KNOWN_CLIENT) {
                         final String text = mainView.msg_clients_register_known_client.getText()

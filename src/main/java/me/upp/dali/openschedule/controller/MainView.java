@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -81,13 +82,15 @@ public class MainView implements Initializable {
     @FXML
     public Button button_search;
     @FXML
+    public Button button_update;
+    @FXML
     public TableView<ClientState.ClientTable> table_client_info;
     @FXML
     public TableColumn<ClientState.ClientTable, String> column_phone_name;
     @FXML
-    public TableColumn<ClientState.ClientTable, Timestamp> column_time_start;
+    public TableColumn<ClientState.ClientTable, String> column_time_start;
     @FXML
-    public TableColumn<ClientState.ClientTable, Timestamp> column_time_finish;
+    public TableColumn<ClientState.ClientTable, String> column_time_finish;
     @FXML
     public TableColumn<ClientState.ClientTable, String> column_code;
 
@@ -143,14 +146,36 @@ public class MainView implements Initializable {
     }
 
     private void initializeColumns() {
-        this.column_phone_name.setCellValueFactory(new PropertyValueFactory<>("Teléfono / Nombre"));
-        this.column_time_start.setCellValueFactory(new PropertyValueFactory<>("Hora de inicio"));
-        this.column_time_finish.setCellValueFactory(new PropertyValueFactory<>("Hora de salida"));
-        this.column_code.setCellValueFactory(new PropertyValueFactory<>("Código"));
+        this.column_phone_name.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        this.column_time_start.setCellValueFactory(new PropertyValueFactory<>("Start"));
+        this.column_time_finish.setCellValueFactory(new PropertyValueFactory<>("End"));
+        this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
     }
 
     private void updateTable() {
-        this.table_client_info.setItems(FXCollections.observableArrayList(ClientState.getInstance().getClientTables()));
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+        openSchedule.getDatabase().get(
+                TableUserTime.TABLE_NAME.getValue(),
+                "1 = 1"
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null) return;
+            try {
+                final ArrayList<ClientState.ClientTable> clientTables = new ArrayList<>();
+                do {
+                    clientTables.add(
+                            new ClientState.ClientTable(
+                                    resultSet.getString(TableUserTime.PHONE.getValue()),
+                                    resultSet.getString(TableUserTime.CODE.getValue()),
+                                    resultSet.getTimestamp(TableUserTime.TIME_START.getValue()),
+                                    resultSet.getTimestamp(TableUserTime.TIME_FINISH.getValue())
+                            )
+                    );
+                } while (resultSet.next());
+                this.table_client_info.setItems(FXCollections.observableArrayList(clientTables));
+            } catch (final SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void registerButtonEvents() {
@@ -345,7 +370,7 @@ public class MainView implements Initializable {
                 TableUserTime.PHONE.getValue(), TableUserTime.CODE.getValue(), TableUserTime.TIME_FINISH.getValue(),
                         phone, clientCode, timeNow)
             ).whenComplete((aBoolean, throwable) -> {
-                clientState.remove(clientCode);
+                clientState.remove(phone);
                 this.setDefaultButtonStates();
                 ClientStorage.getInstance().add();
                 if (finalClient != null && finalTimeToLeave) {
@@ -356,6 +381,10 @@ public class MainView implements Initializable {
                             (timeNow.getHours() - DataTime.getTimeNow().getHours()),
                             (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
                     ), event -> {
+                        openSchedule.getDatabase().delete(
+                                TableUserTime.TABLE_NAME.getValue(),
+                                String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable());
                         final String text = this.msg_clients_time_finished.getText()
                                 .replace("%cliente%", finalClient.getName());
                         manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
@@ -371,12 +400,13 @@ public class MainView implements Initializable {
                         openSchedule.getDatabase().delete(
                                 TableUserTime.TABLE_NAME.getValue(),
                                 String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                        );
+                        ).whenComplete((aBoolean1, throwable1) -> this.updateTable());
                         Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + clientName + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
                     });
                     timer.setRepeats(false);
                     timer.start();
                 }
+                this.updateTable();
                 Platform.runLater(() -> Alert.send("Registro de usuario", "Usuario registrado.", javafx.scene.control.Alert.AlertType.INFORMATION));
             });
         });
