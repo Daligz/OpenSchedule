@@ -6,8 +6,13 @@ import lombok.Setter;
 import me.upp.dali.openschedule.controller.others.AbstractDataMap;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class ClientState extends AbstractDataMap<String, ClientState.Client> {
+
+    @Getter
+    private final ArrayList<ClientTable> clientTables = new ArrayList<>();
 
     private static ClientState INSTANCE;
 
@@ -23,6 +28,13 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
         private final Code code;
         private final Date date;
         private final String jid;
+    }
+
+    @Getter @Setter
+    @AllArgsConstructor
+    public static class ClientTable {
+        private String phone, code;
+        private Timestamp inicio, fin;
     }
 
     public static ClientState getInstance() {

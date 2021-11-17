@@ -3,9 +3,11 @@ package me.upp.dali.openschedule.controller;
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.NonNull;
 import me.upp.dali.openschedule.OpenSchedule;
 import me.upp.dali.openschedule.controller.client.ClientState;
@@ -16,7 +18,6 @@ import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 import me.upp.dali.openschedule.model.database.utils.DataTime;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -71,7 +72,7 @@ public class MainView implements Initializable {
     public TextArea msg_clients_time;
     @FXML
     public Button msg_clients_time_button;
-    
+
     // Register : Search section
     @FXML
     public TextField text_search_code;
@@ -80,13 +81,15 @@ public class MainView implements Initializable {
     @FXML
     public Button button_search;
     @FXML
-    public TableColumn column_phone_name;
+    public TableView<ClientState.ClientTable> table_client_info;
     @FXML
-    public TableColumn column_time_start;
+    public TableColumn<ClientState.ClientTable, String> column_phone_name;
     @FXML
-    public TableColumn column_time_finish;
+    public TableColumn<ClientState.ClientTable, Timestamp> column_time_start;
     @FXML
-    public TableColumn column_code;
+    public TableColumn<ClientState.ClientTable, Timestamp> column_time_finish;
+    @FXML
+    public TableColumn<ClientState.ClientTable, String> column_code;
 
     // Register : Register section
     @FXML
@@ -119,6 +122,7 @@ public class MainView implements Initializable {
     @Override
     public void initialize(final URL url, final ResourceBundle resourceBundle) {
         INSTANCE = this;
+        this.initializeColumns();
         this.loadMessages();
         this.registerButtonEvents();
     }
@@ -138,8 +142,21 @@ public class MainView implements Initializable {
         }));
     }
 
+    private void initializeColumns() {
+        this.column_phone_name.setCellValueFactory(new PropertyValueFactory<>("Teléfono / Nombre"));
+        this.column_time_start.setCellValueFactory(new PropertyValueFactory<>("Hora de inicio"));
+        this.column_time_finish.setCellValueFactory(new PropertyValueFactory<>("Hora de salida"));
+        this.column_code.setCellValueFactory(new PropertyValueFactory<>("Código"));
+    }
+
+    private void updateTable() {
+        this.table_client_info.setItems(FXCollections.observableArrayList(ClientState.getInstance().getClientTables()));
+    }
+
     private void registerButtonEvents() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+
+        // Search section
 
         // Client time
         final SpinnerValueFactory<LocalTime> timeFactory = new SpinnerValueFactory<>() {

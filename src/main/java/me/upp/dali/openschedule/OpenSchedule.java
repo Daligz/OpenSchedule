@@ -56,7 +56,6 @@ public class OpenSchedule {
         INSTANCE.setDatabase(database);
         INSTANCE.setMessagesAPI(messagesAPI);
     }
-    //CURRENT_TIMESTAMP
 
     public void createTables(final Database database) {
         database.createTable("tbl_user", "userId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"userId\" AUTOINCREMENT)");

@@ -22,9 +22,9 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="text_search_code" layoutX="28.0" layoutY="53.0" prefHeight="25.0" prefWidth="145.0" promptText="Buscar por código" />
-                  <AnchorPane fx:id="text_search_code" layoutX="360.0" layoutY="65.0" />
+                  <AnchorPane layoutX="360.0" layoutY="65.0" />
                   <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="259.0" text="Buscar" />
-                  <TableView layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
+                  <TableView fx:id="table_client_info" layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
                     <columns>
                       <TableColumn fx:id="column_phone_name" prefWidth="157.0" text="Teléfono / Nombre" />
                       <TableColumn fx:id="column_time_start" prefWidth="169.0" text="Hora de inicio" />
