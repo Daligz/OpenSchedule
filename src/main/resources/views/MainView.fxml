@@ -11,6 +11,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -22,7 +24,10 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <AnchorPane layoutX="360.0" layoutY="65.0" />
-                  <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Buscar" />
+                  <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Buscar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
                   <TableView fx:id="table_client_info" layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
                     <columns>
                       <TableColumn fx:id="column_phone_name" prefWidth="157.0" text="Teléfono / Nombre" />
@@ -31,17 +36,23 @@
                         <TableColumn fx:id="column_code" prefWidth="130.0" text="Código" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="text_search_name" layoutX="16.0" layoutY="53.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por nombre / teléfono" />
+                  <TextField fx:id="text_search_name" layoutX="16.0" layoutY="53.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por teléfono / nombre" />
                   <Separator layoutX="632.0" layoutY="19.0" orientation="VERTICAL" prefHeight="481.0" prefWidth="4.0" />
-                  <Label layoutX="752.0" layoutY="39.0" prefHeight="23.0" prefWidth="205.0" text="REGISTRO DE ENTRADA">
+                  <Label layoutX="752.0" layoutY="39.0" prefHeight="23.0" prefWidth="205.0" text="REGISTRO DE ENTRADA" textFill="#fe5f55">
                      <font>
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
                   <Label layoutX="682.0" layoutY="92.0" text="Código" />
                   <TextField fx:id="text_client_code" layoutX="682.0" layoutY="115.0" prefHeight="25.0" prefWidth="312.0" promptText="Código de cliente" />
-                  <Button fx:id="button_client_register" layoutX="722.0" layoutY="388.0" mnemonicParsing="false" text="Registrar" />
-                  <Button fx:id="button_client_cancel" layoutX="890.0" layoutY="388.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Cancelar" />
+                  <Button fx:id="button_client_register" layoutX="682.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="register-blue" text="    Registrar" textFill="#f6f8ff">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font></Button>
+                  <Button fx:id="button_client_cancel" layoutX="922.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" styleClass="register-blue" text="  Cancelar" textAlignment="RIGHT">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font></Button>
                   <Spinner fx:id="spn_client_hour_leave" layoutX="682.0" layoutY="225.0" prefHeight="25.0" prefWidth="223.0" />
                   <Button fx:id="button_plus_hour" disable="true" layoutX="685.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="+1 hora" />
                   <Button fx:id="button_less_hour" disable="true" layoutX="686.0" layoutY="307.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="-1 hora" />
@@ -52,13 +63,69 @@
                   <Label layoutX="683.0" layoutY="146.0" text="Nombre" />
                   <TextField fx:id="text_client_name" disable="true" layoutX="683.0" layoutY="169.0" prefHeight="25.0" prefWidth="312.0" promptText="Nombre de cliente" />
                   <CheckBox fx:id="check_register_manual" layoutX="728.0" layoutY="92.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Registro manual" />
-                  <Button fx:id="button_client_leave" layoutX="807.0" layoutY="388.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Salida" />
-                  <Label layoutX="250.0" layoutY="19.0" prefHeight="23.0" prefWidth="111.0" text="BUSQUEDAS">
+                  <Button fx:id="button_client_leave" layoutX="800.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="109.0" styleClass="register-blue" text="Salida" textAlignment="RIGHT">
+                     <font>
+                        <Font name="Arial Bold" size="13.0" />
+                     </font></Button>
+                  <Label layoutX="250.0" layoutY="19.0" prefHeight="23.0" prefWidth="111.0" text="BUSQUEDAS" textFill="#fe5f55">
                      <font>
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
-                  <Button fx:id="button_update" layoutX="460.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Actualizar" />
+                  <Button fx:id="button_update" layoutX="460.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" text="Actualizar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Button>
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="425.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/busquedas.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="563.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="689.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/agregar-usuario.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="301.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/usuario.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="811.0" layoutY="405.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/salir.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="929.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/cancelar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="700.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/mas.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="700.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/menos.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="862.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/mas.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="861.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/menos.png" />
+                     </image>
+                  </ImageView>
                </children></Pane>
          </content></Tab>
       <Tab text="Información">
@@ -80,12 +147,12 @@
                   <Label layoutX="663.0" layoutY="48.0" prefHeight="17.0" prefWidth="170.0" text="Registro de nombre del cliente" />
                   <TextArea fx:id="msg_clients_register_name" layoutX="659.0" layoutY="70.0" prefHeight="133.0" prefWidth="177.0" text="🔐 Solicitud de acceso 🔐&#10;&#10;👥 Por favor escribe tu nombre:&#10;&#10;🚫 Para cancelar escribe: cancelar" />
                   <Button fx:id="msg_clients_register_name_button" layoutX="660.0" layoutY="211.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
-                  <Label layoutX="650.0" layoutY="15.0" prefHeight="23.0" prefWidth="101.0" text="MENSAJES">
+                  <Label layoutX="597.0" layoutY="12.0" prefHeight="23.0" prefWidth="101.0" text="MENSAJES" textFill="#fe5f55">
                      <font>
                         <Font name="Arial Black" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="85.0" layoutY="27.0" prefHeight="23.0" prefWidth="148.0" text="CONFIGURACIÓN">
+                  <Label layoutX="67.0" layoutY="24.0" prefHeight="23.0" prefWidth="148.0" text="CONFIGURACIÓN" textFill="#fe5f55">
                      <font>
                         <Font name="Arial Black" size="15.0" />
                      </font>
