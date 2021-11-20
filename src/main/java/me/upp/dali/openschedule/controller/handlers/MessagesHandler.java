@@ -17,7 +17,6 @@ import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
 import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.view.ViewLoader;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -43,7 +42,7 @@ public class MessagesHandler implements WhatsappListener {
     @Override
     public void onDisconnected() {
         Platform.runLater(() -> {
-            Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!");
+            // Booter.getInstance().bootStatusText.setText("Desconectado de WhatsApp!");
             System.out.println("Disconected!");
             Alert.send("Desconectado...", "Se desconecto de WhatsApp!, vuelve a ejecutar la aplicion y no cierres la sesion de WhatsApp", javafx.scene.control.Alert.AlertType.ERROR);
             System.exit(0);
@@ -64,7 +63,9 @@ public class MessagesHandler implements WhatsappListener {
     @Override
     public void onQRCode(@NonNull final BitMatrix bitMatrix) {
         Platform.runLater(() -> {
+            Booter.getInstance().setInMainView(true);
             Booter.getInstance().bootStatusText.setText("Escanea el codigo qr...");
+            Booter.getInstance().bootMainImage.setImage(null);
             Booter.getInstance().bootMainImage.setImage(
                     SwingFXUtils.toFXImage(this.convertToImage(bitMatrix), null)
             );
