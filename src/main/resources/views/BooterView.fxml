@@ -8,7 +8,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="514.0" stylesheets="@styles/BooterViewStyle.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.upp.dali.openschedule.controller.Booter">
    <children>
-      <Label fx:id="bootStatusText" layoutX="76.0" layoutY="302.0" prefHeight="23.0" prefWidth="370.0" text="Verificando conexión con WhatsApp..." textFill="#ff5c5c">
+      <Label fx:id="bootStatusText" layoutX="52.0" layoutY="303.0" prefHeight="23.0" prefWidth="410.0" text="Verificando conexión con WhatsApp..." textFill="#ff5c5c">
          <font>
             <Font name="Arial Bold Italic" size="20.0" />
          </font>

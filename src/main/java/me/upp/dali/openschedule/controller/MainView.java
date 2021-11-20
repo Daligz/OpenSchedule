@@ -127,6 +127,7 @@ public class MainView implements Initializable {
         this.loadMessages();
         this.registerButtonEvents();
         this.updateTable("");
+        Booter.getInstance().setInMainView(true);
     }
 
     private void loadMessages() {

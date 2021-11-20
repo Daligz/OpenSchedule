@@ -25,6 +25,7 @@ public class OpenSchedule {
     private Connector connector;
     private Database database;
     private MessagesAPI messagesAPI;
+    public static String[] ARGS;
 
     private static OpenSchedule INSTANCE;
 
@@ -34,27 +35,37 @@ public class OpenSchedule {
 
     public static void main(final String[] args) {
         INSTANCE = new OpenSchedule();
+        ARGS = args;
+        load(args, false);
+    }
 
+    public static void load(final String[] args, final boolean force) {
         // Interfaces loader
-        new Thread(() -> Application.launch(ViewLoader.class, args)).start();
+        if (!(force)) {
+            new Thread(() -> Application.launch(ViewLoader.class, args)).start();
+        }
         System.out.println("Loading...");
 
         // WhatsApp connector
         final MessagesAPI messagesAPI = new MessagesAPI();
         final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
         final WhatsappDataManager manager = whatsappAPI.manager();
-        whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+        if (!(force)) {
+            whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+        }
         whatsappAPI.connect();
 
-        // Database creation
-        final Connector connector = new DatabaseConnector();
-        final Database database = new SQLite(connector);
-        INSTANCE.createTables(database);
+        if (!(force)) {
+            // Database creation
+            final Connector connector = new DatabaseConnector();
+            final Database database = new SQLite(connector);
+            INSTANCE.createTables(database);
 
-        // Singleton instantiation
-        INSTANCE.setConnector(connector);
-        INSTANCE.setDatabase(database);
-        INSTANCE.setMessagesAPI(messagesAPI);
+            // Singleton instantiation
+            INSTANCE.setConnector(connector);
+            INSTANCE.setDatabase(database);
+            INSTANCE.setMessagesAPI(messagesAPI);
+        }
     }
 
     public void createTables(final Database database) {

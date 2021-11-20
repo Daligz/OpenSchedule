@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ public class ViewLoader extends Application {
     private final URL VIEW_MAIN_PATH = this.getClass().getResource("/views/MainView.fxml");
     private final URL VIEW_BOOTER_PATH = this.getClass().getResource("/views/BooterView.fxml");
 
+    @Getter
     private Stage stage;
 
     private static ViewLoader INSTANCE;
