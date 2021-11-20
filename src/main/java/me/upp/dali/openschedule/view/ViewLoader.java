@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class ViewLoader extends Application {
 
     @Override
     public void start(final Stage stage) throws Exception {
+        stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/images/logo.png"))));
         loadView(stage, VIEW_BOOTER_PATH, callbackStage -> {
             callbackStage.setAlwaysOnTop(true);
             callbackStage.setOnCloseRequest(windowEvent -> System.exit(0));
