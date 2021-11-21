@@ -1,6 +1,5 @@
 package me.upp.dali.openschedule.controller.handlers;
 
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import it.auties.whatsapp4j.listener.WhatsappListener;
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
@@ -17,6 +16,7 @@ import me.upp.dali.openschedule.controller.handlers.messages.ResponsesTypes;
 import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.view.ViewLoader;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -74,7 +74,7 @@ public class MessagesHandler implements WhatsappListener {
     }
 
     private BufferedImage convertToImage(@NonNull final BitMatrix bitMatrix) {
-        /* final int height = bitMatrix.getHeight();
+        final int height = bitMatrix.getHeight();
         final int width = bitMatrix.getWidth();
         final BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         bufferedImage.createGraphics();
@@ -90,11 +90,11 @@ public class MessagesHandler implements WhatsappListener {
                     graphics.fillRect(i, j, 1, 1);
                 }
             }
-        }*/
+        }
 
         //final Image scaledInstance = MatrixToImageWriter.toBufferedImage(bitMatrix).getScaledInstance(256, 256, Image.SCALE_SMOOTH););
 
-        //return bufferedImage;
-        return MatrixToImageWriter.toBufferedImage(bitMatrix);
+        return bufferedImage;
+        //return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 }
