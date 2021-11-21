@@ -144,13 +144,13 @@
          <content>
             <Pane prefHeight="519.0" prefWidth="1116.0" styleClass="pane">
                <children>
-                  <Label layoutX="71.0" layoutY="73.0" styleClass="custom-text-label" text="Cantidad de clientes" textFill="#f6f8ff" />
-                  <CheckBox fx:id="check_clients_limit" layoutX="58.0" layoutY="133.0" mnemonicParsing="false" styleClass="custom-text-label" text="Establecer limite" textFill="#f6f8ff" />
-                  <Button fx:id="clients_amount_save_button" layoutX="59.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Guardar" />
+                  <Label layoutX="65.0" layoutY="80.0" styleClass="custom-text-label" text="Cantidad de clientes" textFill="#f6f8ff" />
+                  <CheckBox fx:id="check_clients_limit" layoutX="51.0" layoutY="157.0" mnemonicParsing="false" styleClass="custom-text-label" text="Establecer limite" textFill="#f6f8ff" />
+                  <Button fx:id="clients_amount_save_button" layoutX="51.0" layoutY="236.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Guardar" />
                   <Separator layoutX="262.0" layoutY="23.0" orientation="VERTICAL" prefHeight="452.0" prefWidth="0.0" />
                   <Label layoutX="291.0" layoutY="68.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Información" textFill="#f6f8ff" />
-                  <Spinner fx:id="spn_clients_limit" disable="true" editable="true" layoutX="55.0" layoutY="162.0" />
-                  <Spinner fx:id="spn_clients_amount" editable="true" layoutX="58.0" layoutY="95.0" />
+                  <Spinner fx:id="spn_clients_limit" disable="true" editable="true" layoutX="48.0" layoutY="186.0" />
+                  <Spinner fx:id="spn_clients_amount" editable="true" layoutX="48.0" layoutY="104.0" />
                   <TextArea fx:id="msg_information" layoutX="283.0" layoutY="88.0" prefHeight="133.0" prefWidth="178.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;🕐 Horario: 6:00 A.M. - 9:30 P.M. | Lunes - Sabados&#10;*que te gustaría hacer?* &#10;&#10;1️⃣ Cuantas personas están en el gimnasio&#10;2️⃣ Solicitar acceso al gimnasio&#10;3️⃣ Conocer tiempo en el gimnasio&#10;&#10;_Solo escriba el numero de lo que desea hacer_" />
                   <Button fx:id="msg_information_button" layoutX="284.0" layoutY="229.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
                   <Label layoutX="476.0" layoutY="69.0" prefHeight="17.0" prefWidth="168.0" styleClass="custom-text-label" text="Cantidad de clientes" textFill="#f6f8ff" />
@@ -164,7 +164,7 @@
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="27.0" layoutY="26.0" prefHeight="36.0" prefWidth="211.0" styleClass="custom-text-title" text="CONFIGURACIÓN" textFill="#fdca40">
+                  <Label layoutX="28.0" layoutY="26.0" prefHeight="36.0" prefWidth="211.0" styleClass="custom-text-title" text="CONFIGURACIÓN" textFill="#fdca40">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
