@@ -4,8 +4,15 @@
     -fx-font-family: Bernadette;
 }
 
-*:focused {
-    -fx-focus-color: transparent;
+.custom-text-title {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-font-family: Bernadette;
+}
+
+.custom-text-label {
+    -fx-font-size: 13px;
+    -fx-font-family: Bernadette;
 }
 
 .tab-pane *.tab-header-background {
@@ -62,4 +69,5 @@
     -fx-border-width: 0 0 2 0;
     -fx-border-color: #F6F8FF;
     -fx-text-fill: #babcc4;
+    -fx-font-size: 13px;
 }
