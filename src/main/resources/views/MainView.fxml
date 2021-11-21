@@ -24,11 +24,11 @@
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane">
                <children>
                   <AnchorPane layoutX="360.0" layoutY="65.0" />
-                  <Button fx:id="button_search" layoutX="335.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" styleClass="register-blue" text="Buscar">
+                  <Button fx:id="button_search" layoutX="331.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" styleClass="register-blue" text="Buscar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TableView fx:id="table_client_info" layoutX="14.0" layoutY="86.0" prefHeight="410.0" prefWidth="582.0">
+                  <TableView fx:id="table_client_info" layoutX="10.0" layoutY="107.0" prefHeight="383.0" prefWidth="582.0">
                     <columns>
                       <TableColumn fx:id="column_phone_name" prefWidth="157.0" text="Teléfono / Nombre" />
                       <TableColumn fx:id="column_time_start" prefWidth="151.0" text="Hora de inicio" />
@@ -36,15 +36,18 @@
                         <TableColumn fx:id="column_code" prefWidth="130.0" text="Código" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="text_search_name" layoutX="16.0" layoutY="53.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por teléfono / nombre" styleClass="text-field-search" />
+                  <TextField fx:id="text_search_name" layoutX="12.0" layoutY="67.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por teléfono / nombre" styleClass="text-field-search" />
                   <Separator layoutX="627.0" layoutY="19.0" orientation="VERTICAL" prefHeight="479.0" prefWidth="16.0" />
-                  <Label layoutX="752.0" layoutY="39.0" prefHeight="23.0" prefWidth="205.0" text="REGISTRO DE ENTRADA" textFill="#fdca40">
+                  <Label layoutX="738.0" layoutY="19.0" prefHeight="36.0" prefWidth="289.0" text="REGISTRO DE ENTRADA" textFill="#fdca40">
                      <font>
-                        <Font name="Arial Black" size="15.0" />
+                        <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="682.0" layoutY="92.0" text="Código" textFill="#f6f8ff" />
-                  <TextField fx:id="text_client_code" layoutX="682.0" layoutY="115.0" prefHeight="25.0" prefWidth="312.0" promptText="Código de cliente" />
+                  <Label layoutX="687.0" layoutY="86.0" text="Código" textFill="#f6f8ff">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Label>
+                  <TextField fx:id="text_client_code" layoutX="682.0" layoutY="110.0" prefHeight="25.0" prefWidth="312.0" promptText="Código de cliente" />
                   <Button fx:id="button_client_register" layoutX="682.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="register-blue" text="      Registrar" textFill="#f6f8ff">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
@@ -53,35 +56,44 @@
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font></Button>
-                  <Spinner fx:id="spn_client_hour_leave" layoutX="682.0" layoutY="225.0" prefHeight="25.0" prefWidth="223.0" />
-                  <Button fx:id="button_plus_hour" disable="true" layoutX="685.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="+1 hora" />
-                  <Button fx:id="button_less_hour" disable="true" layoutX="686.0" layoutY="307.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="-1 hora" />
-                  <Button fx:id="button_plus_minutes" disable="true" layoutX="853.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="+10 minutos" />
-                  <Button fx:id="button_less_minutes" disable="true" layoutX="853.0" layoutY="307.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text="-10 minutos" />
-                  <Separator layoutX="687.0" layoutY="355.0" prefHeight="7.0" prefWidth="315.0" />
-                  <CheckBox fx:id="check_client_leave" layoutX="685.0" layoutY="204.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="103.0" text="Hora de salida" textFill="#f6f8ff" />
-                  <Label layoutX="683.0" layoutY="146.0" text="Nombre" textFill="#f6f8ff" />
+                  <Spinner fx:id="spn_client_hour_leave" layoutX="687.0" layoutY="233.0" prefHeight="25.0" prefWidth="223.0" />
+                  <Button fx:id="button_plus_hour" disable="true" layoutX="685.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="+1 hora" />
+                  <Button fx:id="button_less_hour" disable="true" layoutX="686.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="-1 hora" />
+                  <Button fx:id="button_plus_minutes" disable="true" layoutX="853.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="+10 minutos" />
+                  <Button fx:id="button_less_minutes" disable="true" layoutX="853.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text="-10 minutos" />
+                  <Separator layoutX="682.0" layoutY="364.0" prefHeight="7.0" prefWidth="315.0" />
+                  <CheckBox fx:id="check_client_leave" layoutX="686.0" layoutY="207.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="113.0" text="Hora de salida" textFill="#f6f8ff">
+                     <font>
+                        <Font size="13.0" />
+                     </font></CheckBox>
+                  <Label layoutX="686.0" layoutY="148.0" text="Nombre" textFill="#f6f8ff">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Label>
                   <TextField fx:id="text_client_name" disable="true" layoutX="683.0" layoutY="169.0" prefHeight="25.0" prefWidth="312.0" promptText="Nombre de cliente" />
-                  <CheckBox fx:id="check_register_manual" layoutX="728.0" layoutY="92.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Registro manual" textFill="#f6f8ff" />
+                  <CheckBox fx:id="check_register_manual" layoutX="733.0" layoutY="84.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" text="Registro manual" textFill="#f6f8ff">
+                     <font>
+                        <Font size="13.0" />
+                     </font></CheckBox>
                   <Button fx:id="button_client_leave" layoutX="800.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="109.0" styleClass="register-blue" text="   Salida" textAlignment="RIGHT">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font></Button>
-                  <Label layoutX="250.0" layoutY="19.0" prefHeight="23.0" prefWidth="111.0" text="BUSQUEDAS" textFill="#fdca40">
+                  <Label layoutX="225.0" layoutY="19.0" prefHeight="36.0" prefWidth="152.0" text="BUSQUEDAS" textFill="#fdca40">
                      <font>
-                        <Font name="Arial Black" size="15.0" />
+                        <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="button_update" layoutX="460.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
+                  <Button fx:id="button_update" layoutX="456.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="346.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="342.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/busquedas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="467.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="463.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/guardar.png" />
                      </image>
@@ -91,7 +103,7 @@
                         <Image url="@../images/iconos/agregar-usuario.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="301.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="297.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/usuario.png" />
                      </image>
@@ -106,22 +118,22 @@
                         <Image url="@../images/iconos/cancelar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="700.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="700.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/mas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="700.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="700.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/menos.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="862.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="862.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/mas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="861.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="861.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/menos.png" />
                      </image>
@@ -132,46 +144,46 @@
          <content>
             <Pane prefHeight="519.0" prefWidth="1116.0" styleClass="pane">
                <children>
-                  <Label layoutX="67.0" layoutY="66.0" text="Cantidad de clientes" textFill="#f6f8ff" />
-                  <CheckBox fx:id="check_clients_limit" layoutX="65.0" layoutY="140.0" mnemonicParsing="false" text="Establecer limite" textFill="#f6f8ff" />
-                  <Button fx:id="clients_amount_save_button" layoutX="68.0" layoutY="220.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Guardar" />
+                  <Label layoutX="79.0" layoutY="75.0" text="Cantidad de clientes" textFill="#f6f8ff" />
+                  <CheckBox fx:id="check_clients_limit" layoutX="58.0" layoutY="133.0" mnemonicParsing="false" text="Establecer limite" textFill="#f6f8ff" />
+                  <Button fx:id="clients_amount_save_button" layoutX="59.0" layoutY="217.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="147.0" text="Guardar" />
                   <Separator layoutX="262.0" layoutY="23.0" orientation="VERTICAL" prefHeight="452.0" prefWidth="0.0" />
-                  <Label layoutX="288.0" layoutY="48.0" prefHeight="17.0" prefWidth="132.0" text="Información" textFill="#f6f8ff" />
-                  <Spinner fx:id="spn_clients_limit" disable="true" editable="true" layoutX="67.0" layoutY="172.0" />
-                  <Spinner fx:id="spn_clients_amount" editable="true" layoutX="67.0" layoutY="93.0" />
-                  <TextArea fx:id="msg_information" layoutX="280.0" layoutY="68.0" prefHeight="133.0" prefWidth="178.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;🕐 Horario: 6:00 A.M. - 9:30 P.M. | Lunes - Sabados&#10;*que te gustaría hacer?* &#10;&#10;1️⃣ Cuantas personas están en el gimnasio&#10;2️⃣ Solicitar acceso al gimnasio&#10;3️⃣ Conocer tiempo en el gimnasio&#10;&#10;_Solo escriba el numero de lo que desea hacer_" />
-                  <Button fx:id="msg_information_button" layoutX="281.0" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
-                  <Label layoutX="473.0" layoutY="49.0" prefHeight="17.0" prefWidth="168.0" text="Cantidad de clientes" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_amount" layoutX="471.0" layoutY="69.0" prefHeight="133.0" prefWidth="172.0" text="*Actualmente hay _%clientes%_ personas en el gimnasio* 💪" />
-                  <Button fx:id="msg_clients_amount_button" layoutX="471.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
-                  <Label layoutX="663.0" layoutY="48.0" prefHeight="17.0" prefWidth="170.0" text="Registro de nombre del cliente" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_register_name" layoutX="659.0" layoutY="70.0" prefHeight="133.0" prefWidth="177.0" text="🔐 Solicitud de acceso 🔐&#10;&#10;👥 Por favor escribe tu nombre:&#10;&#10;🚫 Para cancelar escribe: cancelar" />
-                  <Button fx:id="msg_clients_register_name_button" layoutX="660.0" layoutY="211.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
-                  <Label layoutX="597.0" layoutY="12.0" prefHeight="23.0" prefWidth="101.0" text="MENSAJES" textFill="#fdca40">
+                  <Label layoutX="291.0" layoutY="68.0" prefHeight="17.0" prefWidth="132.0" text="Información" textFill="#f6f8ff" />
+                  <Spinner fx:id="spn_clients_limit" disable="true" editable="true" layoutX="55.0" layoutY="162.0" />
+                  <Spinner fx:id="spn_clients_amount" editable="true" layoutX="58.0" layoutY="95.0" />
+                  <TextArea fx:id="msg_information" layoutX="283.0" layoutY="88.0" prefHeight="133.0" prefWidth="178.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;🕐 Horario: 6:00 A.M. - 9:30 P.M. | Lunes - Sabados&#10;*que te gustaría hacer?* &#10;&#10;1️⃣ Cuantas personas están en el gimnasio&#10;2️⃣ Solicitar acceso al gimnasio&#10;3️⃣ Conocer tiempo en el gimnasio&#10;&#10;_Solo escriba el numero de lo que desea hacer_" />
+                  <Button fx:id="msg_information_button" layoutX="284.0" layoutY="229.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
+                  <Label layoutX="476.0" layoutY="69.0" prefHeight="17.0" prefWidth="168.0" text="Cantidad de clientes" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_amount" layoutX="474.0" layoutY="89.0" prefHeight="133.0" prefWidth="172.0" text="*Actualmente hay _%clientes%_ personas en el gimnasio* 💪" />
+                  <Button fx:id="msg_clients_amount_button" layoutX="474.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
+                  <Label layoutX="666.0" layoutY="68.0" prefHeight="17.0" prefWidth="170.0" text="Registro de nombre del cliente" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_register_name" layoutX="662.0" layoutY="90.0" prefHeight="133.0" prefWidth="177.0" text="🔐 Solicitud de acceso 🔐&#10;&#10;👥 Por favor escribe tu nombre:&#10;&#10;🚫 Para cancelar escribe: cancelar" />
+                  <Button fx:id="msg_clients_register_name_button" layoutX="663.0" layoutY="231.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="176.0" text="Guardar" />
+                  <Label layoutX="593.0" layoutY="26.0" prefHeight="36.0" prefWidth="129.0" text="MENSAJES" textFill="#fdca40">
                      <font>
-                        <Font name="Arial Black" size="15.0" />
+                        <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="67.0" layoutY="24.0" prefHeight="23.0" prefWidth="148.0" text="CONFIGURACIÓN" textFill="#fdca40">
+                  <Label layoutX="27.0" layoutY="26.0" prefHeight="36.0" prefWidth="211.0" text="CONFIGURACIÓN" textFill="#fdca40">
                      <font>
-                        <Font name="Arial Black" size="15.0" />
+                        <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="289.0" layoutY="251.0" prefHeight="17.0" prefWidth="132.0" text="Recibir código" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_code" layoutX="281.0" layoutY="271.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar código*" />
-                  <Button fx:id="msg_clients_code_button" layoutX="282.0" layoutY="412.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Guardar" />
-                  <Label layoutX="856.0" layoutY="49.0" prefHeight="17.0" prefWidth="132.0" text="Usuario reconocido" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_register_known_client" layoutX="848.0" layoutY="69.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👋 Hola, eres *%cliente%*.&#10;&#10;_Por favor responde con *SI* o *NO*_&#10;&#10;🚫 Para cancelar escribe: *cancelar*" />
-                  <Button fx:id="msg_clients_register_known_client_button" layoutX="849.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Guardar" />
-                  <Label layoutX="854.0" layoutY="255.0" prefHeight="17.0" prefWidth="132.0" text="Tiempo en el gimnasio" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_time" layoutX="848.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤Iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
-                  <Button fx:id="msg_clients_time_button" layoutX="849.0" layoutY="416.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
-                  <Label layoutX="469.0" layoutY="255.0" prefHeight="17.0" prefWidth="132.0" text="Código caducado" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_code_expired" layoutX="463.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código *%codigo%* caducó.&#10;&#10;*Si aun quieres ingresar al gimnasio por favor solicita uno nuevo.*" />
-                  <Button fx:id="msg_clients_code_expired_button" layoutX="464.0" layoutY="416.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
-                  <Label layoutX="659.0" layoutY="255.0" prefHeight="17.0" prefWidth="132.0" text="Tiempo terminado" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_time_finished" layoutX="653.0" layoutY="275.0" prefHeight="133.0" prefWidth="171.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;👤%cliente% tu tiempo se ha terminado!&#10;&#10;_Gracias por tu preferencia_ " />
-                  <Button fx:id="msg_clients_time_finished_button" layoutX="654.0" layoutY="416.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="292.0" layoutY="271.0" prefHeight="17.0" prefWidth="132.0" text="Recibir código" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_code" layoutX="284.0" layoutY="291.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar código*" />
+                  <Button fx:id="msg_clients_code_button" layoutX="285.0" layoutY="432.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Guardar" />
+                  <Label layoutX="859.0" layoutY="69.0" prefHeight="17.0" prefWidth="132.0" text="Usuario reconocido" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_register_known_client" layoutX="851.0" layoutY="89.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👋 Hola, eres *%cliente%*.&#10;&#10;_Por favor responde con *SI* o *NO*_&#10;&#10;🚫 Para cancelar escribe: *cancelar*" />
+                  <Button fx:id="msg_clients_register_known_client_button" layoutX="852.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Guardar" />
+                  <Label layoutX="857.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" text="Tiempo en el gimnasio" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_time" layoutX="851.0" layoutY="295.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤Iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
+                  <Button fx:id="msg_clients_time_button" layoutX="852.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="472.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" text="Código caducado" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_code_expired" layoutX="466.0" layoutY="295.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código *%codigo%* caducó.&#10;&#10;*Si aun quieres ingresar al gimnasio por favor solicita uno nuevo.*" />
+                  <Button fx:id="msg_clients_code_expired_button" layoutX="467.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="662.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" text="Tiempo terminado" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_time_finished" layoutX="653.0" layoutY="302.0" prefHeight="133.0" prefWidth="171.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;👤%cliente% tu tiempo se ha terminado!&#10;&#10;_Gracias por tu preferencia_ " />
+                  <Button fx:id="msg_clients_time_finished_button" layoutX="657.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
                   <Label layoutX="55.0" layoutY="482.0" prefHeight="15.0" prefWidth="155.0" text="Créditos: Alessandro Autiero" />
                   <Label layoutX="14.0" layoutY="495.0" prefHeight="21.0" prefWidth="237.0" text="Desarrollador de la libreria WhatsappWeb4j" />
                </children>
