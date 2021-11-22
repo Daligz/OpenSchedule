@@ -95,7 +95,7 @@
                   </ImageView>
                   <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="463.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/iconos/guardar.png" />
+                        <Image url="@../images/iconos/actualizar.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="689.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
@@ -175,17 +175,62 @@
                   <Label layoutX="859.0" layoutY="69.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Usuario reconocido" textFill="#f6f8ff" />
                   <TextArea fx:id="msg_clients_register_known_client" layoutX="851.0" layoutY="89.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👋 Hola, eres *%cliente%*.&#10;&#10;_Por favor responde con *SI* o *NO*_&#10;&#10;🚫 Para cancelar escribe: *cancelar*" />
                   <Button fx:id="msg_clients_register_known_client_button" layoutX="852.0" layoutY="230.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="Guardar" />
-                  <Label layoutX="857.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Tiempo en el gimnasio" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_time" layoutX="851.0" layoutY="295.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤Iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
-                  <Button fx:id="msg_clients_time_button" layoutX="852.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
-                  <Label layoutX="472.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Código caducado" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_code_expired" layoutX="466.0" layoutY="295.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código *%codigo%* caducó.&#10;&#10;*Si aun quieres ingresar al gimnasio por favor solicita uno nuevo.*" />
-                  <Button fx:id="msg_clients_code_expired_button" layoutX="467.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
-                  <Label layoutX="662.0" layoutY="275.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Tiempo terminado" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_time_finished" layoutX="653.0" layoutY="302.0" prefHeight="133.0" prefWidth="171.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;👤%cliente% tu tiempo se ha terminado!&#10;&#10;_Gracias por tu preferencia_ " />
-                  <Button fx:id="msg_clients_time_finished_button" layoutX="657.0" layoutY="436.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="857.0" layoutY="273.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Tiempo en el gimnasio" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_time" layoutX="852.0" layoutY="292.0" prefHeight="133.0" prefWidth="171.0" text="⏱️ *Tiempo* ⏱️&#10;&#10;👤Iniciaste a las %tiempo-inicio% y termina a las %tiempo-fin%." />
+                  <Button fx:id="msg_clients_time_button" layoutX="853.0" layoutY="432.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="472.0" layoutY="273.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Código caducado" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_code_expired" layoutX="467.0" layoutY="291.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código *%codigo%* caducó.&#10;&#10;*Si aun quieres ingresar al gimnasio por favor solicita uno nuevo.*" />
+                  <Button fx:id="msg_clients_code_expired_button" layoutX="468.0" layoutY="432.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
+                  <Label layoutX="662.0" layoutY="273.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Tiempo terminado" textFill="#f6f8ff" />
+                  <TextArea fx:id="msg_clients_time_finished" layoutX="657.0" layoutY="291.0" prefHeight="133.0" prefWidth="171.0" text="🔴 *GIMNASIO OPEN* 🔴&#10;&#10;👤%cliente% tu tiempo se ha terminado!&#10;&#10;_Gracias por tu preferencia_ " />
+                  <Button fx:id="msg_clients_time_finished_button" layoutX="658.0" layoutY="432.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="170.0" text="Guardar" />
                   <Label layoutX="46.0" layoutY="481.0" prefHeight="19.0" prefWidth="166.0" styleClass="custom-text-label" text="Créditos: Alessandro Autiero" textFill="WHITE" />
                   <Label layoutX="5.0" layoutY="494.0" prefHeight="21.0" prefWidth="255.0" styleClass="custom-text-label" text="Desarrollador de la libreria WhatsappWeb4j" textFill="WHITE" />
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="73.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="318.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="507.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="698.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="883.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="318.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="495.0" layoutY="433.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="686.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="883.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/guardar.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
          </content></Tab>
