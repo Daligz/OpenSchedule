@@ -217,7 +217,7 @@ public enum ResponsesTypes {
             }
     ),
     CLIENT_REGISTER_CANCEL(
-            "cancelar código",
+            "cancelar acceso",
             new Response(DefaultMessages.CLIENTS_TIME.getMessage()),
             (chat, message, whatsappAPI) -> {
                 final ClientState clientState = ClientState.getInstance();
