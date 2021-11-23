@@ -39,6 +39,8 @@ public class MainView implements Initializable {
     public Spinner<Integer> spn_clients_limit;
     @FXML
     public Button clients_amount_save_button;
+    @FXML
+    public Button contact_button;
 
     // Information : Messages section
     @FXML
@@ -184,6 +186,18 @@ public class MainView implements Initializable {
 
     private void registerButtonEvents() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+
+        // Section contact information
+        this.contact_button.setOnMouseClicked(mouseEvent -> {
+            Platform.runLater(() -> Alert.send(
+                    "Información de Contacto",
+                    "Imagenes: lacuerda.net" +
+                            "\nIconos: iconos8.es" +
+                            "\nLibreria de WhatsApp4J: Alessandro Autiero" +
+                            "\nProgramador: Oscar Dali G.Z.",
+                    javafx.scene.control.Alert.AlertType.INFORMATION
+            ));
+        });
 
         // Search section
         this.button_search.setOnMouseClicked(mouseEvent -> {
