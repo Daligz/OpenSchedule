@@ -430,17 +430,23 @@ public class MainView implements Initializable {
                                 (timeNow.getHours() - DataTime.getTimeNow().getHours()),
                                 (timeNow.getMinutes() - DataTime.getTimeNow().getMinutes())
                         ), event -> {
-                            openSchedule.getDatabase().delete(
+                            openSchedule.getDatabase().get(
                                     TableUserTime.TABLE_NAME.getValue(),
                                     String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
-                            ).whenComplete((aBoolean1, throwable1) -> {
-                                this.updateTable("");
-                                ClientStorage.getInstance().remove();
+                            ).whenComplete((resultSet3, throwable3) -> {
+                                if (resultSet3 == null) return;
+                                openSchedule.getDatabase().delete(
+                                        TableUserTime.TABLE_NAME.getValue(),
+                                        String.format("%s = \"%s\"", TableUserTime.PHONE.getValue(), phone)
+                                ).whenComplete((aBoolean1, throwable1) -> {
+                                    this.updateTable("");
+                                    ClientStorage.getInstance().remove();
+                                    final String text = this.msg_clients_time_finished.getText()
+                                            .replace("%cliente%", finalClient.getName());
+                                    manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
+                                    Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + finalClient.getName() + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
+                                });
                             });
-                            final String text = this.msg_clients_time_finished.getText()
-                                    .replace("%cliente%", finalClient.getName());
-                            manager.findChatByJid(finalClient.getJid()).ifPresent(chat -> whatsappAPI.sendMessage(chat, text));
-                            Platform.runLater(() -> Alert.send("Tiempo de usuario terminado", "El tiempo de " + finalClient.getName() + " termino.", javafx.scene.control.Alert.AlertType.INFORMATION));
                         });
                         timer.setRepeats(false);
                         timer.start();
