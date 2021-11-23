@@ -1,6 +1,7 @@
 package me.upp.dali.openschedule;
 
 import it.auties.whatsapp4j.manager.WhatsappDataManager;
+import it.auties.whatsapp4j.protobuf.message.model.Message;
 import it.auties.whatsapp4j.whatsapp.WhatsappAPI;
 import javafx.application.Application;
 import lombok.Getter;
@@ -13,6 +14,8 @@ import me.upp.dali.openschedule.model.database.Database;
 import me.upp.dali.openschedule.model.database.DatabaseConnector;
 import me.upp.dali.openschedule.model.database.SQLite;
 import me.upp.dali.openschedule.view.ViewLoader;
+
+import javax.swing.*;
 
 /**
  * @author Dali
@@ -66,6 +69,15 @@ public class OpenSchedule {
             INSTANCE.setDatabase(database);
             INSTANCE.setMessagesAPI(messagesAPI);
         }
+    }
+
+    public static void reconnectingService(final MessagesAPI messagesAPI) {
+        final Timer timer = new Timer(5000, event -> {
+            final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
+
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
 
     public void createTables(final Database database) {
