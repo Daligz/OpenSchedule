@@ -170,7 +170,7 @@
                      </font>
                   </Label>
                   <Label layoutX="292.0" layoutY="271.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Recibir código" textFill="#f6f8ff" />
-                  <TextArea fx:id="msg_clients_code" layoutX="284.0" layoutY="291.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar código*" />
+                  <TextArea fx:id="msg_clients_code" layoutX="284.0" layoutY="291.0" prefHeight="133.0" prefWidth="173.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👤%cliente% tu código es: *%codigo%*&#10;&#10;_*Tienes %tiempo% para que caduque el código*_&#10;&#10;🚫 Para cancelar el acceso escribe: *cancelar acceso*" />
                   <Button fx:id="msg_clients_code_button" layoutX="285.0" layoutY="432.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" text="Guardar" />
                   <Label layoutX="859.0" layoutY="69.0" prefHeight="17.0" prefWidth="132.0" styleClass="custom-text-label" text="Usuario reconocido" textFill="#f6f8ff" />
                   <TextArea fx:id="msg_clients_register_known_client" layoutX="851.0" layoutY="89.0" prefHeight="133.0" prefWidth="171.0" text="🔐 *Solicitud de acceso* 🔐&#10;&#10;👋 Hola, eres *%cliente%*.&#10;&#10;_Por favor responde con *SI* o *NO*_&#10;&#10;🚫 Para cancelar escribe: *cancelar*" />
