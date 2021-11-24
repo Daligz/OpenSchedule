@@ -208,12 +208,16 @@ public enum ResponsesTypes {
                     return;
                 }
                 final ClientState.Client client = clientState.get(phone);
-                if (client.getStatus() != ClientState.Status.NONE) {
+                if (client.getStatus() == ClientState.Status.NONE) {
                     whatsappAPI.sendMessage(chat, "No hay algo para cancelar!");
                     return;
+                } else if (client.getStatus() == ClientState.Status.REGISTER_CLIENT ||
+                    client.getStatus() == ClientState.Status.REGISTER_NAME_REQUEST) {
+                    clientState.remove(phone);
+                } else {
+                    client.setStatus(ClientState.Status.NONE);
                 }
                 whatsappAPI.sendMessage(chat, "Cancelado correctamente!");
-                client.setStatus(ClientState.Status.NONE);
             }
     ),
     CLIENT_REGISTER_CANCEL(
