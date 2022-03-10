@@ -54,18 +54,6 @@ public class OpenSchedule {
             whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
         }
         whatsappAPI.connect();
-
-        if (!(force)) {
-            // Database creation
-            final Connector connector = new DatabaseConnector();
-            final Database database = new SQLite(connector);
-            INSTANCE.createTables(database);
-
-            // Singleton instantiation
-            INSTANCE.setConnector(connector);
-            INSTANCE.setDatabase(database);
-            INSTANCE.setMessagesAPI(messagesAPI);
-        }
     }
 
     public void createTables(final Database database) {
