@@ -550,7 +550,7 @@ public class MainView implements Initializable {
                     TableInventory.TABLE_NAME.getValue(),
                     String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
             ).whenComplete((resultSet, throwable) -> {
-                if (resultSet == null) {
+                if (resultSet == null || throwable != null) {
                     Alert.send("Error", "No se encontraron resultados!", javafx.scene.control.Alert.AlertType.INFORMATION);
                     return;
                 }
