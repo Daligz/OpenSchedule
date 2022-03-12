@@ -211,6 +211,33 @@ public class MainView implements Initializable {
         });
     }
 
+    private void updateInventoryTable() {
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+        openSchedule.getDatabase().get(
+                TableUserTime.TABLE_NAME.getValue(),
+                "1 = 1"
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null) {
+                this.table_inv_info.setItems(FXCollections.observableArrayList());
+                return;
+            }
+            try {
+                final ArrayList<ClientState.ItemsTable> itemsTables = new ArrayList<>();
+                do {
+                    itemsTables.add(
+                            new ClientState.ItemsTable(
+                                    resultSet.getString(TableInventory.ID.getValue()),
+                                    resultSet.getString(TableInventory.NAME.getValue())
+                            )
+                    );
+                } while (resultSet.next());
+                Platform.runLater(() -> this.table_inv_info.setItems(FXCollections.observableArrayList(itemsTables)));
+            } catch (final SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
     private void registerButtonEvents() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
 
