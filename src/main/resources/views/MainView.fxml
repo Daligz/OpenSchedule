@@ -140,6 +140,75 @@
                   </ImageView>
                </children></Pane>
          </content></Tab>
+      <Tab text="Inventario">
+         <content>
+            <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane">
+               <children>
+                  <Button fx:id="button_inv_search" layoutX="689.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Buscar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Separator layoutX="518.0" layoutY="18.0" orientation="VERTICAL" prefHeight="479.0" prefWidth="16.0" />
+                  <Label layoutX="756.0" layoutY="32.0" prefHeight="36.0" prefWidth="158.0" styleClass="custom-text-title" text="INVENTARIO" textFill="#fdca40">
+                     <font>
+                        <Font name="Arial Black" size="25.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="text_inv_name" layoutX="754.0" layoutY="94.0" promptText="Nombre del articulo" />
+                  <TextArea fx:id="text_inv_state" layoutX="553.0" layoutY="140.0" prefHeight="200.0" prefWidth="564.0" promptText="Estado del articulo" />
+                  <TextField fx:id="text_inv_cost" layoutX="955.0" layoutY="94.0" promptText="Precio" />
+                  <TextField fx:id="text_inv_id" layoutX="557.0" layoutY="94.0" promptText="ID del articulo" />
+                  <TableView fx:id="table_inv_info" layoutX="15.0" layoutY="109.0" prefHeight="322.0" prefWidth="496.0">
+                     <columns>
+                        <TableColumn fx:id="column_inv_id" prefWidth="259.1999931335449" text="ID" />
+                        <TableColumn fx:id="column_inv_name" prefWidth="235.99993896484375" text="Articulo" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="194.0" layoutY="41.0" prefHeight="36.0" prefWidth="138.0" styleClass="custom-text-title" text="ARTICULOS" textFill="#fdca40">
+                     <font>
+                        <Font name="Arial Black" size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="button_inv_save" layoutX="547.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Guardar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="button_inv_update" layoutX="832.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="button_inv_delete" layoutX="975.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Eliminar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="838.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/actualizar.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="701.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/busquedas.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="557.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/agregar-usuario.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="986.0" layoutY="402.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/cancelar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </content>
+      </Tab>
       <Tab text="Información">
          <content>
             <Pane prefHeight="519.0" prefWidth="1116.0" styleClass="pane">
@@ -240,10 +309,5 @@
                </children>
             </Pane>
          </content></Tab>
-      <Tab text="Inventario">
-         <content>
-            <Pane prefHeight="200.0" prefWidth="200.0" />
-         </content>
-      </Tab>
   </tabs>
 </TabPane>
