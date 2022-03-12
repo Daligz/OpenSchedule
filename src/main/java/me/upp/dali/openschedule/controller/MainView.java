@@ -567,6 +567,7 @@ public class MainView implements Initializable {
                             this.text_inv_name.getText(), this.text_inv_state.getText(), text)
             ).whenComplete((aBoolean, throwable) -> {
                 this.setDefaultButtonStates();
+                this.updateInventoryTable();
                 if (aBoolean) Alert.send("Articulo guardado", "Articulo agregado al inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
             });
         });
@@ -608,7 +609,10 @@ public class MainView implements Initializable {
                             TableInventory.STATE.getValue(), this.text_inv_state.getText(),
                             TableInventory.COST.getValue(), this.text_inv_cost.getText()),
                     String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
-            ).whenComplete((aBoolean, throwable) -> this.setDefaultButtonStates());
+            ).whenComplete((aBoolean, throwable) -> {
+                this.setDefaultButtonStates();
+                this.updateInventoryTable();
+            });
         });
 
         // Inventory delete items section
@@ -621,6 +625,7 @@ public class MainView implements Initializable {
                     TableInventory.TABLE_NAME.getValue(),
                     String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
             ).whenComplete((aBoolean, throwable) -> {
+                this.updateInventoryTable();
                 if (throwable == null) Alert.send("Elemento eliminado", "Elemento eliminado del inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
                 this.setDefaultButtonStates();
             });
