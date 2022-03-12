@@ -539,6 +539,30 @@ public class MainView implements Initializable {
                 if (aBoolean) Alert.send("Articulo guardado", "Articulo agregado al inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
             });
         });
+
+        // Inventory search items section
+        this.button_inv_search.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "No puedes dejar este campo vacio!", javafx.scene.control.Alert.AlertType.WARNING);
+                return;
+            }
+            openSchedule.getDatabase().get(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((resultSet, throwable) -> {
+                if (resultSet == null) {
+                    Alert.send("Error", "No se encontraron resultados!", javafx.scene.control.Alert.AlertType.INFORMATION);
+                    return;
+                }
+                try {
+                    this.text_inv_name.setText(resultSet.getString(TableInventory.NAME.getValue()));
+                    this.text_inv_cost.setText(resultSet.getString(TableInventory.COST.getValue()));
+                    this.text_inv_state.setText(resultSet.getString(TableInventory.STATE.getValue()));
+                } catch (final SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            });
+        });
     }
 
     private void setDefaultButtonStates() {
