@@ -120,6 +120,30 @@ public class MainView implements Initializable {
     @FXML
     public Button button_client_cancel;
 
+    // Inventory : Items section
+    @FXML
+    public TableView<ClientState.ItemsTable> table_inv_info;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_id;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_name;
+
+    // Inventory : Inventory section
+    @FXML
+    public Button button_inv_save;
+    @FXML
+    public Button button_inv_search;
+    @FXML
+    public Button button_inv_update;
+    @FXML
+    public TextField text_inv_id;
+    @FXML
+    public TextField text_inv_name;
+    @FXML
+    public TextField text_inv_cost;
+    @FXML
+    public TextArea text_inv_state;
+
     private static MainView INSTANCE;
 
     @Override
