@@ -643,7 +643,10 @@ public class MainView implements Initializable {
         });
 
         // Update table button
-        this.button_inv_update_table.setOnMouseClicked(mouseEvent -> this.updateInventoryTable());
+        this.button_inv_update_table.setOnMouseClicked(mouseEvent -> {
+            this.updateInventoryTable();
+            this.setDefaultButtonStates();
+        });
     }
 
     private void setDefaultButtonStates() {
