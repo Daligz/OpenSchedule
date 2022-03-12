@@ -179,6 +179,10 @@ public class MainView implements Initializable {
         this.column_time_start.setCellValueFactory(new PropertyValueFactory<>("Start"));
         this.column_time_finish.setCellValueFactory(new PropertyValueFactory<>("End"));
         this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
+
+        // Inventory
+        this.column_inv_id.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        this.column_inv_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
     }
 
     private void updateTable(final String where) {
