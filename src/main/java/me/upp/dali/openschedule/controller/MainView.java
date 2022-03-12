@@ -563,6 +563,22 @@ public class MainView implements Initializable {
                 }
             });
         });
+
+        // Inventory update items section
+        this.button_inv_update.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "Debes de colocar un ID para editar!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().update(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\", %s = \"%s\", %s = \"%s\"",
+                            TableInventory.NAME.getValue(), this.text_inv_name.getText(),
+                            TableInventory.STATE.getValue(), this.text_inv_state.getText(),
+                            TableInventory.COST.getValue(), this.text_inv_cost.getText()),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((aBoolean, throwable) -> this.setDefaultButtonStates());
+        });
     }
 
     private void setDefaultButtonStates() {
