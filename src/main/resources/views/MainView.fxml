@@ -240,5 +240,10 @@
                </children>
             </Pane>
          </content></Tab>
+      <Tab text="Inventario">
+         <content>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+         </content>
+      </Tab>
   </tabs>
 </TabPane>
