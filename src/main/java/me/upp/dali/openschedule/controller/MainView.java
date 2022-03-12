@@ -514,6 +514,10 @@ public class MainView implements Initializable {
     }
 
     private void setDefaultButtonStates() {
+        this.text_inv_name.setText("");
+        this.text_inv_state.setText("");
+        this.text_inv_cost.setText("");
+        this.text_inv_id.setText("");
         this.text_client_name.setText("");
         this.text_client_code.setText("");
         this.text_client_code.setDisable(false);
