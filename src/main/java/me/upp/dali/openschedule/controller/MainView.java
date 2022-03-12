@@ -14,6 +14,7 @@ import me.upp.dali.openschedule.controller.client.ClientState;
 import me.upp.dali.openschedule.controller.client.ClientStorage;
 import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
+import me.upp.dali.openschedule.model.database.tables.TableInventory;
 import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 import me.upp.dali.openschedule.model.database.utils.DataTime;
 
@@ -135,6 +136,8 @@ public class MainView implements Initializable {
     public Button button_inv_search;
     @FXML
     public Button button_inv_update;
+    @FXML
+    public Button button_inv_delete;
     @FXML
     public TextField text_inv_id;
     @FXML
@@ -511,6 +514,22 @@ public class MainView implements Initializable {
             });
         });
         this.button_client_cancel.setOnMouseClicked(mouseEvent -> this.setDefaultButtonStates());
+
+        // Inventory save items section
+        this.button_inv_save.setOnMouseClicked(mouseEvent -> {
+            final String text;
+            try {
+                text = String.valueOf(Integer.parseInt(this.text_inv_cost.getText()));
+            } catch (final Exception ignored) {
+                Alert.send("Error", "El valor " + this.text_inv_cost.getText() + " no es un valor valido!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().insert(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.COST.getValue(),
+                            this.text_inv_name.getText(), this.text_inv_state.getText(), text)
+            ).whenComplete((aBoolean, throwable) -> this.setDefaultButtonStates());
+        });
     }
 
     private void setDefaultButtonStates() {
