@@ -579,6 +579,21 @@ public class MainView implements Initializable {
                     String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
             ).whenComplete((aBoolean, throwable) -> this.setDefaultButtonStates());
         });
+
+        // Inventory delete items section
+        this.button_inv_delete.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "Debes de colocar un ID para poder eliminarlo!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().delete(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((aBoolean, throwable) -> {
+                if (throwable == null) Alert.send("Elemento eliminado", "Elemento eliminado del inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
+                this.setDefaultButtonStates();
+            });
+        });
     }
 
     private void setDefaultButtonStates() {
