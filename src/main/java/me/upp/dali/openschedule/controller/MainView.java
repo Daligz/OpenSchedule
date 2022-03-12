@@ -625,6 +625,15 @@ public class MainView implements Initializable {
                 this.setDefaultButtonStates();
             });
         });
+
+        // Table select items section
+        this.table_inv_info.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection == null) {
+                this.text_inv_id.setText("");
+                return;
+            }
+            this.text_inv_id.setText(newSelection.getId());
+        });
     }
 
     private void setDefaultButtonStates() {
