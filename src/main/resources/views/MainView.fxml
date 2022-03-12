@@ -205,6 +205,16 @@
                         <Image url="@../images/iconos/cancelar.png" />
                      </image>
                   </ImageView>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="382.0" layoutY="441.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconos/actualizar.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="button_inv_update_table" layoutX="376.0" layoutY="439.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </content>

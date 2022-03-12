@@ -146,6 +146,8 @@ public class MainView implements Initializable {
     public TextField text_inv_cost;
     @FXML
     public TextArea text_inv_state;
+    @FXML
+    public Button button_inv_update_table;
 
     private static MainView INSTANCE;
 
@@ -181,7 +183,7 @@ public class MainView implements Initializable {
         this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
 
         // Inventory
-        this.column_inv_id.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        this.column_inv_id.setCellValueFactory(new PropertyValueFactory<>("Id"));
         this.column_inv_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
     }
 
@@ -218,7 +220,7 @@ public class MainView implements Initializable {
     private void updateInventoryTable() {
         final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
         openSchedule.getDatabase().get(
-                TableUserTime.TABLE_NAME.getValue(),
+                TableInventory.TABLE_NAME.getValue(),
                 "1 = 1"
         ).whenComplete((resultSet, throwable) -> {
             if (resultSet == null) {
@@ -639,6 +641,9 @@ public class MainView implements Initializable {
             }
             this.text_inv_id.setText(newSelection.getId());
         });
+
+        // Update table button
+        this.button_inv_update_table.setOnMouseClicked(mouseEvent -> this.updateInventoryTable());
     }
 
     private void setDefaultButtonStates() {
