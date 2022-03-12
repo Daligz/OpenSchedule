@@ -517,6 +517,11 @@ public class MainView implements Initializable {
 
         // Inventory save items section
         this.button_inv_save.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_name.getText().isEmpty() || this.text_inv_state.getText().isEmpty()
+                    || this.text_inv_cost.getText().isEmpty()) {
+                Alert.send("Error", "No puedes dejar campos vacios!", javafx.scene.control.Alert.AlertType.WARNING);
+                return;
+            }
             final String text;
             try {
                 text = String.valueOf(Integer.parseInt(this.text_inv_cost.getText()));
