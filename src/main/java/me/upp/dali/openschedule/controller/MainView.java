@@ -522,13 +522,17 @@ public class MainView implements Initializable {
                 text = String.valueOf(Integer.parseInt(this.text_inv_cost.getText()));
             } catch (final Exception ignored) {
                 Alert.send("Error", "El valor " + this.text_inv_cost.getText() + " no es un valor valido!", javafx.scene.control.Alert.AlertType.ERROR);
+                this.setDefaultButtonStates();
                 return;
             }
             openSchedule.getDatabase().insert(
                     TableInventory.TABLE_NAME.getValue(),
                     String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.COST.getValue(),
                             this.text_inv_name.getText(), this.text_inv_state.getText(), text)
-            ).whenComplete((aBoolean, throwable) -> this.setDefaultButtonStates());
+            ).whenComplete((aBoolean, throwable) -> {
+                this.setDefaultButtonStates();
+                if (aBoolean) Alert.send("Articulo guardado", "Articulo agregado al inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
+            });
         });
     }
 
