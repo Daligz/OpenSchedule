@@ -12,12 +12,22 @@ public class MessagesAPI {
     public MessagesAPI() {
         var configuration = WhatsappConfiguration.builder()
                 .whatsappUrl("wss://web.whatsapp.com/ws") // WhatsappWeb's WebSocket URL
-                .requestTag("OpenSchedule") // The tag used for requests made to WhatsappWeb's WebSocket
-                .description("OpenSchedule") // The description provided to Whatsapp during the authentication process
+                .builder(); // Builds an istance of WhatsappConfiguration
+                .async(true) // Determines wheter request sent to whatsapp should be asyncronous or not
+                .description("openschedule")
+                .build(); // Builds an istance of WhatsappConfiguration
                 .shortDescription("OS") // An acronym for the description
-                .reconnectWhenDisconnected((reason) -> true) // Determines whether the connection should be reclaimed
-                .async(true) // Determines whether requests sent to whatsapp should be asyncronous or not
-                .build(); // Builds an instance of WhatsappConfiguration
+                .async(false) // Determines wheter request sent to whatsapp should be asyncronous
+                .description("openschedule") // The description provided to whatsapp the authentication process
+
+                //whatsapp connector
+                final MessagesAPI messagesAPI = new messagesAPI();
+                final whatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
+                final whatsappDataManager manager = whatsappAPI.manager();
+                if (!(force)){
+                    whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+                }
         this.whatsappAPI = new WhatsappAPI(configuration);
+        whatsappAPI.connect();
     }
 }
