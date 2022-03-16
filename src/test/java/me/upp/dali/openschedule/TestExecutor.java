@@ -15,19 +15,24 @@ public class TestExecutor {
         databaseTest.deleteValues();
     }
     
-      public static void main(String[] args) {
-        final DatabaseTest databaseTest = new DatabaseTest();
-        databaseTest.createDatabase();
-        sleep();
-        databaseTest.insertValues();
-        sleep();
-        databaseTest.getValues();
-        sleep();
-        databaseTest.updateValues();
-        sleep();
-        databaseTest.deleteValues();
-    }
+    
 
+    public static void sleep() {
+        try {
+            Thread.sleep(1500);
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public static void sleep() {
+        try {
+            Thread.sleep(1500);
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public static void sleep() {
         try {
             Thread.sleep(1500);

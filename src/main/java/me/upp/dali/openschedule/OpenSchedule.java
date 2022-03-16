@@ -46,7 +46,21 @@ public class OpenSchedule {
         }
         System.out.println("Loading...");
 
-       
+        // WhatsApp connector
+        final MessagesAPI messagesAPI = new MessagesAPI();
+        final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
+        final WhatsappDataManager manager = whatsappAPI.manager();
+        if (!(force)) {
+            whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+        }
+        whatsappAPI.connect();
+
+        if (!(force)) {
+            // Database creation
+            final Connector connector = new DatabaseConnector();
+            final Database database = new SQLite(connector);
+            INSTANCE.createTables(database);
+
             // Singleton instantiation
             INSTANCE.setConnector(connector);
             INSTANCE.setDatabase(database);
@@ -61,4 +75,12 @@ public class OpenSchedule {
         database.createTable("tbl_config", "configId INTEGER NOT NULL", "id TEXT NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
         database.createTable("tbl_inventory", "inventoryId INTEGER NOT NULL", "name TEXT NOT NULL", "admissionDate DATE DEFAULT (datetime('now', 'localtime'))", "state TEXT NOT NULL", "cost REAL NOT NULL", "PRIMARY KEY(\"inventoryId\" AUTOINCREMENT)");
     }
+ public void createTables(final Database database) {
+        database.createTable("tbl_user", "userId INTEGER NOT NULL", "name TEXT NOT NULL", "phone TEXT NOT NULL", "PRIMARY KEY(\"userId\" AUTOINCREMENT)");
+        database.createTable("tbl_user_time", "userTimeId INTEGER NOT NULL", "phone TEXT NOT NULL", "userCode INTEGER NOT NULL",
+                "tiempoInicio DATE DEFAULT (datetime('now', 'localtime'))","tiempoFin DATE", "PRIMARY KEY(\"userTimeId\" AUTOINCREMENT)");
+        database.createTable("tbl_config", "configId INTEGER NOT NULL", "id TEXT NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
+        database.createTable("tbl_inventory", "inventoryId INTEGER NOT NULL", "name TEXT NOT NULL", "admissionDate DATE DEFAULT (datetime('now', 'localtime'))", "state TEXT NOT NULL", "cost REAL NOT NULL", "PRIMARY KEY(\"inventoryId\" AUTOINCREMENT)");
+    }
 }
+
