@@ -7,4 +7,14 @@ public interface ConnectionCallback {
     void execute(final Connection connection) throws SQLException;
 }
 
+public interface ConnectionCallback {
+    void execute(final Connection connection) throws SQLException;
+}
 
+public interface ConnectionCallback {
+    void execute(final Connection connection) throws SQLException;
+}
+
+public interface ConnectionCallback {
+    void execute(final Connection connection) throws SQLException;
+}

@@ -14,8 +14,6 @@ public class TestExecutor {
         sleep();
         databaseTest.deleteValues();
     }
-    
-    
 
     public static void sleep() {
         try {
@@ -25,19 +23,13 @@ public class TestExecutor {
         }
     }
     
-    public static void sleep() {
-        try {
-            Thread.sleep(1500);
-        } catch (final Exception ex) {
-            ex.printStackTrace();
-        }
-    }
     
-    public static void sleep() {
-        try {
-            Thread.sleep(1500);
-        } catch (final Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+    public interface ConnectionCallback {
+    void execute(final Connection connection) throws SQLException;
+}
+    
+    
+    public interface ConnectionCallback {
+    void execute(final Connection connection) throws SQLException;
+}
 }
