@@ -33,6 +33,12 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
         private Timestamp start, end;
     }
 
+    @Getter @Setter
+    @AllArgsConstructor
+    public static class ItemsTable {
+        private String id, name;
+    }
+
     public static ClientState getInstance() {
         if (INSTANCE == null) INSTANCE = new ClientState();
         return INSTANCE;
