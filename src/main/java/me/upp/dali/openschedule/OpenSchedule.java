@@ -75,4 +75,11 @@ public class OpenSchedule {
         database.createTable("tbl_config", "configId INTEGER NOT NULL", "id TEXT NOT NULL", "value TEXT NOT NULL", "PRIMARY KEY(\"configId\" AUTOINCREMENT)");
         database.createTable("tbl_inventory", "inventoryId INTEGER NOT NULL", "name TEXT NOT NULL", "admissionDate DATE DEFAULT (datetime('now', 'localtime'))", "state TEXT NOT NULL", "cost REAL NOT NULL", "PRIMARY KEY(\"inventoryId\" AUTOINCREMENT)");
     }
+    public static void sleep() {
+        try {
+            Thread.sleep(1500);
+        } catch (final Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
