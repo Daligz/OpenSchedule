@@ -85,4 +85,9 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
     public enum Status {
         NONE, REGISTER_CLIENT, REGISTER_KNOWN_CLIENT, REGISTER_CODE_EXPIRE, REGISTER_FINISHED_TIME, REGISTER_NAME_REQUEST, YES_NO_REQUEST
     }
+    
+     public static ClientState getInstance() {
+        if (INSTANCE == null) INSTANCE = new ClientState();
+        return INSTANCE;
+    }
 }
