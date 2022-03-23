@@ -44,4 +44,9 @@ public class ClientStorage {
         if (!(mainView.check_clients_limit.isSelected())) return false;
         return ((this.clients + 1) > mainView.spn_clients_limit.getValue());
     }
+    
+    public void generateCode(final ClientState.Client client) {
+        this.code = client.getName().substring(0, 3).concat("-").concat(getLetters());
+    }
+    
 }
