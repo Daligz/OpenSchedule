@@ -13,4 +13,14 @@ public class Alert {
             alert.showAndWait();
         } catch (final Exception ignored) { }
     }
+    
+      public void generateCode(final ClientState.Client client) {
+        this.code = client.getName().substring(0, 3).concat("-").concat(getLetters());
+    }
+      
+        public enum Status {
+        NONE, REGISTER_CLIENT, REGISTER_KNOWN_CLIENT, REGISTER_CODE_EXPIRE, REGISTER_FINISHED_TIME, REGISTER_NAME_REQUEST, YES_NO_REQUEST
+    }
+        
+    }
 }
