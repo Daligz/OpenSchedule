@@ -11,6 +11,7 @@ public enum TableInventory {
     NAME("name"),
     ADMISSION_DATE("admissionDate"),
     STATE("state"),
+    NOTES("notes"),
     COST("cost");
 
     private final String value;
