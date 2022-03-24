@@ -143,9 +143,11 @@ public class MainView implements Initializable {
     @FXML
     public TextField text_inv_cost;
     @FXML
+    public TextField text_inv_name_search;
+    @FXML
     public TextArea text_inv_notes;
     @FXML
-    public ComboBox<String> text_inv_state;
+    public ComboBox<String> combo_inv_state;
     @FXML
     public Button button_inv_update_table;
 
@@ -578,13 +580,13 @@ public class MainView implements Initializable {
 
         // Search by name
         this.button_inv_search.setOnMouseClicked(mouseEvent -> {
-            if (this.text_inv_id.getText().isEmpty()) {
+            if (this.text_inv_name_search.getText().isEmpty()) {
                 Alert.send("Error", "No puedes dejar este campo vacio!", javafx.scene.control.Alert.AlertType.WARNING);
                 return;
             }
             openSchedule.getDatabase().get(
                     TableInventory.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_name_search.getText())
             ).whenComplete((resultSet, throwable) -> {
                 if (resultSet == null || throwable != null) {
                     Alert.send("Error", "No se encontraron resultados!", javafx.scene.control.Alert.AlertType.INFORMATION);
@@ -593,16 +595,16 @@ public class MainView implements Initializable {
                 try {
                     this.text_inv_name.setText(resultSet.getString(TableInventory.NAME.getValue()));
                     this.text_inv_cost.setText(resultSet.getString(TableInventory.COST.getValue()));
-                    this.text_inv_state.setText(resultSet.getString(TableInventory.STATE.getValue()));
+                    this.text_inv_name_search.setText(resultSet.getString(TableInventory.STATE.getValue()));
                 } catch (final SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
             });
         });
-        
+
         // Inventory update items section
         this.button_inv_update.setOnMouseClicked(mouseEvent -> {
-            if (this.text_inv_id.getText().isEmpty()) {
+            if (this.text_inv_name_search.getText().isEmpty()) {
                 Alert.send("Error", "Debes de colocar un ID para editar!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
             }
@@ -610,9 +612,9 @@ public class MainView implements Initializable {
                     TableInventory.TABLE_NAME.getValue(),
                     String.format("%s = \"%s\", %s = \"%s\", %s = \"%s\"",
                             TableInventory.NAME.getValue(), this.text_inv_name.getText(),
-                            TableInventory.STATE.getValue(), this.text_inv_state.getText(),
+                            TableInventory.STATE.getValue(), this.text_inv_name_search.getText(),
                             TableInventory.COST.getValue(), this.text_inv_cost.getText()),
-                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_name_search.getText())
             ).whenComplete((aBoolean, throwable) -> {
                 this.setDefaultButtonStates();
                 this.updateInventoryTable();
@@ -621,13 +623,13 @@ public class MainView implements Initializable {
 
         // Inventory delete items section
         this.button_inv_delete.setOnMouseClicked(mouseEvent -> {
-            if (this.text_inv_id.getText().isEmpty()) {
+            if (this.text_inv_name_search.getText().isEmpty()) {
                 Alert.send("Error", "Debes de colocar un ID para poder eliminarlo!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
             }
             openSchedule.getDatabase().delete(
                     TableInventory.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_name_search.getText())
             ).whenComplete((aBoolean, throwable) -> {
                 this.updateInventoryTable();
                 if (throwable == null) Alert.send("Elemento eliminado", "Elemento eliminado del inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
@@ -638,10 +640,10 @@ public class MainView implements Initializable {
         // Table select items section
         this.table_inv_info.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection == null) {
-                this.text_inv_id.setText("");
+                this.text_inv_name_search.setText("");
                 return;
             }
-            this.text_inv_id.setText(newSelection.getId());
+            this.text_inv_name_search.setText(newSelection.getId());
         });
 
         // Update table button
@@ -653,9 +655,8 @@ public class MainView implements Initializable {
 
     private void setDefaultButtonStates() {
         this.text_inv_name.setText("");
-        this.text_inv_state.setText("");
+        this.text_inv_name_search.setText("");
         this.text_inv_cost.setText("");
-        this.text_inv_id.setText("");
         this.text_client_name.setText("");
         this.text_client_code.setText("");
         this.text_client_code.setDisable(false);

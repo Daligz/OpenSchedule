@@ -215,7 +215,7 @@
                   <ComboBox fx:id="text_inv_state" layoutX="559.0" layoutY="113.0" prefHeight="25.0" prefWidth="336.0" promptText="Seleccionar" />
                   <Label layoutX="216.0" layoutY="88.0" text="Nombre del artículo" textFill="#f6f8ff" />
                   <Label layoutX="389.0" layoutY="88.0" text="Precio" textFill="#f6f8ff" />
-                  <TextField fx:id="text_inv_name1" layoutX="162.0" layoutY="295.0" />
+                  <TextField fx:id="text_inv_name_search" layoutX="162.0" layoutY="295.0" />
                   <Label layoutX="164.0" layoutY="287.0" text="Busqueda por nombre" textFill="#f6f8ff" />
                   <Label layoutX="560.0" layoutY="88.0" text="Estado" textFill="#f6f8ff" />
                </children>
