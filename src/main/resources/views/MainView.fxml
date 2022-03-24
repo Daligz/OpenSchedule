@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
@@ -144,77 +145,79 @@
          <content>
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane">
                <children>
-                  <Button fx:id="button_inv_search" layoutX="689.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Buscar">
+                  <Button fx:id="button_inv_update_table" layoutX="616.0" layoutY="463.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="201.0" styleClass="register-blue" text="Limpiar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Separator layoutX="518.0" layoutY="18.0" orientation="VERTICAL" prefHeight="479.0" prefWidth="16.0" />
-                  <Label layoutX="756.0" layoutY="32.0" prefHeight="36.0" prefWidth="158.0" styleClass="custom-text-title" text="INVENTARIO" textFill="#fdca40">
+                  <Button fx:id="button_inv_search" layoutX="362.0" layoutY="464.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="206.0" styleClass="register-blue" text="Buscar">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="478.0" layoutY="21.0" prefHeight="36.0" prefWidth="158.0" styleClass="custom-text-title" text="INVENTARIO" textFill="#fdca40">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="text_inv_name" layoutX="754.0" layoutY="94.0" promptText="Nombre del articulo" />
-                  <TextArea fx:id="text_inv_state" layoutX="553.0" layoutY="140.0" prefHeight="200.0" prefWidth="564.0" promptText="Estado del articulo" />
-                  <TextField fx:id="text_inv_cost" layoutX="955.0" layoutY="94.0" promptText="Precio" />
-                  <TextField fx:id="text_inv_id" layoutX="557.0" layoutY="94.0" promptText="ID del articulo" />
-                  <TableView fx:id="table_inv_info" layoutX="15.0" layoutY="109.0" prefHeight="322.0" prefWidth="496.0">
+                  <TextField fx:id="text_inv_name" layoutX="216.0" layoutY="111.0" />
+                  <TextArea fx:id="text_inv_notes" layoutX="216.0" layoutY="149.0" prefHeight="66.0" prefWidth="682.0" promptText="Notas del articulo" />
+                  <TextField fx:id="text_inv_cost" layoutX="389.0" layoutY="111.0" />
+                  <TableView fx:id="table_inv_info" layoutX="157.0" layoutY="333.0" prefHeight="108.0" prefWidth="788.0">
                      <columns>
-                        <TableColumn fx:id="column_inv_id" prefWidth="259.1999931335449" text="ID" />
-                        <TableColumn fx:id="column_inv_name" prefWidth="235.99993896484375" text="Articulo" />
+                        <TableColumn fx:id="column_inv_id" prefWidth="116.0" text="Fecha" />
+                        <TableColumn fx:id="column_inv_name" prefWidth="177.5999755859375" text="Nombre" />
+                        <TableColumn fx:id="column_inv_name1" prefWidth="134.4000244140625" text="Estado" />
+                        <TableColumn fx:id="column_inv_name2" prefWidth="105.5999755859375" text="Precio" />
+                        <TableColumn fx:id="column_inv_name3" prefWidth="252.00006103515625" text="Notas" />
                      </columns>
                   </TableView>
-                  <Label layoutX="194.0" layoutY="41.0" prefHeight="36.0" prefWidth="138.0" styleClass="custom-text-title" text="ARTICULOS" textFill="#fdca40">
-                     <font>
-                        <Font name="Arial Black" size="25.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="button_inv_save" layoutX="547.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Guardar">
+                  <Button fx:id="button_inv_save" layoutX="223.0" layoutY="230.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="222.0" styleClass="register-blue" text="Guardar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="button_inv_update" layoutX="832.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
+                  <Button fx:id="button_inv_update" layoutX="459.0" layoutY="231.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="234.0" styleClass="register-blue" text="Actualizar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <Button fx:id="button_inv_delete" layoutX="975.0" layoutY="398.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Eliminar">
+                  <Button fx:id="button_inv_delete" layoutX="705.0" layoutY="230.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="193.0" styleClass="register-blue" text="Eliminar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Button>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="838.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="465.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/actualizar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="701.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="374.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/busquedas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="557.0" layoutY="401.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="233.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/agregar-usuario.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="986.0" layoutY="402.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="716.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/cancelar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="382.0" layoutY="441.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="622.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/actualizar.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="button_inv_update_table" layoutX="376.0" layoutY="439.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Button>
+                  <ComboBox fx:id="text_inv_state" layoutX="559.0" layoutY="113.0" prefHeight="25.0" prefWidth="336.0" promptText="Seleccionar" />
+                  <Label layoutX="216.0" layoutY="88.0" text="Nombre del artículo" textFill="#f6f8ff" />
+                  <Label layoutX="389.0" layoutY="88.0" text="Precio" textFill="#f6f8ff" />
+                  <TextField fx:id="text_inv_name1" layoutX="162.0" layoutY="295.0" />
+                  <Label layoutX="164.0" layoutY="287.0" text="Busqueda por nombre" textFill="#f6f8ff" />
+                  <Label layoutX="560.0" layoutY="88.0" text="Estado" textFill="#f6f8ff" />
                </children>
             </Pane>
          </content>

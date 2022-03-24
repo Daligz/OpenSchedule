@@ -139,13 +139,13 @@ public class MainView implements Initializable {
     @FXML
     public Button button_inv_delete;
     @FXML
-    public TextField text_inv_id;
-    @FXML
     public TextField text_inv_name;
     @FXML
     public TextField text_inv_cost;
     @FXML
-    public TextArea text_inv_state;
+    public TextArea text_inv_notes;
+    @FXML
+    public ComboBox<String> text_inv_state;
     @FXML
     public Button button_inv_update_table;
 
@@ -550,7 +550,7 @@ public class MainView implements Initializable {
 
         // Inventory save items section
         this.button_inv_save.setOnMouseClicked(mouseEvent -> {
-            if (this.text_inv_name.getText().isEmpty() || this.text_inv_state.getText().isEmpty()
+            if (this.text_inv_name.getText().isEmpty() || this.text_inv_notes.getText().isEmpty()
                     || this.text_inv_cost.getText().isEmpty()) {
                 Alert.send("Error", "No puedes dejar campos vacios!", javafx.scene.control.Alert.AlertType.WARNING);
                 return;
@@ -566,7 +566,7 @@ public class MainView implements Initializable {
             openSchedule.getDatabase().insert(
                     TableInventory.TABLE_NAME.getValue(),
                     String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.COST.getValue(),
-                            this.text_inv_name.getText(), this.text_inv_state.getText(), text)
+                            this.text_inv_name.getText(), this.text_inv_notes.getText(), text)
             ).whenComplete((aBoolean, throwable) -> {
                 this.setDefaultButtonStates();
                 this.updateInventoryTable();
@@ -575,6 +575,8 @@ public class MainView implements Initializable {
         });
 
         // Inventory search items section
+
+        // Search by name
         this.button_inv_search.setOnMouseClicked(mouseEvent -> {
             if (this.text_inv_id.getText().isEmpty()) {
                 Alert.send("Error", "No puedes dejar este campo vacio!", javafx.scene.control.Alert.AlertType.WARNING);
@@ -597,7 +599,7 @@ public class MainView implements Initializable {
                 }
             });
         });
-
+        
         // Inventory update items section
         this.button_inv_update.setOnMouseClicked(mouseEvent -> {
             if (this.text_inv_id.getText().isEmpty()) {
