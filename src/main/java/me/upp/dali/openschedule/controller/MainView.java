@@ -675,6 +675,8 @@ public class MainView implements Initializable {
         this.text_inv_cost.setText("");
         this.text_client_name.setText("");
         this.text_client_code.setText("");
+        this.text_inv_notes.setText("");
+        this.combo_inv_state.getSelectionModel().select(0);
         this.text_client_code.setDisable(false);
         this.check_register_manual.setSelected(false);
         this.text_client_name.setDisable(true);
