@@ -196,6 +196,11 @@ public class MainView implements Initializable {
         this.column_inv_state.setCellValueFactory(new PropertyValueFactory<>("State"));
         this.column_inv_cost.setCellValueFactory(new PropertyValueFactory<>("Cost"));
         this.column_inv_notes.setCellValueFactory(new PropertyValueFactory<>("Notes"));
+
+        // Combo
+        this.combo_inv_state.setItems(FXCollections.observableArrayList(
+                "En uso", "Nuevo", "En mantenimiento", "Descompuesto", "En bodega"
+        ));
     }
 
     private void updateTable(final String where) {
@@ -589,8 +594,6 @@ public class MainView implements Initializable {
         });
 
         // Inventory search items section
-
-        // Search by name
         this.button_inv_search.setOnMouseClicked(mouseEvent -> {
             if (this.text_inv_name_search.getText().isEmpty()) {
                 Alert.send("Error", "No puedes dejar este campo vacio!", javafx.scene.control.Alert.AlertType.WARNING);
@@ -598,7 +601,7 @@ public class MainView implements Initializable {
             }
             openSchedule.getDatabase().get(
                     TableInventory.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_name_search.getText())
+                    String.format("%s = \"%s\"", TableInventory.NAME.getValue(), this.text_inv_name_search.getText())
             ).whenComplete((resultSet, throwable) -> {
                 if (resultSet == null || throwable != null) {
                     Alert.send("Error", "No se encontraron resultados!", javafx.scene.control.Alert.AlertType.INFORMATION);
@@ -607,7 +610,8 @@ public class MainView implements Initializable {
                 try {
                     this.text_inv_name.setText(resultSet.getString(TableInventory.NAME.getValue()));
                     this.text_inv_cost.setText(resultSet.getString(TableInventory.COST.getValue()));
-                    this.text_inv_name_search.setText(resultSet.getString(TableInventory.STATE.getValue()));
+                    this.text_inv_notes.setText(resultSet.getString(TableInventory.NOTES.getValue()));
+                    this.combo_inv_state.getSelectionModel().select(0);
                 } catch (final SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
