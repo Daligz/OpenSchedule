@@ -611,7 +611,7 @@ public class MainView implements Initializable {
                     this.text_inv_name.setText(resultSet.getString(TableInventory.NAME.getValue()));
                     this.text_inv_cost.setText(resultSet.getString(TableInventory.COST.getValue()));
                     this.text_inv_notes.setText(resultSet.getString(TableInventory.NOTES.getValue()));
-                    this.combo_inv_state.getSelectionModel().select(0);
+                    this.combo_inv_state.getSelectionModel().select(resultSet.getString(TableInventory.STATE.getValue()));
                 } catch (final SQLException sqlException) {
                     sqlException.printStackTrace();
                 }
@@ -640,12 +640,12 @@ public class MainView implements Initializable {
         // Inventory delete items section
         this.button_inv_delete.setOnMouseClicked(mouseEvent -> {
             if (this.text_inv_name_search.getText().isEmpty()) {
-                Alert.send("Error", "Debes de colocar un ID para poder eliminarlo!", javafx.scene.control.Alert.AlertType.ERROR);
+                Alert.send("Error", "Debes de colocar un nombre para poder eliminarlo!", javafx.scene.control.Alert.AlertType.ERROR);
                 return;
             }
             openSchedule.getDatabase().delete(
                     TableInventory.TABLE_NAME.getValue(),
-                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_name_search.getText())
+                    String.format("%s = \"%s\"", TableInventory.NAME.getValue(), this.text_inv_name_search.getText())
             ).whenComplete((aBoolean, throwable) -> {
                 this.updateInventoryTable();
                 if (throwable == null) Alert.send("Elemento eliminado", "Elemento eliminado del inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
