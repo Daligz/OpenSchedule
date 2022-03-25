@@ -24,117 +24,116 @@
          <content>
             <Pane prefHeight="200.0" prefWidth="200.0" styleClass="pane">
                <children>
-                  <AnchorPane layoutX="360.0" layoutY="65.0" />
-                  <Button fx:id="button_search" layoutX="331.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" styleClass="register-blue" text="Buscar">
+                  <AnchorPane layoutX="371.0" layoutY="262.0" />
+                  <Button fx:id="button_search" layoutX="442.0" layoutY="294.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="183.0" styleClass="register-blue" text="Buscar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <TableView fx:id="table_client_info" layoutX="10.0" layoutY="107.0" prefHeight="383.0" prefWidth="582.0">
+                  <TableView fx:id="table_client_info" layoutX="110.0" layoutY="335.0" prefHeight="156.0" prefWidth="903.0">
                     <columns>
-                      <TableColumn fx:id="column_phone_name" prefWidth="157.0" text="Teléfono / Nombre" />
-                      <TableColumn fx:id="column_time_start" prefWidth="151.0" text="Hora de inicio" />
-                        <TableColumn fx:id="column_time_finish" prefWidth="143.0" text="Hora de salida" />
-                        <TableColumn fx:id="column_code" prefWidth="130.0" text="Código" />
+                      <TableColumn fx:id="column_phone_name" prefWidth="253.6000518798828" text="Teléfono / Nombre" />
+                      <TableColumn fx:id="column_time_start" prefWidth="170.39993286132812" text="Hora de inicio" />
+                        <TableColumn fx:id="column_time_finish" prefWidth="196.7999267578125" text="Hora de salida" />
+                        <TableColumn fx:id="column_code" prefWidth="282.4000244140625" text="Código" />
                     </columns>
                   </TableView>
-                  <TextField fx:id="text_search_name" layoutX="12.0" layoutY="67.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por teléfono / nombre" styleClass="text-field-search" />
-                  <Separator layoutX="627.0" layoutY="19.0" orientation="VERTICAL" prefHeight="479.0" prefWidth="16.0" />
-                  <Label layoutX="738.0" layoutY="19.0" prefHeight="36.0" prefWidth="289.0" styleClass="custom-text-title" text="REGISTRO DE ENTRADA" textFill="#fdca40">
+                  <TextField fx:id="text_search_name" layoutX="112.0" layoutY="294.0" prefHeight="25.0" prefWidth="311.0" promptText="Buscar por teléfono / nombre" styleClass="text-field-search" />
+                  <Label layoutX="425.0" layoutY="14.0" prefHeight="36.0" prefWidth="289.0" styleClass="custom-text-title" text="REGISTRO DE ENTRADA" textFill="#fdca40">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Label layoutX="687.0" layoutY="86.0" styleClass="custom-text-label" text="Código" textFill="#f6f8ff">
+                  <Label layoutX="146.0" layoutY="61.0" styleClass="custom-text-label" text="Código" textFill="#f6f8ff">
                      <font>
                         <Font size="13.0" />
                      </font></Label>
-                  <TextField fx:id="text_client_code" layoutX="682.0" layoutY="110.0" prefHeight="25.0" prefWidth="312.0" promptText="Código de cliente" />
-                  <Button fx:id="button_client_register" layoutX="682.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="110.0" styleClass="register-blue" text="      Registrar" textFill="#f6f8ff">
+                  <TextField fx:id="text_client_code" layoutX="141.0" layoutY="85.0" prefHeight="25.0" prefWidth="312.0" promptText="Código de cliente" />
+                  <Button fx:id="button_client_register" layoutX="270.0" layoutY="202.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" styleClass="register-blue" text="      Registrar" textFill="#f6f8ff">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font></Button>
-                  <Button fx:id="button_client_cancel" layoutX="922.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" styleClass="register-blue" text="    Cancelar" textAlignment="RIGHT">
+                  <Button fx:id="button_client_cancel" layoutX="677.0" layoutY="202.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="160.0" styleClass="register-blue" text="    Cancelar" textAlignment="RIGHT">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font></Button>
-                  <Spinner fx:id="spn_client_hour_leave" layoutX="687.0" layoutY="233.0" prefHeight="25.0" prefWidth="223.0" />
-                  <Button fx:id="button_plus_hour" disable="true" layoutX="685.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="+1 hora" />
-                  <Button fx:id="button_less_hour" disable="true" layoutX="686.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="-1 hora" />
-                  <Button fx:id="button_plus_minutes" disable="true" layoutX="853.0" layoutY="271.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="+10 minutos" />
-                  <Button fx:id="button_less_minutes" disable="true" layoutX="853.0" layoutY="315.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text="-10 minutos" />
-                  <Separator layoutX="682.0" layoutY="364.0" prefHeight="7.0" prefWidth="315.0" />
-                  <CheckBox fx:id="check_client_leave" layoutX="686.0" layoutY="207.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="113.0" styleClass="custom-text-label" text="Hora de salida" textFill="#f6f8ff">
+                  <Spinner fx:id="spn_client_hour_leave" layoutX="142.0" layoutY="156.0" prefHeight="25.0" prefWidth="223.0" />
+                  <Button fx:id="button_plus_hour" disable="true" layoutX="384.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="+1 hora" />
+                  <Button fx:id="button_less_hour" disable="true" layoutX="714.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="139.0" text="-1 hora" />
+                  <Button fx:id="button_plus_minutes" disable="true" layoutX="552.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="+10 minutos" />
+                  <Button fx:id="button_less_minutes" disable="true" layoutX="881.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="137.0" text="-10 minutos" />
+                  <Separator layoutX="23.0" layoutY="246.0" prefHeight="12.0" prefWidth="1092.0" />
+                  <CheckBox fx:id="check_client_leave" layoutX="141.0" layoutY="130.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="113.0" styleClass="custom-text-label" text="Hora de salida" textFill="#f6f8ff">
                      <font>
                         <Font size="13.0" />
                      </font></CheckBox>
-                  <Label layoutX="686.0" layoutY="148.0" styleClass="custom-text-label" text="Nombre" textFill="#f6f8ff">
+                  <Label layoutX="478.0" layoutY="62.0" styleClass="custom-text-label" text="Nombre" textFill="#f6f8ff">
                      <font>
                         <Font size="13.0" />
                      </font></Label>
-                  <TextField fx:id="text_client_name" disable="true" layoutX="683.0" layoutY="169.0" prefHeight="25.0" prefWidth="312.0" promptText="Nombre de cliente" />
-                  <CheckBox fx:id="check_register_manual" layoutX="733.0" layoutY="84.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" styleClass="custom-text-label" text="Registro manual" textFill="#f6f8ff">
+                  <TextField fx:id="text_client_name" disable="true" layoutX="475.0" layoutY="83.0" prefHeight="25.0" prefWidth="312.0" promptText="Nombre de cliente" />
+                  <CheckBox fx:id="check_register_manual" layoutX="192.0" layoutY="59.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" styleClass="custom-text-label" text="Registro manual" textFill="#f6f8ff">
                      <font>
                         <Font size="13.0" />
                      </font></CheckBox>
-                  <Button fx:id="button_client_leave" layoutX="800.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="109.0" styleClass="register-blue" text="   Salida" textAlignment="RIGHT">
+                  <Button fx:id="button_client_leave" layoutX="485.0" layoutY="202.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="157.0" styleClass="register-blue" text="   Salida" textAlignment="RIGHT">
                      <font>
                         <Font name="Arial Bold" size="13.0" />
                      </font></Button>
-                  <Label layoutX="225.0" layoutY="19.0" prefHeight="36.0" prefWidth="152.0" styleClass="custom-text-title" text="BUSQUEDAS" textFill="#fdca40">
+                  <Label layoutX="458.0" layoutY="258.0" prefHeight="36.0" prefWidth="152.0" styleClass="custom-text-title" text="BUSQUEDAS" textFill="#fdca40">
                      <font>
                         <Font name="Arial Black" size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="button_update" layoutX="456.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="135.0" styleClass="register-blue" text="Actualizar">
+                  <Button fx:id="button_update" layoutX="664.0" layoutY="295.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="187.0" styleClass="register-blue" text="Actualizar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Button>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="342.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="453.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/busquedas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="463.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="671.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/actualizar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="689.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="301.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/agregar-usuario.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="297.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="27.0" layoutX="397.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/usuario.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="811.0" layoutY="405.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="500.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/salir.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="929.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="20.0" layoutX="684.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/cancelar.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="700.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="399.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/mas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="700.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="728.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/menos.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="862.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="19.0" fitWidth="21.0" layoutX="561.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/mas.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="861.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="21.0" fitWidth="24.0" layoutX="889.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/menos.png" />
                      </image>

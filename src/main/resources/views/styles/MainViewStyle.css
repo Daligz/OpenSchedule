@@ -8,6 +8,7 @@
     -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-font-family: Bernadette;
+    -fx-text-fill: #212529;
 }
 
 .custom-text-label {
@@ -16,7 +17,7 @@
 }
 
 .tab-pane *.tab-header-background {
-    -fx-background-color: #846C5B;
+    -fx-background-color: #00B4D8;
 }
 
 .tab {
@@ -34,7 +35,7 @@
 
 .tab .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: #FCFCFC;
+    -fx-text-fill: #212529;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-font-family: Bernadette;
@@ -43,13 +44,13 @@
 .tab:selected {
     -fx-background-color: rgba(253, 202, 64, 0.04);
     -fx-alignment: CENTER;
-    -fx-border-color: #FDCA40;
+    -fx-border-color: #CAF0F8;
     -fx-border-width: 0 0 3 0;
 }
 
 
 .button {
-    -fx-background-color: #846c5b;
+    -fx-background-color: #03045E;
     -fx-text-fill: #F6F8FF;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
@@ -57,7 +58,7 @@
 }
 
 .pane {
-    -fx-background-color: #084C61;
+    -fx-background-color: #0077B6;
 }
 
 .separator *.line {
