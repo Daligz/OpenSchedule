@@ -36,7 +36,7 @@ public class ClientState extends AbstractDataMap<String, ClientState.Client> {
     @Getter @Setter
     @AllArgsConstructor
     public static class ItemsTable {
-        private String id, name;
+        private String date, name, state, cost, notes;
     }
 
     public static ClientState getInstance() {

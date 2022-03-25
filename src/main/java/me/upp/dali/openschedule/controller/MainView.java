@@ -125,9 +125,15 @@ public class MainView implements Initializable {
     @FXML
     public TableView<ClientState.ItemsTable> table_inv_info;
     @FXML
-    public TableColumn<ClientState.ItemsTable, String> column_inv_id;
+    public TableColumn<ClientState.ItemsTable, String> column_inv_date;
     @FXML
     public TableColumn<ClientState.ItemsTable, String> column_inv_name;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_state;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_cost;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_notes;
 
     // Inventory : Inventory section
     @FXML
@@ -185,8 +191,11 @@ public class MainView implements Initializable {
         this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
 
         // Inventory
-        this.column_inv_id.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        this.column_inv_date.setCellValueFactory(new PropertyValueFactory<>("Date"));
         this.column_inv_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        this.column_inv_state.setCellValueFactory(new PropertyValueFactory<>("State"));
+        this.column_inv_cost.setCellValueFactory(new PropertyValueFactory<>("Cost"));
+        this.column_inv_notes.setCellValueFactory(new PropertyValueFactory<>("Notes"));
     }
 
     private void updateTable(final String where) {
@@ -234,8 +243,11 @@ public class MainView implements Initializable {
                 do {
                     itemsTables.add(
                             new ClientState.ItemsTable(
-                                    resultSet.getString(TableInventory.ID.getValue()),
-                                    resultSet.getString(TableInventory.NAME.getValue())
+                                    resultSet.getString(TableInventory.ADMISSION_DATE.getValue()),
+                                    resultSet.getString(TableInventory.NAME.getValue()),
+                                    resultSet.getString(TableInventory.STATE.getValue()),
+                                    resultSet.getString(TableInventory.COST.getValue()),
+                                    resultSet.getString(TableInventory.NOTES.getValue())
                             )
                     );
                 } while (resultSet.next());
@@ -553,7 +565,7 @@ public class MainView implements Initializable {
         // Inventory save items section
         this.button_inv_save.setOnMouseClicked(mouseEvent -> {
             if (this.text_inv_name.getText().isEmpty() || this.text_inv_notes.getText().isEmpty()
-                    || this.text_inv_cost.getText().isEmpty()) {
+                    || this.text_inv_cost.getText().isEmpty() || this.combo_inv_state.getSelectionModel().isEmpty()) {
                 Alert.send("Error", "No puedes dejar campos vacios!", javafx.scene.control.Alert.AlertType.WARNING);
                 return;
             }
@@ -567,8 +579,8 @@ public class MainView implements Initializable {
             }
             openSchedule.getDatabase().insert(
                     TableInventory.TABLE_NAME.getValue(),
-                    String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.COST.getValue(),
-                            this.text_inv_name.getText(), this.text_inv_notes.getText(), text)
+                    String.format("(%s, %s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.NOTES.getValue(), TableInventory.COST.getValue(),
+                            this.text_inv_name.getText(), this.combo_inv_state.getSelectionModel().getSelectedItem(), this.text_inv_notes.getText(), text)
             ).whenComplete((aBoolean, throwable) -> {
                 this.setDefaultButtonStates();
                 this.updateInventoryTable();
@@ -643,7 +655,7 @@ public class MainView implements Initializable {
                 this.text_inv_name_search.setText("");
                 return;
             }
-            this.text_inv_name_search.setText(newSelection.getId());
+            this.text_inv_name_search.setText(newSelection.getName());
         });
 
         // Update table button

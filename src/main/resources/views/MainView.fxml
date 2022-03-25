@@ -165,11 +165,11 @@
                   <TextField fx:id="text_inv_cost" layoutX="389.0" layoutY="111.0" />
                   <TableView fx:id="table_inv_info" layoutX="157.0" layoutY="333.0" prefHeight="108.0" prefWidth="788.0">
                      <columns>
-                        <TableColumn fx:id="column_inv_id" prefWidth="116.0" text="Fecha" />
+                        <TableColumn fx:id="column_inv_date" prefWidth="116.0" text="Fecha" />
                         <TableColumn fx:id="column_inv_name" prefWidth="177.5999755859375" text="Nombre" />
-                        <TableColumn fx:id="column_inv_name1" prefWidth="134.4000244140625" text="Estado" />
-                        <TableColumn fx:id="column_inv_name2" prefWidth="105.5999755859375" text="Precio" />
-                        <TableColumn fx:id="column_inv_name3" prefWidth="252.00006103515625" text="Notas" />
+                        <TableColumn fx:id="column_inv_state" prefWidth="134.4000244140625" text="Estado" />
+                        <TableColumn fx:id="column_inv_cost" prefWidth="105.5999755859375" text="Precio" />
+                        <TableColumn fx:id="column_inv_notes" prefWidth="252.00006103515625" text="Notas" />
                      </columns>
                   </TableView>
                   <Button fx:id="button_inv_save" layoutX="223.0" layoutY="230.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="222.0" styleClass="register-blue" text="Guardar">
