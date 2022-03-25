@@ -16,7 +16,7 @@
 }
 
 .tab-pane *.tab-header-background {
-    -fx-background-color: #343a40;
+    -fx-background-color: #846C5B;
 }
 
 .tab {
@@ -49,7 +49,7 @@
 
 
 .button {
-    -fx-background-color: #ffb703;
+    -fx-background-color: #846c5b;
     -fx-text-fill: #F6F8FF;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
@@ -57,7 +57,7 @@
 }
 
 .pane {
-    -fx-background-color: #343a40;
+    -fx-background-color: #084C61;
 }
 
 .separator *.line {

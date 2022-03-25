@@ -313,8 +313,8 @@
                         <Image url="@../images/iconos/guardar.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="contact_button" layoutX="59.0" layoutY="432.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="149.0" text="Contacto" />
-                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="78.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
+                  <Button fx:id="contact_button" layoutX="59.0" layoutY="432.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="149.0" text="Desarrollador" />
+                  <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="65.0" layoutY="434.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/iconos/contacto.png" />
                      </image>
