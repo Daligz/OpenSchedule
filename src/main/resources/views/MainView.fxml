@@ -216,7 +216,7 @@
                   <Label layoutX="216.0" layoutY="88.0" text="Nombre del artículo" textFill="#f6f8ff" />
                   <Label layoutX="389.0" layoutY="88.0" text="Precio" textFill="#f6f8ff" />
                   <TextField fx:id="text_inv_name_search" layoutX="162.0" layoutY="295.0" />
-                  <Label layoutX="164.0" layoutY="287.0" text="Busqueda por nombre" textFill="#f6f8ff" />
+                  <Label layoutX="164.0" layoutY="281.0" text="Busqueda por nombre" textFill="#f6f8ff" />
                   <Label layoutX="560.0" layoutY="88.0" text="Estado" textFill="#f6f8ff" />
                </children>
             </Pane>
