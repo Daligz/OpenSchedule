@@ -47,7 +47,8 @@ public class OpenSchedule {
         }
         System.out.println("Loading...");
 
-        // WhatsApp connector
+        // WhatsApp connector | Ignored
+        System.out.println(MessagesAPI.class.getSimpleName() + " overriding...");
         final MessagesAPI messagesAPI = new MessagesAPI();
         final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
         final WhatsappDataManager manager = whatsappAPI.manager();
