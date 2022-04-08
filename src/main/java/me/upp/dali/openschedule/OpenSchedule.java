@@ -49,13 +49,13 @@ public class OpenSchedule {
 
         // WhatsApp connector | Ignored
         System.out.println(MessagesAPI.class.getSimpleName() + " overriding...");
-        final MessagesAPI messagesAPI = new MessagesAPI();
-        final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
-        final WhatsappDataManager manager = whatsappAPI.manager();
-        if (!(force)) {
-            whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
-        }
-        whatsappAPI.connect();
+//        final MessagesAPI messagesAPI = new MessagesAPI();
+//        final WhatsappAPI whatsappAPI = messagesAPI.getWhatsappAPI();
+//        final WhatsappDataManager manager = whatsappAPI.manager();
+//        if (!(force)) {
+//            whatsappAPI.registerListener(new MessagesHandler(manager, whatsappAPI));
+//        }
+//        whatsappAPI.connect();
 
         if (!(force)) {
             // Database creation
@@ -66,7 +66,7 @@ public class OpenSchedule {
             // Singleton instantiation
             INSTANCE.setConnector(connector);
             INSTANCE.setDatabase(database);
-            INSTANCE.setMessagesAPI(messagesAPI);
+            INSTANCE.setMessagesAPI(null);
         }
     }
 

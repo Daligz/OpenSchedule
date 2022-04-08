@@ -32,8 +32,8 @@ public class ViewLoader extends Application {
     @Override
     public void start(final Stage stage) throws Exception {
         stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/images/logo.png"))));
-        loadView(stage, VIEW_BOOTER_PATH, callbackStage -> {
-            callbackStage.setAlwaysOnTop(true);
+        loadView(stage, VIEW_MAIN_PATH, callbackStage -> {
+//            callbackStage.setAlwaysOnTop(true);
             callbackStage.setOnCloseRequest(windowEvent -> System.exit(0));
 //            callbackStage.initStyle(StageStyle.UNDECORATED);
         });
