@@ -15,7 +15,8 @@ import me.upp.dali.openschedule.model.database.SQLite;
 import me.upp.dali.openschedule.view.ViewLoader;
 
 /**
- * @author Dali | Mantenimiento 09/03/22
+ * @author Dali | Maintenance real date: 11/03/22 | old date: 09/03/22
+ * Maintenance finished in 12/03/22 (01:06 a.m. CDMX)
  *
  * Open Schedule main class
  */

@@ -14,6 +14,7 @@ import me.upp.dali.openschedule.controller.client.ClientState;
 import me.upp.dali.openschedule.controller.client.ClientStorage;
 import me.upp.dali.openschedule.controller.others.Alert;
 import me.upp.dali.openschedule.model.database.tables.TableConfig;
+import me.upp.dali.openschedule.model.database.tables.TableInventory;
 import me.upp.dali.openschedule.model.database.tables.TableUserTime;
 import me.upp.dali.openschedule.model.database.utils.DataTime;
 
@@ -120,6 +121,34 @@ public class MainView implements Initializable {
     @FXML
     public Button button_client_cancel;
 
+    // Inventory : Items section
+    @FXML
+    public TableView<ClientState.ItemsTable> table_inv_info;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_id;
+    @FXML
+    public TableColumn<ClientState.ItemsTable, String> column_inv_name;
+
+    // Inventory : Inventory section
+    @FXML
+    public Button button_inv_save;
+    @FXML
+    public Button button_inv_search;
+    @FXML
+    public Button button_inv_update;
+    @FXML
+    public Button button_inv_delete;
+    @FXML
+    public TextField text_inv_id;
+    @FXML
+    public TextField text_inv_name;
+    @FXML
+    public TextField text_inv_cost;
+    @FXML
+    public TextArea text_inv_state;
+    @FXML
+    public Button button_inv_update_table;
+
     private static MainView INSTANCE;
 
     @Override
@@ -152,6 +181,10 @@ public class MainView implements Initializable {
         this.column_time_start.setCellValueFactory(new PropertyValueFactory<>("Start"));
         this.column_time_finish.setCellValueFactory(new PropertyValueFactory<>("End"));
         this.column_code.setCellValueFactory(new PropertyValueFactory<>("Code"));
+
+        // Inventory
+        this.column_inv_id.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        this.column_inv_name.setCellValueFactory(new PropertyValueFactory<>("Name"));
     }
 
     private void updateTable(final String where) {
@@ -178,6 +211,33 @@ public class MainView implements Initializable {
                     );
                 } while (resultSet.next());
                 Platform.runLater(() -> this.table_client_info.setItems(FXCollections.observableArrayList(clientTables)));
+            } catch (final SQLException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    private void updateInventoryTable() {
+        final OpenSchedule openSchedule = OpenSchedule.getINSTANCE();
+        openSchedule.getDatabase().get(
+                TableInventory.TABLE_NAME.getValue(),
+                "1 = 1"
+        ).whenComplete((resultSet, throwable) -> {
+            if (resultSet == null) {
+                this.table_inv_info.setItems(FXCollections.observableArrayList());
+                return;
+            }
+            try {
+                final ArrayList<ClientState.ItemsTable> itemsTables = new ArrayList<>();
+                do {
+                    itemsTables.add(
+                            new ClientState.ItemsTable(
+                                    resultSet.getString(TableInventory.ID.getValue()),
+                                    resultSet.getString(TableInventory.NAME.getValue())
+                            )
+                    );
+                } while (resultSet.next());
+                Platform.runLater(() -> this.table_inv_info.setItems(FXCollections.observableArrayList(itemsTables)));
             } catch (final SQLException ex) {
                 ex.printStackTrace();
             }
@@ -487,9 +547,113 @@ public class MainView implements Initializable {
             });
         });
         this.button_client_cancel.setOnMouseClicked(mouseEvent -> this.setDefaultButtonStates());
+
+        // Inventory save items section
+        this.button_inv_save.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_name.getText().isEmpty() || this.text_inv_state.getText().isEmpty()
+                    || this.text_inv_cost.getText().isEmpty()) {
+                Alert.send("Error", "No puedes dejar campos vacios!", javafx.scene.control.Alert.AlertType.WARNING);
+                return;
+            }
+            final String text;
+            try {
+                text = String.valueOf(Integer.parseInt(this.text_inv_cost.getText()));
+            } catch (final Exception ignored) {
+                Alert.send("Error", "El valor " + this.text_inv_cost.getText() + " no es un valor valido!", javafx.scene.control.Alert.AlertType.ERROR);
+                this.setDefaultButtonStates();
+                return;
+            }
+            openSchedule.getDatabase().insert(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("(%s, %s, %s) VALUES (\"%s\", \"%s\", \"%s\")", TableInventory.NAME.getValue(), TableInventory.STATE.getValue(), TableInventory.COST.getValue(),
+                            this.text_inv_name.getText(), this.text_inv_state.getText(), text)
+            ).whenComplete((aBoolean, throwable) -> {
+                this.setDefaultButtonStates();
+                this.updateInventoryTable();
+                if (aBoolean) Alert.send("Articulo guardado", "Articulo agregado al inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
+            });
+        });
+
+        // Inventory search items section
+        this.button_inv_search.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "No puedes dejar este campo vacio!", javafx.scene.control.Alert.AlertType.WARNING);
+                return;
+            }
+            openSchedule.getDatabase().get(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((resultSet, throwable) -> {
+                if (resultSet == null || throwable != null) {
+                    Alert.send("Error", "No se encontraron resultados!", javafx.scene.control.Alert.AlertType.INFORMATION);
+                    return;
+                }
+                try {
+                    this.text_inv_name.setText(resultSet.getString(TableInventory.NAME.getValue()));
+                    this.text_inv_cost.setText(resultSet.getString(TableInventory.COST.getValue()));
+                    this.text_inv_state.setText(resultSet.getString(TableInventory.STATE.getValue()));
+                } catch (final SQLException sqlException) {
+                    sqlException.printStackTrace();
+                }
+            });
+        });
+
+        // Inventory update items section
+        this.button_inv_update.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "Debes de colocar un ID para editar!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().update(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\", %s = \"%s\", %s = \"%s\"",
+                            TableInventory.NAME.getValue(), this.text_inv_name.getText(),
+                            TableInventory.STATE.getValue(), this.text_inv_state.getText(),
+                            TableInventory.COST.getValue(), this.text_inv_cost.getText()),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((aBoolean, throwable) -> {
+                this.setDefaultButtonStates();
+                this.updateInventoryTable();
+            });
+        });
+
+        // Inventory delete items section
+        this.button_inv_delete.setOnMouseClicked(mouseEvent -> {
+            if (this.text_inv_id.getText().isEmpty()) {
+                Alert.send("Error", "Debes de colocar un ID para poder eliminarlo!", javafx.scene.control.Alert.AlertType.ERROR);
+                return;
+            }
+            openSchedule.getDatabase().delete(
+                    TableInventory.TABLE_NAME.getValue(),
+                    String.format("%s = \"%s\"", TableInventory.ID.getValue(), this.text_inv_id.getText())
+            ).whenComplete((aBoolean, throwable) -> {
+                this.updateInventoryTable();
+                if (throwable == null) Alert.send("Elemento eliminado", "Elemento eliminado del inventario!", javafx.scene.control.Alert.AlertType.INFORMATION);
+                this.setDefaultButtonStates();
+            });
+        });
+
+        // Table select items section
+        this.table_inv_info.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection == null) {
+                this.text_inv_id.setText("");
+                return;
+            }
+            this.text_inv_id.setText(newSelection.getId());
+        });
+
+        // Update table button
+        this.button_inv_update_table.setOnMouseClicked(mouseEvent -> {
+            this.updateInventoryTable();
+            this.setDefaultButtonStates();
+        });
     }
 
     private void setDefaultButtonStates() {
+        this.text_inv_name.setText("");
+        this.text_inv_state.setText("");
+        this.text_inv_cost.setText("");
+        this.text_inv_id.setText("");
         this.text_client_name.setText("");
         this.text_client_code.setText("");
         this.text_client_code.setDisable(false);
