@@ -1,6 +1,15 @@
 # Open Schedule
 Agenda de citas por medio de WhatsApp para el control de personas en un gimnasio.
 
+### Registro
+![registro](docs/img-registro.png)
+
+### Inventario
+![inventario](docs/img-inventario.png)
+
+### Información
+![información](docs/img-info.png)
+
 # Instalacion
 Es necesario construir el proyecto manualmente, puede ser clonado utilizando el siguiente comando en la terminal de git.
 
